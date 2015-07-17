@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 支付接口定义 -->
+<pay>
+	<pingDoublePlus>
+	<!-- ping ++  的支付接口 -->
+	</pingDoublePlus>
+	
+	<weixin>
+		<!-- 微信支付接口 -->
+	</weixin>
+
+	<alipay>
+		<!-- 支付宝接口 -->
+	</alipay>
+	
+	
+	
+</pay>

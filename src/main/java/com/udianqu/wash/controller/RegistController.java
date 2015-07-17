@@ -15,6 +15,7 @@ import com.udianqu.wash.service.RegistService;
 
 @Controller
 @RequestMapping("/registPage")
+
 public class RegistController {
 	
 	@Autowired RegistService registService;

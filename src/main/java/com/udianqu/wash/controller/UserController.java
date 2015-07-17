@@ -14,11 +14,21 @@ import com.udianqu.wash.model.User;
 import com.udianqu.wash.service.LoginService;
 import com.udianqu.wash.service.RegistService;
 
+/**
+ * ç”¨æˆ·
+ * åŒ…æ‹¬ï¼ˆuser_type)
+ * 1=ç³»ç»Ÿç®¡ç†å‘˜
+ * 2=èŒå‘˜
+ * 4=æ´—è½¦å·¥
+ * 8=ç”¨æˆ·
+ * @author xml777
+ *
+ */
 @Controller
 @RequestMapping("/index")
 public class UserController {
 
-	@Autowired LoginService loginService; // µÈ¼ÛÓÚspring´«Í³×¢Èë·½Ê½Ğ´getºÍset·½·¨£¬ÕâÑùµÄºÃ´¦ÊÇ¼ò½à¹¤Õû£¬Ê¡È¥ÁË²»±ØÒªµÃ´úÂë
+	@Autowired LoginService loginService; // ï¿½È¼ï¿½ï¿½ï¿½springï¿½ï¿½Í³×¢ï¿½ë·½Ê½Ğ´getï¿½ï¿½setï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÄºÃ´ï¿½ï¿½Ç¼ï¿½à¹¤ï¿½ï¿½Ê¡È¥ï¿½Ë²ï¿½ï¿½ï¿½Òªï¿½Ã´ï¿½ï¿½ï¿½
 	@Autowired RegistService registService;
 
 	@RequestMapping("/login.do")
