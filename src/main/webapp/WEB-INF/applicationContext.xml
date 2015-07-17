@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc" xmlns:task="http://www.springframework.org/schema/task"
+	xmlns:mongo="http://www.springframework.org/schema/data/mongo"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+           http://www.springframework.org/schema/aop
+           http://www.springframework.org/schema/aop/spring-aop-3.2.xsd
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context-3.2.xsd
+           http://www.springframework.org/schema/tx 
+           http://www.springframework.org/schema/tx/spring-tx-3.2.xsd
+           http://www.springframework.org/schema/jdbc 
+           http://www.springframework.org/schema/jdbc/spring-jdbc-3.2.xsd
+           http://www.springframework.org/schema/task           
+           http://www.springframework.org/schema/task/spring-task-3.2.xsd
+           http://www.springframework.org/schema/data/mongo
+    		http://www.springframework.org/schema/data/mongo/spring-mongo.xsd"
+           >
+             
+           <!-- Spring启动扫描类文件路径 -->
+	<context:component-scan base-package="com.udianqu.wash">
+		<context:include-filter type="regex"
+			expression=".dao.*" />
+		<context:include-filter type="regex"
+			expression=".service..*(..)" />
+	</context:component-scan>
+	 
+	<!-- 属性文件配置管理 -->
+	<bean id="propertyConfigurer"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>
+					classpath*:properties/jdbc.properties
+				</value>
+			</list>
+		</property>
+	</bean>
+	
+	<!--  连接池配置 -->
+	<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource"
+		init-method="init" destroy-method="close">
+		<property name="driverClassName" value="org.gjt.mm.mysql.Driver" />
+		<property name="url" value="jdbc:mysql://121.40.171.43:3306/udqauto?useUnicode=true&amp;characterEncoding=UTF-8" />
+		<property name="username" value="admin" />
+		<property name="password" value="8a5c94af1d" />
+	</bean>
+
+	<!-- 数据访问mybatis  配置管理 -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="typeAliasesPackage" value="com.udianqu.wash" />
+		<property name="mapperLocations" value="classpath*:mapper/**/*.xml" />
+		<property name="configurationProperties">
+			<props>
+				<prop key="dialect">mysql</prop>
+			</props>
+		</property>
+	</bean>
+
+	<!-- 数据访问mybatis  sql mapping文件配置管理 -->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="com.udianqu.wash" />
+		<property name="annotationClass"
+			value="com.mobile.core.MyBatisRepository" />
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean>
+	
+	<!-- 以 @Transactional 标注来定义事务 -->
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+	<tx:annotation-driven transaction-manager="transactionManager"
+		proxy-target-class="true" />
+
+	<task:executor id="executor" pool-size="5" />
+	<task:scheduler id="scheduler" pool-size="10" />
+	<task:annotation-driven executor="executor"
+		scheduler="scheduler" />
+
+</beans>

@@ -1,0 +1,16 @@
+body { font-size:12px;}
+.container-fluid{padding-right:15px;padding-left:15px;margin-right:auto;margin-left:auto}
+.my-line-5 { clear:both; height:5px;}
+.my-hand { cursor:pointer;}
+/**policeman**/
+.my-nav-bg { height:54px; background:url(nav-bg.jpg) repeat-x;}
+.my-nav-btn { color:#FFF;} 
+.nav li { background:url(nav-btn-li.jpg) right no-repeat;}
+.active { background:url(nav-bg-ac.jpg) repeat-x !important;}
+.my-menu-bg { height:40px; background-color:#24557d; margin:0px; padding-left:15px; padding-top:3px;}
+.my-menu-btn { font-size:12px;}
+.panel-heading li { float:left;list-style:none; height:30px; }
+.my-title-btn li { float:right; height:22px; margin-right:10px;}
+.my-table-title { font-weight:bold;}
+.my-page-fixed { margin-bottom:60px;}
+.my-page-btn { text-align:center; position:fixed; bottom:0px; left:0px; right:0px; border-top:1px #e7e7e7 solid; background-color:#fff;}

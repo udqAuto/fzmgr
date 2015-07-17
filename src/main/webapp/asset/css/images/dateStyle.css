@@ -1,0 +1,368 @@
+@charset "utf-8";
+/* CSS Document */
+
+html { height:100% }
+body { height:100%; margin:0 auto; font-size:12px; text-align:center;font-family:"微软雅黑", "宋体", Arial; background:url(../images/bg.png) no-repeat; background-color:#F7F3F3;}
+ul { margin:0px; padding:0px; }
+li { list-style:none; margin:0px; padding:0px;}
+a{ text-decoration:none; color:#4c4c4c;}
+a:link {text-decoration: none;}
+a:visited {text-decoration: none;}
+a:hover {text-decoration: none;}
+a:active {text-decoration: none;}
+
+img { border:0px;}
+.line20{ width:100%; height:20px; overflow:hidden;}
+.clear{ clear:both;}
+ /**********************************************************/
+ /*************************基础数据frame页面样式集****************/ 
+ /**********************************************************/
+ .bfmtreeArea{width:14%;padding:10px;overflow-x:hidden;}
+ .bfmtreesearch{width:70%; margin-left:4px;margin-top:2px;}
+ .bfmtopmenu{padding: 2px; height: 43px;overflow:hidden;}
+ .bfmcontentArea{padding:3px;overflow:hidden}
+ .fileuploadbtn{width:80px;}
+ .hiperlinka{font-size:12px;color:blue;}
+ .hiperlinkb{font-size:14px;color:red; font-weight:blod;} 
+ /************基础数据frame页面样式集结束**************/
+ 
+ 
+ 
+ 
+ /**********************************************************/
+ /*************************人员管理页面样式集*********************/
+ /**********************************************************/
+ .policelayout{padding:2px;width:100%;height:100%;overflow:hidden;}
+ .policecenter{padding:2px}
+ .policetoolbar{height:30px; margin-top:3px;}
+ .policesearchbtn{float:right; margin-right:20px}
+ .policesearchinput{width:104px;} 
+ .policewindowsouth{padding: 2px; height: 30px;}
+ .policewindowbtn{float:right;margin-right:15px;}
+ .policewindowbtnExit{float:right;}
+ .policeexportorinport{float:right;margin-right:10px;}
+ .policewindowcenter{text-align: right;padding: 5px 0 0;}
+ .policewindowtable{width:100%;height:99%; font: 12px 微软雅黑;}
+ .windowdiv{margin:15px;}
+ .windowdiva{margin-left:25px;}
+  /************人员管理页面样式集结束******************/
+  
+  
+  
+  
+  
+ /**********************************************************/
+ /**************车辆设备管理页面样式集******************************/
+ /**********************************************************/
+ .vehiclelayout{padding:2px}
+ .vehiclecenter{padding:2px}
+ .vehicletoolbar{height:30px; margin-top:3px;}
+ .vehiclesearchbtn{float:right; margin-right:20px}
+ .vehiclesearchinput{width:104px;}
+ .vehiclewindow{width: 400px; height: 500px; padding: 10px;color:white;}
+ .vehiclewindowsouth{padding: 2px; height: 30px;}
+ .vehiclewindowbtn{float:right;margin-right:15px;}
+ .vehiclewindowbtnExit{float:right;}
+ .vehiclewindowcenter{text-align: right;padding: 5px 0 0;}
+ .vehiclewindowtable{width:100%;height:99%; font: 12px 微软雅黑;}
+ /**************车辆设备管理页面样式集结束****************************/
+ 
+ 
+ 
+ 
+  /**********************************************************/
+  /**************武器设备管理页面样式集******************************/
+  /**********************************************************/
+  .weaponlayout{padding:2px}
+  .weaponcenter{padding:2px}
+  .weapontoolbar{height:30px; margin-top:3px;}
+  .weaponsearchbtn{float:right; margin-right:20px}
+  .weaponsearchinput{width:104px;}
+  .weaponwindow{width: 400px; height: 240px; padding: 10px;}
+  .weaponwindowsouth{padding: 2px; height: 30px;}
+  .weaponwindowbtn{float:right;margin-right:15px;}
+  .weaponwindowbtnExit{float:right;}
+  .weaponwindowcenter{text-align: right;padding: 5px 0 0;}
+  .weaponwindowtable{width:100%;height:99%; font: 12px 微软雅黑;}
+ /**************武器设备管理页面样式集结束****************************/
+ 
+ 
+ 
+ 
+  /**********************************************************/
+  /**************定位设备管理页面样式集******************************/
+  /**********************************************************/
+  .gpslayout{padding:2px}
+  .gpscenter{padding:2px}
+  .gpstoolbar{height:30px; margin-top:3px;}
+  .gpssearchbtn{float:right; margin-right:20px}
+  .gpssearchinput{width:104px;}
+  .gpswindow{width: 400px; height: 240px; padding: 10px;}
+  .gpswindowsouth{padding: 2px; height: 30px;}
+  .gpswindowbtn{float:right;margin-right:15px;}
+  .gpswindowbtnExit{float:right;}
+  .gpswindowcenter{text-align: right;padding: 5px 0 0;}
+  .gpswindowtable{width:100%;height:99%; font: 12px 微软雅黑;}
+  .gpswindowinput{width:169px;}
+  .gpswindowimage{width:110px; height:110px;}
+ /**************定位设备管理页面样式集结束****************************/
+ 
+ 
+ 
+ /*********************************************************/
+  /**************图标管理页面样式集******************************/
+ /*********************************************************/
+  .iconslayout{padding:2px}
+  .iconscenter{padding:2px}
+  .iconstoolbar{height:30px; margin-top:3px;}
+  .iconssearchbtn{float:right; margin-right:20px}
+  .iconssearchinput{width:104px;}
+  .iconswindow{width: 500px; height: 240px; padding: 10px;}
+  .iconswindowsouth{padding: 2px; height: 30px;}
+  .iconswindowbtn{float:right;margin-right:15px;}
+  .iconswindowbtnExit{float:right;}
+  .iconswindowcenter{text-align: right;padding: 5px 0 0;}
+  .iconswindowtable{width:100%;height:99%; font: 12px 微软雅黑;} 
+  .iconswindowtabletd{text-aligh:right;} 
+  .iconswindowimage{width:110px; height:110px;}
+  .iconswindowlabel{width:80px;}
+ /**************图标管理页面样式集结束****************************/
+ 
+ 
+ 
+ /********************************************************/
+ /**************勤务报备模块frame页面css样式集********************/
+ /********************************************************/
+ .dtytreeArea{width:14%;padding:10px;overflow-x:hidden;}
+ .dtytreesearch{width:70%; margin-left:4px;margin-top:2px;}
+ .dtyeastArea{width:15%;overflow:hidden;} 
+ /**************勤务报备模块frame页面css样式集结束******************/
+  
+  
+  
+ /*********************************************************************/
+ /***********************工作日历页面css样式集********************************/
+ /*********************************************************************/
+ .lispan{margin-left:20px;margin-right:15px;}
+ .liimg{margin-left:20px;}
+ .clddtywindow{width:654px; height:450px; padding: 10px;}
+ .tbdutydetailsfordays{height:30px;float:right;background-color: #F7F3F3;}
+ 
+.dateBox{ width:100%; height:100%; background-color:#e4e4e4; float:left; overflow:hidden; }
+.dateBoxMain2{ width:100%;height:100%; padding-top:92px;background:red;box-sizing:border-box}
+.dateBoxMainTop{height:92px; width:100%;position:absolute; top:0px;}
+.dateBoxMainFoot{height:100%; width:100%;background:green}
+ 
+.dateBoxMenu{ width:100%;text-align:center; height:39px;overflow:hidden; background:url(../images/dateMenuBg.png) repeat-x; line-height:40px; border-bottom:1px solid #bab9ba;}
+.dateBoxMenu a{ color:#111111;}
+.dateBoxMenu li{ float:left; width:120px; height:38px; background-position:right; color:#FFF; margin-right:10px;}
+.dateBoxMenuOn{ width:118px; height:37px; margin-top:1px; background:url(../images/dateMenuMouseOver.png);line-height:36px; border:1px solid #bab9ba; border-bottom:none; cursor:pointer;}
+ 
+.dateBoxMain{ width:100%; height:auto; overflow:hidden;}
+.dateBoxMainTItle{ width:100%; height:39px; overflow:hidden; background:url(../images/dateMainTitleBg.png) repeat-x;}
+.dateBoxMainTItleTxt{ width:10%; overflow:hidden; height:39px; line-height:39px; color:#FFF; float:left; }
+.dateBoxMainTItleTxtDIv{ width:100%; height:auto; overflow:hidden; text-align:center;}
+.dateBoxMainTItleTxtDIv img{ margin-top:6px;}
+.dateBoxMainTItleBox{ width:80%; height:39px; overflow:hidden; float:left; }
+.dateBoxMainTItleBoxMain{ width:225px; height:39px; overflow:hidden;margin:0 auto; text-align:center; color:#FFF;}
+.dateBoxMainTItleBoxMain li{line-height:39px; float:left;}
+.dateBoxMainTItleBoxMain img{ vertical-align:middle; margin-top:12px; cursor:pointer;}
+.dateBoxMainTItleBoxMainTxt{ margin-left:30px; line-height:42px;}
+.dateBoxMainTItleBoxMainTxt2{  line-height:42px; margin-right:30px;}
+.dateBoxMainTItleBoxMainTxt samp{ float:left;}
+.dateBoxMainTItleBoxMain_samp{ clear:both; width:52px; height:25px; line-height:29px; color:#fff; overflow:hidden; background-position:center; margin-top:7px; float:left; }
+ 
+.dateBoxMainDate{ width:100%; height:100%; overflow:hidden;}
+.dateBoxMainDate table{ width:100%; height:100%; border:none;border-collapse:collapse;}
+.dateBoxMainDate th{ width:10%; background-color:#8ba7c9; color:#FFF;}
+.dateBoxMainDate td{overflow: hidden; width:10%; background-color:#e4e4e4; color:#43505b; border:2px solid #fff; border-left:none; border-top:none; height:25%; position:relative}
+.dateBoxMainDateTD{ width:100%; height:80%; overflow:hidden;position:relative;}
+.dateBoxMainDateTDLib{ cursor:pointer;width:33px; height:27px; overflow:hidden; background:url(dateLib.png) no-repeat; text-align:center; color:#FFF; line-height:27px;}
+.dateBoxMainDateTDLibOff{ width:33px; height:27px; overflow:hidden; background:url(dateLibOff.png) no-repeat; text-align:center; color:#FFF; line-height:27px;}
+.dateBoxMainDateTDBox{ width:95%;  margin:5px auto; overflow:hidden; text-align:left; cursor:pointer;}
+.dateBoxMainDateTDBox li{ line-height:12px;display:block;white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+ 
+.MenuBox{width:100%; height:100%; float:left; overflow:hidden; background-color:#262626;}
+.MenuBox img{ vertical-align:middle; margin-right:3px;}
+.MenuBox li{clear:both; text-align:left;height:46px; background:url(../images/menuBg.png) repeat-x;margin-bottom:-1px;background-color:#262626;}
+.MenuBox li a{  color:#FFF; }
+.MenuBox li img{  color:#FFF; }
+.MenuBox divss{ width:100%; height:46px; line-height:46px;}
+#MenuBoxOn{vertical-align:middle;  background:url(../images/baobeibgv2.png); overflow:hidden; width:100%; height:51px;}
+.MenuBoxSmall{height:46px;overflow:hidden;margin-left:20%;padding-top:15px;}
+
+
+#MenuBoxOnBox{vertical-align:middle;border:1px solid #EFEFEF; height:46px; margin:1px;}
+
+.MenuMouseMove{vertical-align:middle;  width:100%; height:46px; background:url(../images/menuMousemouve.png) repeat-x; cursor:pointer;}
+ 
+.DateBoxbg{ display: none;  position: absolute;  top: 0%;  left: 0%;  width: 100%;  height: 100%;   z-index:1001;  -moz-opacity: 0.7;  opacity:.70; background:url(../images/zhezhaobg.png);}
+.pasteBtnBox{ display: none;  position: absolute; text-align:center;   width:69px;  height: 25px; left:50px;  z-index:1005;background:url(../images/pastebtnbox.png) no-repeat;  overflow: auto;}
+.pasteBtnBox img{ vertical-align:middle; margin-left:3px;}
+.PasteBoxMain{ width:100%; height:15px; }
+.pasteBtnBox a{color:#4c4c4c;font-size:12px; text-align:center;line-height:25px;}
+ 
+#dialog{display:none; }
+.myDialogBox{ width:100%; height:100%; overflow:hidden; text-align:left;} 
+/*******************************工作日历页面css样式集结束*********************/
+
+
+
+
+/*********************************************************************/
+/*******************************勤务报备页面css样式集***********************/
+/*********************************************************************/
+/*****导航条******/
+.dtypretoptoolbar{height:40px;overflow: hidden;}
+.dtyprebtngroup{background: url(../images/dateMenuBg.png) repeat-x;width: 100%;line-height: 40px;overflow: hidden;height: 38px;}
+.dtyprebtnback{float:right;margin-right:20px;margin-top:8px;}
+.aaaa div{font-size:14px;color:blue;}
+.bbbb div{font-size:12px;color:white;background-color:#000;}
+
+
+/*****资源列表******/
+.dtypreresource{width:28%;height:100%;overflow:hidden;}
+.dtypreresourcetab{width:100%;height:550px;overflow-x:hidden}
+.dtypreresourceitem{padding:10px;width:100%;height:100%;overflow-y:hidden;}
+.dtypreresourcediv{margin-top:2px;}
+.dtypreresourcetb{float:right; margin-right:10px;}
+.dtypreresourceinput{width:100px;}
+
+/*****筛选条件弹出框***/
+.dtypreresourceQywindow{width: 354px; height: 300px; padding: 10px;}
+.dtypreresourceQywindowbtn{padding: 2px; height: 30px;}
+.dtypreresourceQywindowArea{padding: 2px; width:150px; height:200px;}
+.dtypreresourceQywindowcontent{width:80%; height:200px;} 
+
+/*****勤务类型选择对话框***/
+.dtypredtypeQywindow{width: 354px; height:500px; padding: 10px;}
+.dtypredtypeQywindowcontent{padding: 2px;  width:300px; height:400px;}
+
+/*****报备末班选择对话框***/
+.dtypredtempQywindow{width: 354px; height:400px; padding: 10px;}
+.dtypredtempQywindowcontent{padding: 2px;  width:350px; height:350px;}
+
+/*****报备区域******/
+.dtypredutytoolbar{height:30px;}
+.dtypredutybtngroup{margin-top:1px;}
+.dtypredutybtnsearch{float:right;margin-right:15px;}
+
+/*****班次设置对话框*****/
+.dtypredutysheetinput{width:80px;}
+.dtypredutysheettab{width:500px;height:300px;}
+
+/****班次添加*********/
+.dtypredutyshiftWindows{width: 380px; height:200px; padding: 2px;}
+.dtypredutyshiftWindowstdf{text-align:right;width:70px;}
+.dtypredutyshiftWindowstds{width:45%;}
+.dtypredutyshiftWindowstdt{width:50px;}
+
+/*****自定义编组*******/
+.dtypredutyusernodewindow{width: 300px; height:100px; padding: 2px;}
+.dtypredutyusernodeArea{padding:2px;}
+.dtypredutyusernodeAreatable{width:100%;}
+
+/****末班保存*********/
+.dtypredtempsavewindow{width: 300px; height:100px; padding: 2px;}
+
+/****报备复制日历******/
+.dtypredcopywindow{width: 300px; height:300px; padding: 2px;}
+
+/****关联任务对话框****/
+.dtypredtaskwindow{width: 580px; height:350px; padding: 2px;}
+.dtypredtasktarget{width:100%; height:100%;}
+/*******************************勤务报备页面css样式集结束*********************/
+
+ 
+ 
+ 
+/*********************************************************************/
+/*******************************勤务类型管理页面css样式集*********************/
+/*********************************************************************/
+.dtypewindow{height:330px;width:360px;padding:4px;}
+.dtypewindowbtngroup{float:right;margin-right:20px;}
+.dtypewindowbtn{margin-right:20px;float:right;} 
+.dtypewindowtable{width:100%;height:90%;font-size:12px;}
+.labelcolor{color:#dddddd;}
+/*******************************勤务类型管理页面css样式集结束*******************/
+
+ 
+ 
+
+/*********************************************************************/
+/*******************************页面查询框展开收缩样式集***********************/
+/*********************************************************************/
+.MySearch{ width:99%px; height:auto; border:1px solid #bababc; margin-bottom:10px;padding:3px;display:none;}
+.MySearch{ width:99%px; height:auto; border:1px solid #bababc; background-color:#fff; margin-bottom:10px;}
+.MySearch input[type=checkbox]{ vertical-align:text-bottom; margin-bottom:1px; margin-bottom:-2px\9;}
+.MySearch td{font-size:12px; vertical-align: middle;}
+.MySearchTDTitle{text-align:right;}
+.MySearchMain{ width:90%; height:auto; margin-top:10px;margin-left:20px;}
+.MySearchLine10{ widht:100%; height:10px;}
+
+/*****************************页面查询框展开收缩样式集结束************************/
+
+
+
+/***********************************************************************/
+/*****************************警务资源分组管理********************************/
+/***********************************************************************/
+.grouplayout{width:100%; height:100%;}
+.grouplayoutnorth{width:100%; height:43px;}
+.grouplayoutcenter{width:100%; height:80%;}
+.grouptoolbar{height:28px;margin-top:2px;}
+.groupfstbtn{margin-left:3px}
+.groupgridcenter{width:60%; height:80%;}
+.groupwestArea{width:40%;}
+.groupwindow{height:330px;width:320px;}
+.groupwindowtoolbar{width:100%;} 
+.groupwindowbtn{float:right; margin-right:10px;}
+.groupwindowtable{width:100%;}
+.groupwindowdiv{border:1px solid #000;overflow:auto;height:200px;}
+
+.groupmemberwindow{width:450px;height:400px;}
+.groupmemberwindowtable{width:100%;}
+.groupmemberwindowdiv{border:1px solid #000;overflow:auto;height:300px;}
+.groupmemberwindowtdf{width:40%;}
+.groupmemberwindowtds{width:10%;}
+.groupmemberwindowtdt{width:50%;}
+/*****************************警务资源分组管理结束******************************/
+
+
+
+/************************************************************************/
+/*****************************警务综合查询***********************************/
+/************************************************************************/
+.dtyinquirytoolbar{height:40px; margin-top:10px;}
+.dtyinquirybtngroup{float:right; margin-right:20px;}
+.dtyinquirybtn{float:right; margin-left:20px;}
+.dtyinquiryinput{width:150px;}
+.dtyinquirylabel{color:#ff6600; font-size:18px;}
+.dtyinquirytimespan{width:70px;margin-left:15px;}
+.dtyinquirytimespaner{width:70px;}
+/*****************************警务综合查询结束*********************************/
+
+
+
+/***********************************************************************/
+/******************************保存取消按钮css样式集***************************/
+/************************************************************************/
+.btnSaveAction{
+  color: #000000;
+  background: #ffffff;
+  background-repeat: repeat-x;
+  border: 1px solid #C2DEE2;
+  background: -webkit-linear-gradient(top,#ffffff 0,#EFEAEA 100%);
+  background: -moz-linear-gradient(top,#ffffff 0,#EFEAEA 100%);
+  background: -o-linear-gradient(top,#ffffff 0,#EFEAEA 100%);
+  background: linear-gradient(to bottom,#ffffff 0,#EFEAEA 100%);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#ffffff,endColorstr=#EFEAEA,GradientType=0);
+  -moz-border-radius: 0px 0px 0px 0px;
+  -webkit-border-radius: 0px 0px 0px 0px;
+  border-radius: 0px 0px 0px 0px;
+}
+/******************************保存取消按钮css样式集结束***************************/
+
+
+
