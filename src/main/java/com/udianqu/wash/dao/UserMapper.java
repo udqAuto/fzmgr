@@ -1,5 +1,8 @@
 package com.udianqu.wash.dao;
 
+import java.util.List;
+import java.util.Map;
+
 import com.udianqu.wash.core.MyBatisRepository;
 import com.udianqu.wash.model.User;
 
@@ -21,4 +24,8 @@ public interface UserMapper {
 	User selectByName(String name);
 	
 	User selectByMobile(String mobile);
+
+	int countByMap(Map<String, Object> map);
+
+	List<User> loadUserlistWithPage(Map<String, Object> map);
 }

@@ -1,7 +1,12 @@
 package com.udianqu.wash.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import net.sf.json.JSONObject;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,9 +15,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.udianqu.wash.core.ListResult;
 import com.udianqu.wash.model.User;
 import com.udianqu.wash.service.LoginService;
 import com.udianqu.wash.service.RegistService;
+import com.udianqu.wash.service.UserService; 
 
 /**
  * 用户
@@ -25,12 +32,11 @@ import com.udianqu.wash.service.RegistService;
  *
  */
 @Controller
-@RequestMapping("/index")
-public class UserController {
-
-	@Autowired LoginService loginService; // �ȼ���spring��ͳע�뷽ʽдget��set����������ĺô��Ǽ�๤��ʡȥ�˲���Ҫ�ô���
-	@Autowired RegistService registService;
-
+@RequestMapping("/user")
+public class UserController { 
+	@Autowired UserService userService; 
+	@Autowired LoginService loginService; 
+	@Autowired RegistService registService; 
 	@RequestMapping("/login.do")
 	@ResponseBody
 	public ModelAndView testLogin(HttpServletRequest request) {
@@ -79,6 +85,26 @@ public class UserController {
 			}
 		
 		return mv;
+	}
+	
+
+	/*
+	 * 获取注册用户列表，以下拉列表形式呈现；
+	 */
+	@RequestMapping(value = "getUserList.do", produces = "application/json;charset=UTF-8")
+	public @ResponseBody
+	String getUserList( 
+			@RequestParam(value = "page", required = false) Integer page,
+			@RequestParam(value = "rows", required = false) Integer rows,
+			HttpServletRequest request) throws Exception {
+
+		Map<String, Object> map = new HashMap<String, Object>();   
+		page = page == 0 ? 1 : page;
+		map.put("pageStart", (page - 1) * rows);
+		map.put("pageSize", rows);   
+		ListResult<User> rs = userService.loadUserlist(map);
+
+		return rs.toJson();
 	}
 	
 	

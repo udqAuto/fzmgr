@@ -202,5 +202,13 @@
     from t_user
     where mobile = #{mobile,jdbcType=INTEGER}
   </select>
-  
+  <select id="countByMap" resultType="java.lang.Integer" >
+  		select count(*) from t_user
+  </select>
+  <select id="loadUserlistWithPage"   parameterType="java.util.Map"  resultMap="BaseResultMap"  >
+  		select * from t_user
+  		<if test="pageStart !=null">
+  		limit #{pageStart,jdbcType=INTEGER}, #{pageSize,jdbcType=INTEGER}
+  		</if>
+  </select>
 </mapper>

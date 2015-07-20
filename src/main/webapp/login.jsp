@@ -141,7 +141,7 @@
             <div class="panel-h"></div>
             <div class="panel-c">
                 <div class="panel-c-l">
-                <form id="submitform" style="boder:1px solid wheat" action="index/loginAction.do" method="POST">
+                <form id="submitform" style="boder:1px solid wheat" action="login/login.do" method="POST">
                          <table cellpadding="0" cellspacing="0">
                             <tbody>
                                 <tr>

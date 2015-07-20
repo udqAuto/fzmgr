@@ -26,7 +26,53 @@
 		</div> 
 	</div>
 	<div region="west" title="功能菜单" split=true style="width:220px;">
-		<ul id="treeMenu"></ul>
+		<ul id="treeMenu">
+			<li>
+				<span>用户</span>
+					<ul>
+						<li>
+							<span>用户管理</span>
+						</li>
+						<li>
+							<span>车辆管理</span>
+						</li> 
+					</ul> 
+			</li>
+			<li>
+				<span>订单</span>
+					<ul>
+						<li>
+							<span>订单管理</span>
+						</li>
+						<li>
+							<span>评价管理</span>
+						</li> 
+					</ul> 
+			</li>
+			<li>
+				<span>统计分析</span>
+					<ul>
+						<li>
+							<span>收益统计</span>
+						</li> 
+					</ul> 
+			</li>
+			<li>
+				<span>系统管理</span>
+					<ul>
+						<li>
+							<span>组织机构管理</span>
+						</li>
+						<li>
+							<span>机构区域管理</span>
+						</li> 
+						<li>
+							<span>系统优惠券</span>
+						</li> 
+					</ul> 
+			</li>
+			
+		</ul>
 	</div> 
 	<div region=center title="业务" > 
 		<iframe id="ifrContent" frameborder='0'  style="width:100%;height:98%;" onLoad="iframeSize()">

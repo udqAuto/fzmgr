@@ -1,5 +1,7 @@
 package com.udianqu.wash.controller;
 
+import java.io.IOException;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -30,8 +32,10 @@ public class LoginController {
 	 */
 	@RequestMapping(value = "login4App.do", produces = "application/json;charset=UTF-8")
 	public @ResponseBody String login4App(
-			@RequestParam(value = "identity", required = true) String username,
-			@RequestParam(value = "password", required = true) String password,
+			/*@RequestParam(value = "identity", required = true) String username,
+			@RequestParam(value = "password", required = true) String password,*/
+			@RequestParam(value = "identity", required = false) String username,
+			@RequestParam(value = "password", required = false) String password,
 			HttpServletRequest request, HttpServletResponse response
 			){
 		
@@ -39,12 +43,30 @@ public class LoginController {
 	}
 	
 	@RequestMapping(value = "login.do", produces = "application/json;charset=UTF-8")
-	public ModelAndView login(
-			@RequestParam(value = "identity", required = true) String identity,
-			@RequestParam(value = "password", required = true) String password,
+	 @ResponseBody
+	public void login(
+			/*@RequestParam(value = "identity", required = true) String username,
+			@RequestParam(value = "password", required = true) String password,*/
+			@RequestParam(value = "identity", required = false) String username,
+			@RequestParam(value = "password", required = false) String password,
 			HttpServletRequest request, HttpServletResponse response
 			){
-		
-		return null;
+		try {
+			response.sendRedirect("../index.jsp"); 
+		}catch(Exception ex){ 
+			ex.printStackTrace(); 
+		}
+	}
+	/**
+	 * 退出主页，返回登录页面
+	 * 
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "onExit.do", produces = "application/json;charset=UTF-8")
+	public @ResponseBody
+	void onExit(HttpServletRequest request, HttpServletResponse response)
+			throws IOException {
+		request.getSession().invalidate();// 清除当前用户相关的session对象
+		response.sendRedirect("../login.jsp");
 	}
 }
