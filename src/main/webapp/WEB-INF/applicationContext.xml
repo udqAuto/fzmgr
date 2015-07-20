@@ -21,7 +21,7 @@
            >
              
            <!-- Spring启动扫描类文件路径 -->
-	<context:component-scan base-package="com.udianqu.wash">
+	<context:component-scan base-package="com.udianqu">
 		<context:include-filter type="regex"
 			expression=".dao.*" />
 		<context:include-filter type="regex"
@@ -52,7 +52,7 @@
 	<!-- 数据访问mybatis  配置管理 -->
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSource" />
-		<property name="typeAliasesPackage" value="com.udianqu.wash" />
+		<property name="typeAliasesPackage" value="com.udianqu" />
 		<property name="mapperLocations" value="classpath*:mapper/**/*.xml" />
 		<property name="configurationProperties">
 			<props>
@@ -63,7 +63,7 @@
 
 	<!-- 数据访问mybatis  sql mapping文件配置管理 -->
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-		<property name="basePackage" value="com.udianqu.wash" />
+		<property name="basePackage" value="com.udianqu" />
 		<property name="annotationClass"
 			value="com.udianqu.wash.core.MyBatisRepository" />
 		<property name="sqlSessionFactory" ref="sqlSessionFactory" />

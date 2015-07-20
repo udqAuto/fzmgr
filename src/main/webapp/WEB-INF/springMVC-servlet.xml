@@ -23,13 +23,13 @@
 	<bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping"/>
 	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter"/>
     <!-- 扫描controller（controller层注入） -->
-   <context:component-scan base-package="com.udianqu.wash">   
+   <context:component-scan base-package="com.udianqu">   
         <context:include-filter type="annotation" 
             expression="org.springframework.stereotype.Controller"/>            
 	</context:component-scan>
   
 	
-	<context:component-scan base-package="com.udianqu.wash">
+	<context:component-scan base-package="com.udianqu">
 		<context:exclude-filter type="annotation"
 			expression="org.springframework.stereotype.Service" />
 	</context:component-scan> 

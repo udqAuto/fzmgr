@@ -8,7 +8,7 @@ import com.udianqu.wash.model.User;
 import com.udianqu.wash.service.LoginService;
 
 @Service
-public class LoginServiceImpl implements LoginService {
+public class LoginServiceImpl{ //implements LoginService {
 
 	@Autowired UserMapper userMapper;
 
