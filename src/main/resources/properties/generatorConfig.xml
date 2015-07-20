@@ -22,18 +22,18 @@
         </javaTypeResolver>  
          
         <!-- 生成model模型，对应的包，存放位置可以指定具体的路径,如/ProjectName/src，也可以使用MAVEN来自动生成 -->  
-        <javaModelGenerator targetPackage="com.udianqu.wash.model" targetProject="E:\Workspaces\fzmgr Maven Webapp\src\main\java">  
+        <javaModelGenerator targetPackage="com.udianqu.wash.model" targetProject="E:\Workspaces\projectSpace\fzmgr\src\main\java">  
             <property name="enableSubPackages" value="true"/>  
         </javaModelGenerator>  
           
         <!--对应的xml mapper文件  	-->
-        <sqlMapGenerator  targetPackage="/mapper/base" targetProject="E:\Workspaces\fzmgr Maven Webapp\src\main\resources">  
+        <sqlMapGenerator  targetPackage="/mapper/base" targetProject="E:\Workspaces\projectSpace\fzmgr\src\main\resources">  
             <property name="enableSubPackages" value="true"/>  
         </sqlMapGenerator>  
           
           
         <!-- 对应的dao接口  --> 
-        <javaClientGenerator type="XMLMAPPER" targetPackage="com.udianqu.wash.dao" targetProject="E:\Workspaces\fzmgr Maven Webapp\src\main\java">  
+        <javaClientGenerator type="XMLMAPPER" targetPackage="com.udianqu.wash.dao" targetProject="E:\Workspaces\projectSpace\fzmgr\src\main\java">  
             <property name="enableSubPackages" value="true"/>  
         </javaClientGenerator>  
 
@@ -44,10 +44,20 @@
 	       enableCountByExample="false"
 	       enableUpdateByExample="false"/>
 	       <table tableName="t_auto" domainObjectName="Auto"/>  
+	       <table tableName="t_bill_serial" domainObjectName="BillSerial"/>  
+	       <table tableName="t_bill_type" domainObjectName="BillType"/>  
+	       <table tableName="t_coupon" domainObjectName="Coupon"/>  
+	       <table tableName="t_coupon_type" domainObjectName="CouponType"/>
+	       <table tableName="t_org" domainObjectName="Organization"/>  
+	       <table tableName="t_parameter" domainObjectName="Parameter"/>  
 	       <table tableName="t_pay" domainObjectName="Pay"/>  
 	       <table tableName="t_picture" domainObjectName="Picture"/>  
 	       <table tableName="t_region" domainObjectName="Region"/>  
+	       <table tableName="t_serial_rule" domainObjectName="SerialRule"/>  
+	       <table tableName="t_wash_order" domainObjectName="WashOrder"/>  
+	       <table tableName="t_wash_order_item" domainObjectName="WashOrderItem"/>  
 	       <table tableName="t_wash_type" domainObjectName="WashType"/>  
+	         
 
     </context>  
 </generatorConfiguration>  
