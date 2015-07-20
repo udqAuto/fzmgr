@@ -12,7 +12,7 @@ public class LoginServiceImpl implements LoginService {
 
 	@Autowired UserMapper userMapper;
 
-	// denglu≤‚ ‘
+	
 	public boolean login(String username, String password) {
 
 		String userName = "admin";
