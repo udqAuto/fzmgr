@@ -65,7 +65,7 @@
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
 		<property name="basePackage" value="com.udianqu.wash" />
 		<property name="annotationClass"
-			value="com.mobile.core.MyBatisRepository" />
+			value="com.udianqu.wash.core.MyBatisRepository" />
 		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
 	</bean>
 	
