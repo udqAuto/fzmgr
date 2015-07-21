@@ -4,7 +4,7 @@ $(function() {
 	$("#EditOrganization").bind("click", OrganManage.EditOrganization);
 	$("#DelOrganization").bind("click", OrganManage.DelOrganization); 
 }); 
-
+var m_OrganInfo_dlg = null;
 var OrganManage = {
 		loadOrganList:function(){
 			$('#OrganizationTree').treegrid({
@@ -20,7 +20,18 @@ var OrganManage = {
 		    });
 		},
 		addOrganization:function(){
-			
+			try{
+			m_OrganInfo_dlg = art.dialog({
+				id : 'dlgAddOrgan',
+				title : '新增组织机构',
+				content : "<iframe scrolling='yes' frameborder='0' src='view/organ/organBill.jsp?type=0' style='width:600px;height:470px;overflow:hidden'/>",
+				lock : true,
+				initFn : function() {
+				}
+				});
+			} catch (ex) {
+				$.messager.alert("操作提示",ex.message,"error"); 
+			}
 		},
 		editOrganization:function(){
 			
