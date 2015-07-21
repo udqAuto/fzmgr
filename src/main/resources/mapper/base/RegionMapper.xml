@@ -347,4 +347,10 @@
       sort = #{sort,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <select id="getRegionList" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_region
+    where pid = #{id,jdbcType=INTEGER}
+  </select>
 </mapper>

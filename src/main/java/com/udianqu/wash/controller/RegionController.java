@@ -1,12 +1,23 @@
 package com.udianqu.wash.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import net.sf.json.JSONArray;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+ 
+import com.udianqu.wash.model.Region; 
+import com.udianqu.wash.service.RegionService; 
+import com.udianqu.wash.viewModel.RegionVM;
 
 /**
  * 区域
@@ -15,8 +26,11 @@ import org.springframework.web.servlet.ModelAndView;
  *
  */
 @Controller
-@RequestMapping("/base")
+@RequestMapping("/region")
 public class RegionController {
+
+	@Autowired RegionService regionService;
+	
 	
 	@RequestMapping(value = "addRegion.do", produces = "application/json;charset=UTF-8")
 	public @ResponseBody ModelAndView addRegion(
@@ -37,5 +51,62 @@ public class RegionController {
 			HttpServletRequest request, HttpServletResponse response
 			){
 		return null;
+	}
+	
+	
+	@RequestMapping(value = "getRegionList.do", produces = "application/json;charset=UTF-8")
+	public @ResponseBody String getRegionList(
+			@RequestParam(value = "id", required = false) Integer hybrid_id,
+			@RequestParam(value = "parentid", required = false) Integer parentid,
+			HttpServletRequest request, HttpServletResponse response
+			){
+		Integer qid = null;  
+		List<Region> ls = new ArrayList<Region>();
+		List<RegionVM> list = new ArrayList<RegionVM>();
+		if (hybrid_id != null) {
+			qid = hybrid_id;  
+		} else {
+			qid = parentid;
+		}   
+		ls = regionService.getRegionList(qid); 
+		list = getNodes(ls,qid);
+		JSONArray  json = JSONArray.fromObject(list);
+		String resutl  = json.toString();
+		return resutl;
+	}
+
+	private List<RegionVM> getNodes(List<Region> ls, Integer qid) {
+		// TODO Auto-generated method stub
+		List<RegionVM> list = new ArrayList<RegionVM>(); 
+		for(Region o :ls ){
+			if(o.getPid() == qid){
+				RegionVM v = new RegionVM();
+				v.setId(o.getId());
+				v.setPath(o.getPath());
+				v.setPid(o.getPid()); 
+				v.setLevel(o.getLevel());
+				v.setName(o.getName());
+				v.setText(o.getName()); 
+				v.setSort(o.getSort());
+				v.setAddress(o.getAddress());
+				v.setIsEstate(o.getIsEstate());
+				v.setShopId(o.getShopId());
+				List<Region> l = getItemByParentId(o.getId());
+				if(l.size()>0){ 
+					v.setChildren(getNodes(l,o.getId())); 
+				}else{
+					v.setChildren(null); 
+				}
+				v.setState("open");
+				list.add(v);
+			}
+		}
+		return list;
+	}
+
+	private List<Region> getItemByParentId(Integer id) {
+		// TODO Auto-generated method stub
+		List<Region> ls = regionService.getRegionList(id); 
+		return ls;
 	}
 }

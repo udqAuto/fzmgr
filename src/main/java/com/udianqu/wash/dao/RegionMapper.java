@@ -95,4 +95,6 @@ public interface RegionMapper {
      * @mbggenerated Mon Jul 20 12:31:35 CST 2015
      */
     int updateByPrimaryKey(Region record);
+
+	List<Region> getRegionList(Integer id);
 }

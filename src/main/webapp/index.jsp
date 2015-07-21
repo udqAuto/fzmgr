@@ -31,7 +31,7 @@
 				<span>用户</span>
 					<ul>
 						<li>
-							<span>用户管理</span>
+							<span>车主管理</span>
 						</li>
 						<li>
 							<span>车辆管理</span>
@@ -60,6 +60,9 @@
 			<li>
 				<span>系统管理</span>
 					<ul>
+						<li>
+							<span>用户管理</span>
+						</li>
 						<li>
 							<span>组织机构管理</span>
 						</li>
