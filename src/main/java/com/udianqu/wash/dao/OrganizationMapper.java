@@ -95,4 +95,10 @@ public interface OrganizationMapper {
      * @mbggenerated Mon Jul 20 12:31:35 CST 2015
      */
     int updateByPrimaryKey(Organization record);
+
+	List<Organization> getOrganList(Integer id);
+
+	List<Organization> getParentIdItems(Integer id);
+
+	List<Organization> getItemsByParentId(Integer id);
 }

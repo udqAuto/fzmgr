@@ -5,22 +5,22 @@
 <html>
   <head>
     <base href="<%=basePath%>">
-    <script src='<%=basePath%>script/organ/organization.js' 	type='text/javascript'></script> 
+    <script src='<%=basePath%>script/region/regionList.js' 	type='text/javascript'></script> 
     <title>组织结构</title>
 
   </head>
   
   <body>
-    <div id="OrganizationTb">  
-                <a id="AddOrganization" name="AddOrganization" href="javascript:void(0);" class="easyui-linkbutton"
+    <div id="regionTb">  
+                <a id="AddRegion" name="AddRegion" href="javascript:void(0);" class="easyui-linkbutton"
                     iconcls="icon_xfxg_add" plain="true">新增</a> 
-                <a id="EditOrganization" name="EditOrganization"
+                <a id="EditRegion" name="EditRegion"
                     href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon_xfxg_edit"
                     plain="true">编辑</a>
-                <a id="DelOrganization" name="DelOrganization"
+                <a id="Delregion" name="Delregion"
                     href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon_xfxg_delete"
                     plain="true">删除</a> 
     </div>
-    <div id="OrganizationTree"  style="margin:10px"></div>  
+    <div id="RegionTree"  style="margin:10px"></div>  
   </body>
 </html>
