@@ -1,6 +1,8 @@
 package com.udianqu.wash.controller;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -15,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.udianqu.wash.model.User;
 import com.udianqu.wash.service.LoginService;
+import com.udianqu.wash.service.UserService;
 
 /**
  * 登录、注册
@@ -36,6 +39,7 @@ public class LoginController {
 	 * @return
 	 */
 	@Autowired LoginService loginService;
+	@Autowired UserService userService;
 	
 	@RequestMapping(value = "login4App.do", produces = "application/json;charset=UTF-8")
 	public @ResponseBody String login4App(
@@ -62,12 +66,12 @@ public class LoginController {
 	public void login(
 			/*@RequestParam(value = "identity", required = true) String username,
 			@RequestParam(value = "password", required = true) String password,*/
-			@RequestParam(value = "username", required = false) String username,
-			@RequestParam(value = "password", required = false) String password,
+			@RequestParam(value = "username", required = true) String username,
+			@RequestParam(value = "password", required = true) String password,
 			HttpServletRequest request, HttpServletResponse response
-			){ 
+			) throws Exception{ 
 		try {
-			if (username.isEmpty()) {
+			/*if (username.isEmpty()) {
 				response.sendRedirect("../login.jsp?optType=0");
 				return;
 			}
@@ -76,15 +80,29 @@ public class LoginController {
 				return;
 			}
 			HttpSession session = request.getSession();
-			User user = new User();
-			user = loginService.getLoginInfo(username);
-			user.getName();
-			user.getPsd();
-			
-			
-			response.sendRedirect("../index.jsp"); 
+			if (username.trim().length() == 0) {
+				response.sendRedirect("../login.jsp?optType=0");
+				return;
+			}
+			if (password.trim().length() == 0) {
+				response.sendRedirect("../login.jsp?optType=1");
+				return;
+			}
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("name", username);
+			map.put("pwd", password);
+			User u = userService.loadUserByNameAndPwd(map);
+			if (u != null) {
+				session.setAttribute("user", u);
+				response.sendRedirect("../index.jsp");
+			} else {
+				response.sendRedirect("../login.jsp");
+				return;
+			}*/
+			response.sendRedirect("../index.jsp");
 		}catch(Exception ex){ 
-			ex.printStackTrace(); 
+			response.sendRedirect("../login.jsp"); 
+			return;
 		}
 	}
 	/**

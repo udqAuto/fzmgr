@@ -44,7 +44,23 @@ var UserManage = {
 						return "男";
 					}
 				}
-			} ] ]
+			},{
+				title : '电话',
+				field : 'mobile',
+				align : 'center',
+				width : 50
+			},{
+				title : '用户类型',
+				field : 'type',
+				align : 'center',
+				width : 50
+			},{
+				title : '邮箱',
+				field : 'email',
+				align : 'center',
+				width : 150
+			}
+			] ]
 		});
 	},
 	addUser:function(){try {

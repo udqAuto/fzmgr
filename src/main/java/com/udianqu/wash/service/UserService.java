@@ -14,6 +14,11 @@ import com.udianqu.wash.model.User;
 public class UserService {
 
 	@Autowired UserMapper userMapper;
+	
+	public User loadUserByNameAndPwd(Map<String, Object> map) {
+		return userMapper.loadUserByNameAndPwd(map);
+	}
+	
 	public ListResult<User> loadUserlist(Map<String, Object> map) {
 		int count=userMapper.countByMap(map);
 		List<User> ls=userMapper.loadUserlistWithPage(map);

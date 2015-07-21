@@ -68,6 +68,15 @@ public class UserController {
 		return mv;
 	}
 	
+	@RequestMapping("/saveUserObj.do")
+	@ResponseBody
+	public ModelAndView saveUserObj(User user, HttpServletRequest request) {
+
+		ModelAndView mv = new ModelAndView("login/login");
+		// mv.addObject("sss",123);
+		// return mv;
+		return mv; 
+	}
 
 	/*
 	 * 获取注册用户列表，以下拉列表形式呈现；

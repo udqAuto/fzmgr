@@ -28,4 +28,6 @@ public interface UserMapper {
 	int countByMap(Map<String, Object> map);
 
 	List<User> loadUserlistWithPage(Map<String, Object> map);
+
+	User loadUserByNameAndPwd(Map<String, Object> map);
 }
