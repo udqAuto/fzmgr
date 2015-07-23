@@ -8,6 +8,7 @@ public class RegionVM extends Region {
 	private List<RegionVM> children;
 	private String state;
 	private String text;
+	private String shopName;
 	public List<RegionVM> getChildren() {
 		return children;
 	}
@@ -25,5 +26,11 @@ public class RegionVM extends Region {
 	}
 	public void setText(String text) {
 		this.text = text;
+	}
+	public String getShopName() {
+		return shopName;
+	}
+	public void setShopName(String shopName) {
+		this.shopName = shopName;
 	} 
 }

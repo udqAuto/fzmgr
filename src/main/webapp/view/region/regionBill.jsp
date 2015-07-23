@@ -25,8 +25,8 @@
 		 <p><label>上级区域：</label><input id="txtParentName" class="easyui-validatebox"  style="width:234px" readonly="readonly"/></p>
 		 <p><label>区域名称：</label><input id="txtRegionName" class="easyui-validatebox"  style="width:234px" /></p>
 		 <p><label>关联门店：</label><input id="txtShopName" type="text" class="easyui-combotree"  style="width:234px" /></p> 
-		 <p><label>关联小区：</label><input id="txtIsEstate" type="checkbox" /></p>
-		 <p><label>小区地址：</label><input id="txtRegionAddress" class="easyui-validatebox"  style="width:234px" /></p> 
+		 <p><label>关联小区：</label><input id="txtIsEstate" type="checkbox" onclick="RegionManage.onCheckState();" /></p>
+		 <p name='p_estate'><label>小区地址：</label><input id="txtRegionAddress" class="easyui-validatebox"  style="width:234px" /></p> 
 	 </div>
   </body>
 </html>

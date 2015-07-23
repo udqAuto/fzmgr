@@ -103,7 +103,7 @@ public class RegionController {
 			HttpServletRequest request, HttpServletResponse response
 			){
 		Integer qid = null;  
-		List<Region> ls = new ArrayList<Region>();
+		List<RegionVM> ls = new ArrayList<RegionVM>();
 		List<RegionVM> list = new ArrayList<RegionVM>();
 		if (hybrid_id != null) {
 			qid = hybrid_id;  
@@ -117,10 +117,10 @@ public class RegionController {
 		return resutl;
 	}
 
-	private List<RegionVM> getNodes(List<Region> ls, Integer qid) {
+	private List<RegionVM> getNodes(List<RegionVM> ls, Integer qid) {
 		// TODO Auto-generated method stub
 		List<RegionVM> list = new ArrayList<RegionVM>(); 
-		for(Region o :ls ){
+		for(RegionVM o :ls ){
 			if(o.getPid() == qid){
 				RegionVM v = new RegionVM();
 				v.setId(o.getId());
@@ -133,7 +133,8 @@ public class RegionController {
 				v.setAddress(o.getAddress());
 				v.setIsEstate(o.getIsEstate());
 				v.setShopId(o.getShopId());
-				List<Region> l = getItemByParentId(o.getId());
+				v.setShopName(o.getShopName());
+				List<RegionVM> l = getItemByParentId(o.getId());
 				if(l.size()>0){ 
 					v.setChildren(getNodes(l,o.getId())); 
 				}else{
@@ -146,9 +147,9 @@ public class RegionController {
 		return list;
 	}
 
-	private List<Region> getItemByParentId(Integer id) {
+	private List<RegionVM> getItemByParentId(Integer id) {
 		// TODO Auto-generated method stub
-		List<Region> ls = regionService.getRegionList(id); 
+		List<RegionVM> ls = regionService.getRegionList(id); 
 		return ls;
 	}
 }

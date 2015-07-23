@@ -10,12 +10,22 @@ var RegionManage = {
 			$('#RegionTree').treegrid({
 		    	url: 'region/getRegionList.do?parentid=0', 
 		        rownumbers: true, 
+				fitColumns : true,
 		        idField: 'id',
 		        treeField: 'name',
 		        toolbar:'#regionTb',
 		        columns: [[
 		               { title: 'id', field: 'id', align: 'left', width: 200,hidden:true } ,
-		               { title: '区域名称', field: 'name', align: 'left', width: 300 } 
+		               { title: '区域名称', field: 'name', align: 'left', width: 300 }, 
+		               { title: '是否小区', field: 'isEstate', align: 'center', width: 100,formatter:function(value,rowData,index){
+		            	   if(value){
+		            		   return "是";
+		            	   }else{
+		            		   return "";
+		            	   }
+		               } } ,
+		               { title: '小区地址', field: 'address', align: 'center', width: 200 } ,
+		               { title: '门店名称', field: 'shopName', align: 'center', width: 150 }  
 		        ]]
 		    });
 		},
@@ -31,7 +41,7 @@ var RegionManage = {
 			m_RegionInfo_dlg = art.dialog({
 				id : 'dlgAddRegion',
 				title : '新增机构区域',
-				content : "<iframe scrolling='yes' frameborder='0' src='view/region/regionBill.jsp?type=0&parentId="
+				content : "<iframe scrolling='no' frameborder='0' src='view/region/regionBill.jsp?type=0&parentId="
 					+parentId+"&parentName="
 					+parentName+"&regionId=0' style='width:310px;height:350px;overflow:hidden'/>",
 				lock : true,
@@ -68,8 +78,8 @@ var RegionManage = {
 			m_RegionInfo_dlg = art.dialog({
 				id : 'dlgEditRegion',
 				title : '编辑机构区域',
-				content : "<iframe scrolling='yes' frameborder='0' src='view/region/regionBill.jsp?type=1&parentId=0&parentName="
-					+parentName+"&regionId="+regionId+"' style='width:600px;height:470px;overflow:hidden'/>",
+				content : "<iframe scrolling='no' frameborder='0' src='view/region/regionBill.jsp?type=1&parentId=0&parentName="
+					+parentName+"&regionId="+regionId+"' style='width:310px;height:350px;overflow:hidden'/>",
 				lock : true,
 				initFn : function() {
 				}

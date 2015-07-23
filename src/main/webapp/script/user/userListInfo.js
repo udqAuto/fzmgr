@@ -86,7 +86,7 @@ var UserManage = {
 					.dialog({
 						id : 'dlgAddUser',
 						title : '新增用户',
-						content : "<iframe scrolling='yes' frameborder='0' src='view/user/userBill.jsp?type=0&userId=0&userType="
+						content : "<iframe scrolling='no' frameborder='0' src='view/user/userBill.jsp?type=0&userId=0&userType="
 								+ m_userType
 								+ "' style='width:310px;height:350px;overflow:hidden'/>",
 						lock : true,
@@ -122,7 +122,7 @@ var UserManage = {
 					.dialog({
 						id : 'dlgAddUser',
 						title : '编辑用户',
-						content : "<iframe scrolling='yes' frameborder='0' src='view/user/userBill.jsp?type=1&userId="
+						content : "<iframe scrolling='no' frameborder='0' src='view/user/userBill.jsp?type=1&userId="
 								+ userId
 								+ "&userType="
 								+ m_userType

@@ -14,25 +14,39 @@ $(function() {
 	$("#txtParentName").val(m_parentName);
 if(m_type==1||m_type=="1"){
 		
-		$("#txtRegionName").val(score.name);
-		if( score.shopId>0){
-		$("#txtShopName").combotree('setValue', score.shopId);//设置的是name
-		}
+		$("#txtRegionName").val(score.name); 
 		if(score.isEstate){
 			$("#txtIsEstate").attr("checked","true");
+			$("p[name='p_estate']").removeAttr("style");
+		}else{
+			$("p[name='p_estate']").attr("style","display:none");
 		}
 		$("#txtRegionAddress").val(score.address);
+	}else{
+		$("p[name='p_estate']").attr("style","display:none");
 	}
 	
 	$("#btnSaveRegionInfo").bind("click", RegionManage.saveRegion);
 	$("#btnCancelSave").bind("click", RegionManage.closeWindow);
 	
 });
+function a (){
+	$("#txtShopName").combotree('setValue', score.shopId);
+}
 var m_region_obj = {};
 var RegionManage = {
+		onCheckState:function(){			
+			var s = $("input[type='checkbox']:checked"); 
+			if(s.length>0){ 
+				$("p[name='p_estate']").removeAttr("style");
+			}else{
+				$("p[name='p_estate']").attr("style","display:none");
+			}
+		},
 		initBaseAttribute:function(){
 			$("#txtShopName").combotree({ 
-				url:'organ/getOrganList.do?parentid=0' 
+				url:'organ/getOrganList.do?parentid=0' ,
+				onLoadSuccess:a
 			});
 		},
 		saveRegion:function(){
@@ -52,20 +66,10 @@ var RegionManage = {
 			var address = $.trim($("#txtRegionAddress").val());
 			if(s.length>0){  
 				m_region_obj.isEstate = true;
-				if(address == ""||address==undefined){
-					$.messager.alert("操作提示", "请填写小区地址！", "error");
-					return;
-				}else{
-					m_region_obj.address = address;
-				}
+				m_region_obj.address = address;
 			}else{
 				m_region_obj.isEstate = false;
-				if(address == ""||address == undefined){
-					m_region_obj.address = "";
-				}else{
-					$.messager.alert("操作提示", "请先关联小区！", "error");
-					return;
-				}
+				m_region_obj.address = "";
 			}
 			$.ajax({
 				url : "region/saveRegion.do",

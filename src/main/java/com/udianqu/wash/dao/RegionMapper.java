@@ -3,6 +3,8 @@ package com.udianqu.wash.dao;
 import com.udianqu.wash.core.MyBatisRepository;
 import com.udianqu.wash.model.Region;
 import com.udianqu.wash.model.RegionExample;
+import com.udianqu.wash.viewmodel.RegionVM;
+
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
@@ -96,5 +98,5 @@ public interface RegionMapper {
      */
     int updateByPrimaryKey(Region record);
 
-	List<Region> getRegionList(Integer id);
+	List<RegionVM> getRegionList(Integer id);
 }
