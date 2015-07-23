@@ -12,4 +12,16 @@ public interface OrganService {
 
 	List<Organization> getItemsByParentId(Integer qid);
 
+	void insert(Organization organ);
+
+	void updateByPrimaryKey(Organization organ);
+
+	Organization selectByPrimaryKey(Integer id);
+
+	void deleteByPrimaryKey(Integer id);
+
+	void deleteOrgan(Integer id);
+
+	List<Organization> loadAllShoplist();
+
 }

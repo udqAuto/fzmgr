@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import net.sf.json.JSONArray;
 
@@ -15,9 +16,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.udianqu.wash.core.Result;
 import com.udianqu.wash.model.Organization;
+import com.udianqu.wash.model.User;
 import com.udianqu.wash.service.OrganService;
-import com.udianqu.wash.viewModel.OrganVM; 
+import com.udianqu.wash.viewmodel.OrganVM;
+import com.udianqu.wash.viewmodel.UserVM;
  
 
 /**
@@ -32,18 +36,59 @@ public class OrgController {
 	@Autowired OrganService organService;
 	
 	
-	@RequestMapping(value = "addOrg.do", produces = "application/json;charset=UTF-8")
-	public @ResponseBody ModelAndView addOrg(
-			HttpServletRequest request, HttpServletResponse response
+	@RequestMapping(value = "saveOrgan.do", produces = "application/json;charset=UTF-8")
+	public @ResponseBody String saveOrgan(
+			Organization organ,
+			HttpServletRequest request
 			){
-		return null;
+		try {
+				if (organ.getId() > 0) {
+					Organization o = organService.selectByPrimaryKey(organ.getId());
+					if(o!=null){ 
+						organ.setPid(o.getPid());
+						organ.setIsUsed(o.getIsUsed());
+						organ.setSort(o.getSort());
+						organ.setLevel(o.getLevel()); 
+						organ.setPath(o.getPath()); 
+						organService.updateByPrimaryKey(organ);
+					}
+				} else {
+					Organization o = organService.selectByPrimaryKey(organ.getPid()); 
+					organ.setIsUsed(true);
+					organ.setSort(1);
+					organ.setLevel(o.getLevel()+1);
+					if(o.getPath()!=null&&o.getPath().length()>0){
+						organ.setPath(o.getPath()+"."+o.getId());
+					}else{
+						organ.setPath(o.getId().toString());
+					}
+					organService.insert(organ);
+				}
+				Result<OrganVM> s = new Result<OrganVM>(null, true,
+						false, false, "保存成功");
+				return s.toJson();
+		} catch (Exception ex) {
+			Result<OrganVM> s = new Result<OrganVM>(null, false, false,
+					false, "调用后台方法出错");
+			return s.toJson();
+		}
 	}
 	
-	@RequestMapping(value = "deleteOrg.do", produces = "application/json;charset=UTF-8")
-	public @ResponseBody ModelAndView deleteOrg(
-			HttpServletRequest request, HttpServletResponse response
-			){
-		return null;
+	@RequestMapping(value = "deleteOrgan.do", produces = "application/json;charset=UTF-8")
+	public @ResponseBody String  deleteOrgan(
+			@RequestParam(value = "Id", required = true) Integer id,
+			HttpServletRequest request){
+		try{
+			organService.deleteOrgan(id);
+			Result<OrganVM> s = new Result<OrganVM>(null, true, false,
+					false, "调用后台方法出错");
+			return s.toJson();
+		}catch(Exception ex){
+			Result<OrganVM> s = new Result<OrganVM>(null, false, false,
+					false, "调用后台方法出错");
+			return s.toJson();
+		}
+		
 	}
 	
 	@RequestMapping(value = "updateOrg.do", produces = "application/json;charset=UTF-8")
@@ -72,7 +117,18 @@ public class OrgController {
 		String resutl  = json.toString();
 		return resutl;
 	}
-
+	
+	@RequestMapping(value = "getAllShopList.do", produces = "application/json;charset=UTF-8")
+	public @ResponseBody
+	String getAllShopList( 
+			@RequestParam(value = "page", required = false) Integer page,
+			@RequestParam(value = "rows", required = false) Integer rows,
+			HttpServletRequest request) throws Exception { 
+		List<Organization> rs = organService.loadAllShoplist(); 
+		JSONArray result = JSONArray.fromObject(rs);
+		return result.toString(); 
+	}
+	
 	private List<OrganVM> getNodes(List<Organization> ls, Integer qid) {
 		// TODO Auto-generated method stub
 		List<OrganVM> list = new ArrayList<OrganVM>(); 
@@ -89,6 +145,7 @@ public class OrgController {
 				v.setText(o.getName());
 				v.setNote(o.getNote());
 				v.setSort(o.getSort());
+				v.setBmId(o.getBmId());
 				List<Organization> l = getItemByParentId(o.getId());
 				if(l.size()>0){ 
 					v.setChildren(getNodes(l,o.getId())); 

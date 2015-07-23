@@ -1,12 +1,12 @@
 $(function() {  
-	RegionManage.loadOrganList();
+	RegionManage.loadRegionList();
 	$("#addRegion").bind("click", RegionManage.addRegion);
-	$("#EditRegion").bind("click", RegionManage.EditRegion);
-	$("#DelRegion").bind("click", RegionManage.DelRegion); 
+	$("#editRegion").bind("click", RegionManage.editRegion);
+	$("#delRegion").bind("click", RegionManage.delRegion); 
 }); 
-
+var region_obj={};
 var RegionManage = {
-		loadOrganList:function(){
+		loadRegionList:function(){
 			$('#RegionTree').treegrid({
 		    	url: 'region/getRegionList.do?parentid=0', 
 		        rownumbers: true, 
@@ -20,10 +20,63 @@ var RegionManage = {
 		    });
 		},
 		addRegion:function(){
-			
+			try{
+				var target = $("#RegionTree").treegrid("getSelected");
+				if (!target || target.length == 0) {
+					$.messager.alert('操作提示', "请选择机构作为父级节点!", "warning");
+					return;
+				}
+				var parentId = target.id;
+				var parentName = target.name;
+			m_RegionInfo_dlg = art.dialog({
+				id : 'dlgAddRegion',
+				title : '新增机构区域',
+				content : "<iframe scrolling='yes' frameborder='0' src='view/region/regionBill.jsp?type=0&parentId="
+					+parentId+"&parentName="
+					+parentName+"&regionId=0' style='width:600px;height:470px;overflow:hidden'/>",
+				lock : true,
+				initFn : function() {
+				}
+				});
+			} catch (ex) {
+				$.messager.alert("操作提示",ex.message,"error"); 
+			}
 		},
-		EditRegion:function(){
-			
+		editRegion:function(){
+			try{
+				var node = $("#RegionTree").treegrid("getSelected");
+				var nodes = $('#RegionTree').treegrid('getParent', node.id);
+
+				if (!node || node.length == 0) {
+					$.messager.alert('操作提示', "请选择要操作的机构节点!", "warning");
+					return;
+				}
+				var parentName ="";
+				if(nodes==undefined){
+					parentName = "";
+				}else{
+					parentName =nodes.name;
+				}
+				var regionId = node.id;
+				
+				region_obj.name = node.name;
+				region_obj.address = node.address;
+				region_obj.isEstate = node.isEstate;
+				region_obj.shopId = node.shopId;
+				
+				
+			m_RegionInfo_dlg = art.dialog({
+				id : 'dlgEditRegion',
+				title : '编辑机构区域',
+				content : "<iframe scrolling='yes' frameborder='0' src='view/region/regionBill.jsp?type=1&parentId=0&parentName="
+					+parentName+"&regionId="+regionId+"' style='width:600px;height:470px;overflow:hidden'/>",
+				lock : true,
+				initFn : function() {
+				}
+				});
+			} catch (ex) {
+				$.messager.alert("操作提示",ex.message,"error"); 
+			}
 		},
 		DelRegion:function(){
 			$.messager.confirm("删除确认", "确认删除该区域？", function(r) {
@@ -38,5 +91,9 @@ var RegionManage = {
 		},
 		delRegionAction:function(orgId){
 			
+		},
+		closeDialog : function() {
+			m_RegionInfo_dlg.close();
+			$('#RegionTree').treegrid("reload");
 		}
 };

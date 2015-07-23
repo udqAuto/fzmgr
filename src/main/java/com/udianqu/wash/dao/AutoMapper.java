@@ -3,7 +3,11 @@ package com.udianqu.wash.dao;
 import com.udianqu.wash.core.MyBatisRepository;
 import com.udianqu.wash.model.Auto;
 import com.udianqu.wash.model.AutoExample;
+import com.udianqu.wash.viewmodel.AutoVM;
+
 import java.util.List;
+import java.util.Map;
+
 import org.apache.ibatis.annotations.Param;
 
 
@@ -96,4 +100,8 @@ public interface AutoMapper {
      * @mbggenerated Mon Jul 20 12:31:35 CST 2015
      */
     int updateByPrimaryKey(Auto record);
+
+	int countByMap(Map<String, Object> map);
+
+	List<AutoVM> loadAutolistWithPage(Map<String, Object> map);
 }

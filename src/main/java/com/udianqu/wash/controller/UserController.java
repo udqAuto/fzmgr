@@ -1,10 +1,16 @@
 package com.udianqu.wash.controller;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.HashMap; 
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import net.sf.json.JSONArray;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,10 +20,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.udianqu.wash.core.ListResult;
+import com.udianqu.wash.core.Result;
 import com.udianqu.wash.model.User;
 import com.udianqu.wash.service.LoginService;
 import com.udianqu.wash.service.RegistService;
 import com.udianqu.wash.service.UserService;
+import com.udianqu.wash.viewmodel.UserVM;
 
 /**
  * 用户
@@ -36,64 +44,120 @@ public class UserController {
 	@Autowired LoginService loginService; 
 	@Autowired RegistService registService; 
 	
-	
-	@RequestMapping("/login.do")
-	@ResponseBody
-	public ModelAndView testLogin(HttpServletRequest request) {
-
-		ModelAndView mv = new ModelAndView("login/login");
-		// mv.addObject("sss",123);
-		// return mv;
-		return mv; 
-	}
-	@RequestMapping(value = "login4Web.do", produces = "application/json;charset=UTF-8")
-	public @ResponseBody
-	ModelAndView login4Web(
-			@RequestParam(value = "mobile", required = true) String username,
-			@RequestParam(value = "password", required = true) String password,
-			HttpServletRequest request, HttpServletResponse response)
-			{
-		ModelAndView mv;
-		User user = new User();
-		
-		user = loginService.getLoginInfo(username);
-		String userName = user.getName();
-		String passWord = user.getPsd();
-			if (userName.equals(username)&&passWord.equals(password)) {
-				mv = new ModelAndView("login/success");
-			} else {
-				mv = new ModelAndView("login/loginfail");
-			}
-		
-		return mv;
-	}
-	
 	@RequestMapping("/saveUserObj.do")
 	@ResponseBody
-	public ModelAndView saveUserObj(User user, HttpServletRequest request) {
+	public String saveUserObj(UserVM user, HttpServletRequest request) {
 
-		ModelAndView mv = new ModelAndView("login/login");
-		// mv.addObject("sss",123);
-		// return mv;
-		return mv; 
+		try {
+			HttpSession session = request.getSession();
+			UserVM u = (UserVM) session.getAttribute("user");
+			if (u == null) {
+				Result<UserVM> s = new Result<UserVM>(null, true,
+						false, false, "页面过期，请重新登录");
+				return s.toJson();
+			} else {
+				
+				if (user.getId() > 0) {
+					user.setPsd(u.getPsd());
+					userService.updateByPrimaryKey(user);
+				} else {
+					String psd = encryption(user.getPsd());
+					user.setPsd(psd);
+					userService.insert(user);
+				}
+				Result<UserVM> s = new Result<UserVM>(null, true,
+						false, false, "保存成功");
+				return s.toJson();
+			}
+		} catch (Exception ex) {
+			Result<UserVM> s = new Result<UserVM>(null, false, false,
+					false, "调用后台方法出错");
+			return s.toJson();
+		}
 	}
+	
 
 	/*
-	 * 获取注册用户列表，以下拉列表形式呈现；
+	 * 获取注册用户列表，以列表形式呈现；
 	 */
 	@RequestMapping(value = "getUserList.do", produces = "application/json;charset=UTF-8")
 	public @ResponseBody
 	String getUserList( 
 			@RequestParam(value = "page", required = false) Integer page,
 			@RequestParam(value = "rows", required = false) Integer rows,
+			@RequestParam(value = "userType", required = false) Integer userType,
 			HttpServletRequest request) throws Exception {
 
 		Map<String, Object> map = new HashMap<String, Object>();   
 		page = page == 0 ? 1 : page;
 		map.put("pageStart", (page - 1) * rows);
 		map.put("pageSize", rows);   
-		ListResult<User> rs = userService.loadUserlist(map);
+		map.put("userType", userType);   
+		ListResult<UserVM> rs = userService.loadUserlist(map);
 
 		return rs.toJson();
-	} 
+	}
+	/*
+	 * 获取注册用户列表，以下拉列表形式呈现；
+	 */
+	@RequestMapping(value = "getAllUserList.do", produces = "application/json;charset=UTF-8")
+	public @ResponseBody
+	String getAllUserList( 
+			@RequestParam(value = "page", required = false) Integer page,
+			@RequestParam(value = "rows", required = false) Integer rows,
+			@RequestParam(value = "userType", required = false) Integer userType,
+			HttpServletRequest request) throws Exception { 
+		List<User> rs = userService.loadadminUserlist(); 
+		JSONArray result = JSONArray.fromObject(rs);
+		return result.toString(); 
+	}
+	
+	@RequestMapping(value = "deleteUser.do", produces = "application/json;charset=UTF-8")
+	public @ResponseBody String  deleteUser(
+			@RequestParam(value = "Id", required = true) Integer id,
+			HttpServletRequest request){
+		try{
+			userService.deleteUser(id);
+			Result<UserVM> s = new Result<UserVM>(null, true, false,
+					false, "调用后台方法出错");
+			return s.toJson();
+		}catch(Exception ex){
+			Result<UserVM> s = new Result<UserVM>(null, false, false,
+					false, "调用后台方法出错");
+			return s.toJson();
+		}
+		
+	}
+	/**
+	 * 
+	 * @param plainText
+	 *            明文
+	 * @return 32位密文
+	 */
+	public String encryption(String plainText) {
+		String re_md5 = new String();
+		try {
+			MessageDigest md = MessageDigest.getInstance("MD5");
+			md.update(plainText.getBytes());
+			byte b[] = md.digest();
+
+			int i;
+
+			StringBuffer buf = new StringBuffer("");
+			for (int offset = 0; offset < b.length; offset++) {
+				i = b[offset];
+				if (i < 0)
+					i += 256;
+				if (i < 16)
+					buf.append("0");
+				buf.append(Integer.toHexString(i));
+			}
+
+			re_md5 = buf.toString();
+
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		}
+		return re_md5;
+	}
 }

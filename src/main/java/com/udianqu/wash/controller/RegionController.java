@@ -15,9 +15,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
  
+import com.udianqu.wash.core.Result;
+import com.udianqu.wash.model.Organization;
 import com.udianqu.wash.model.Region; 
 import com.udianqu.wash.service.RegionService; 
-import com.udianqu.wash.viewModel.RegionVM;
+import com.udianqu.wash.viewmodel.OrganVM;
+import com.udianqu.wash.viewmodel.RegionVM;
 
 /**
  * 区域
@@ -32,11 +35,40 @@ public class RegionController {
 	@Autowired RegionService regionService;
 	
 	
-	@RequestMapping(value = "addRegion.do", produces = "application/json;charset=UTF-8")
-	public @ResponseBody ModelAndView addRegion(
+	@RequestMapping(value = "saveRegion.do", produces = "application/json;charset=UTF-8")
+	public @ResponseBody String saveRegion(
+			Region region,
 			HttpServletRequest request, HttpServletResponse response
 			){
-		return null;
+		try {
+			if (region.getId() > 0) {
+				Region r = regionService.selectByPrimaryKey(region.getId());
+				if(r!=null){ 
+					region.setPid(r.getPid());
+					region.setSort(r.getSort());
+					region.setLevel(r.getLevel()); 
+					region.setPath(r.getPath()); 
+					regionService.updateByPrimaryKey(region);
+				}
+			} else {
+				Region r = regionService.selectByPrimaryKey(region.getPid()); 
+				region.setSort(1);
+				region.setLevel(r.getLevel()+1);
+				if(r.getPath()!=null&&r.getPath().length()>0){
+					region.setPath(r.getPath()+"."+r.getId());
+				}else{
+					region.setPath(r.getId().toString());
+				}
+				regionService.insert(region);
+			}
+			Result<RegionVM> s = new Result<RegionVM>(null, true,
+					false, false, "保存成功");
+			return s.toJson();
+	} catch (Exception ex) {
+		Result<RegionVM> s = new Result<RegionVM>(null, false, false,
+				false, "调用后台方法出错");
+		return s.toJson();
+	}
 	}
 	
 	@RequestMapping(value = "deleteRegion.do", produces = "application/json;charset=UTF-8")

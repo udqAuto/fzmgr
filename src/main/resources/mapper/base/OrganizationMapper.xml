@@ -381,6 +381,10 @@
     from t_org
     where pid = #{id,jdbcType=INTEGER} or id =  #{id,jdbcType=INTEGER}
   </select>
-  
+  <select id="loadAllShoplist"   resultMap="BaseResultMap"  >
+  		select <include refid="Base_Column_List" /> 
+  		from t_org o 
+  		 where is_shop = 1
+  </select>
   
 </mapper>

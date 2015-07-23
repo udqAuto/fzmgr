@@ -1,6 +1,8 @@
 package com.udianqu.wash.controller;
 
 import java.io.IOException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,6 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.udianqu.wash.model.User;
 import com.udianqu.wash.service.LoginService;
 import com.udianqu.wash.service.UserService;
+import com.udianqu.wash.viewmodel.UserVM;
 
 /**
  * 登录、注册
@@ -71,7 +74,7 @@ public class LoginController {
 			HttpServletRequest request, HttpServletResponse response
 			) throws Exception{ 
 		try {
-			/*if (username.isEmpty()) {
+			if (username.isEmpty()) {
 				response.sendRedirect("../login.jsp?optType=0");
 				return;
 			}
@@ -89,19 +92,19 @@ public class LoginController {
 				return;
 			}
 			Map<String, Object> map = new HashMap<String, Object>();
+			String nPwd = encryption(password);
 			map.put("name", username);
-			map.put("pwd", password);
-			User u = userService.loadUserByNameAndPwd(map);
+			map.put("pwd", nPwd);
+			UserVM u = userService.loadUserByNameAndPwd(map);
 			if (u != null) {
 				session.setAttribute("user", u);
 				response.sendRedirect("../index.jsp");
 			} else {
-				response.sendRedirect("../login.jsp");
+				response.sendRedirect("../login.jsp?optType=3");
 				return;
-			}*/
-			response.sendRedirect("../index.jsp");
+			}
 		}catch(Exception ex){ 
-			response.sendRedirect("../login.jsp"); 
+			response.sendRedirect("../login.jsp?optType=4");
 			return;
 		}
 	}
@@ -116,5 +119,38 @@ public class LoginController {
 			throws IOException {
 		request.getSession().invalidate();// 清除当前用户相关的session对象
 		response.sendRedirect("../login.jsp"); 
+	}
+	
+	/**
+	 * 
+	 * @param plainText
+	 *            明文
+	 * @return 32位密文
+	 */
+	public String encryption(String plainText) {
+		String re_md5 = new String();
+		try {
+			MessageDigest md = MessageDigest.getInstance("MD5");
+			md.update(plainText.getBytes());
+			byte b[] = md.digest();
+
+			int i;
+
+			StringBuffer buf = new StringBuffer("");
+			for (int offset = 0; offset < b.length; offset++) {
+				i = b[offset];
+				if (i < 0)
+					i += 256;
+				if (i < 16)
+					buf.append("0");
+				buf.append(Integer.toHexString(i));
+			}
+
+			re_md5 = buf.toString();
+
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		}
+		return re_md5;
 	}
 }

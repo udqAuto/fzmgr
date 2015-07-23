@@ -18,5 +18,20 @@ public class RegionServiceImpl implements RegionService {
 		// TODO Auto-generated method stub
 		return regionMapper.getRegionList(id);
 	}
+	@Override
+	public Region selectByPrimaryKey(Integer id) {
+		// TODO Auto-generated method stub
+		return regionMapper.selectByPrimaryKey(id);
+	}
+	@Override
+	public void updateByPrimaryKey(Region region) {
+		// TODO Auto-generated method stub
+		regionMapper.updateByPrimaryKey(region);
+	}
+	@Override
+	public void insert(Region region) {
+		// TODO Auto-generated method stub
+		regionMapper.insert(region);
+	}
 
 }

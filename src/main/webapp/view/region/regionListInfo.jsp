@@ -12,12 +12,12 @@
   
   <body>
     <div id="regionTb">  
-                <a id="AddRegion" name="AddRegion" href="javascript:void(0);" class="easyui-linkbutton"
+                <a id="addRegion" name="AddRegion" href="javascript:void(0);" class="easyui-linkbutton"
                     iconcls="icon_xfxg_add" plain="true">新增</a> 
-                <a id="EditRegion" name="EditRegion"
+                <a id="editRegion" name="EditRegion"
                     href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon_xfxg_edit"
                     plain="true">编辑</a>
-                <a id="Delregion" name="Delregion"
+                <a id="delregion" name="Delregion"
                     href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon_xfxg_delete"
                     plain="true">删除</a> 
     </div>

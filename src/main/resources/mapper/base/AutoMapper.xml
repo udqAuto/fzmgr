@@ -15,6 +15,18 @@
     <result column="color" property="color" jdbcType="VARCHAR" />
     <result column="default_region_id" property="defaultRegionId" jdbcType="INTEGER" />
   </resultMap>
+  
+  <resultMap id="BaseVMResultMap" type="com.udianqu.wash.viewmodel.AutoVM" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="pn" property="pn" jdbcType="VARCHAR" />
+    <result column="brand" property="brand" jdbcType="VARCHAR" />
+    <result column="model" property="model" jdbcType="VARCHAR" />
+    <result column="color" property="color" jdbcType="VARCHAR" />
+    <result column="default_region_id" property="defaultRegionId" jdbcType="INTEGER" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="region_name" property="regionName" jdbcType="VARCHAR" />
+  </resultMap>
   <sql id="Example_Where_Clause" >
     <!--
       WARNING - @mbggenerated
@@ -90,6 +102,10 @@
       This element was generated on Mon Jul 20 12:31:35 CST 2015.
     -->
     id, user_id, pn, brand, model, color, default_region_id
+  </sql>
+  
+  <sql id="BaseVM_Column_List" >
+    a.id, a.user_id, a.pn, a.brand, a.model, a.color, a.default_region_id, u.name as user_name, r.name as region_name
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.udianqu.wash.model.AutoExample" >
     <!--
@@ -315,4 +331,13 @@
       default_region_id = #{defaultRegionId,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <select id="loadAutolistWithPage"   parameterType="java.util.Map"  resultMap="BaseVMResultMap"  >
+  		select <include refid="BaseVM_Column_List" /> 
+  		from t_auto a 
+  		left join t_user u on a.user_id = u.id
+  		left join t_region r on a.default_region_id = r.id
+  		<if test="pageStart !=null">
+  		limit #{pageStart,jdbcType=INTEGER}, #{pageSize,jdbcType=INTEGER}
+  		</if>
+  </select>
 </mapper>

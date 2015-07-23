@@ -1,4 +1,4 @@
-package com.udianqu.wash.viewModel;
+package com.udianqu.wash.viewmodel;
 
 import java.util.List;
 

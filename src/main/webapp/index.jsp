@@ -6,7 +6,7 @@
 <head>
 	<base href="<%=basePath%>">
 	<script src='<%=basePath%>script/index.js' 	type='text/javascript'></script>
-    <title>派蔻营销管理系统</title>
+    <title>点趣车生活</title>
     
 </head> 
 <body id="cc" class="easyui-layout"  style="width:100%;height:100%; overflow: hidden;" oncontextmenu=self.event.returnValue=false>

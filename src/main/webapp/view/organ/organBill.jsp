@@ -25,7 +25,9 @@
 		 
 		 <p><label>机构名称：</label><input id="txtOrganName" class="easyui-validatebox"  style="width:324px" /><input id="txtid" type="hidden"/></p>
 		 <p><label>上级机构：</label><input id="txtParentName" class="easyui-validatebox"  style="width:324px" readonly="readonly" /></p>
-		 <p><label>所属区域：</label><input id="txtOrganRegion" type="text" class="easyui-combotree"  style="width:324px" /></p> 
+		 <p><label>部门经理：</label><input id="txtUserName" type="text" class="easyui-combobox"  style="width:324px" /></p> 
+		 <p><label>是否是洗车店：</label><input id="txtIsShop" type="checkbox" /></p> 
+		 <p><label>描述：</label><input id="txtOrganDescription" class="easyui-validatebox"  style="width:324px"/></p>
 	 </div>
   </body>
 </html>

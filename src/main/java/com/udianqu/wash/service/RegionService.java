@@ -8,4 +8,10 @@ public interface RegionService {
 
 	List<Region> getRegionList(Integer qid);
 
+	Region selectByPrimaryKey(Integer id);
+
+	void updateByPrimaryKey(Region region);
+
+	void insert(Region region);
+
 }

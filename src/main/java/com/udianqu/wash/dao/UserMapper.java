@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.udianqu.wash.core.MyBatisRepository;
 import com.udianqu.wash.model.User;
+import com.udianqu.wash.viewmodel.UserVM;
 
 @MyBatisRepository
 public interface UserMapper {
@@ -27,7 +28,9 @@ public interface UserMapper {
 
 	int countByMap(Map<String, Object> map);
 
-	List<User> loadUserlistWithPage(Map<String, Object> map);
+	List<UserVM> loadUserlistWithPage(Map<String, Object> map);
 
-	User loadUserByNameAndPwd(Map<String, Object> map);
+	UserVM loadUserByNameAndPwd(Map<String, Object> map);
+
+	List<User> loadadminUserlist();
 }
