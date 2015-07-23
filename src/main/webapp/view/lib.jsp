@@ -13,7 +13,7 @@
    
 <link href='<%=basePath%>asset/css/easyui/icon.css'	media='all' rel='stylesheet' type='text/css' />
 <link href='<%=basePath%>asset/css/jquery.loadmask.css'	media='all' rel='stylesheet' type='text/css' />
-<link href='<%=basePath%>asset/css/easyui/metro/easyui.css'	media='all' rel='stylesheet' type='text/css' />
+<link href='<%=basePath%>asset/css/easyui/bootstrap/easyui.css'	media='all' rel='stylesheet' type='text/css' />
 <link href='<%=basePath%>asset/css/images/main.css'	media='all' rel='stylesheet' type='text/css' />
 <link href='<%=basePath%>asset/css/fontawesome/css/font-awesome.min.css'	media='all' rel='stylesheet' type='text/css' /> 
 <link href='<%=basePath%>asset/plugin/jquery-easyui-ribbon/ribbon.css'	media='all' rel='stylesheet' type='text/css' /> 

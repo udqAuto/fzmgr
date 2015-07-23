@@ -56,6 +56,9 @@ function onTreeMenuDblClick(row) {
 		break;
 	case "机构区域管理":
 		src = "view/region/regionListInfo.jsp";
+		break; 
+	case "用户":
+		src = "view/test.jsp";
 		break;
 	}
 	$("#ifrContent").attr("src", src); 

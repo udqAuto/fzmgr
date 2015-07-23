@@ -4,7 +4,11 @@ $(function() {
 	m_userType = obj.userType;
 	if(m_userType == 0||m_userType =="0"){
 		$("#userTb a[doc='systemUser']").attr("style","display:none");
+	} 
+	else{
+		$("#userTb a[doc='autoUser']").attr("style","display:none");
 	}
+ 
 	
 	UserManage.loadUserList();
 	$("#addUser").bind("click", UserManage.addUser);
@@ -12,7 +16,7 @@ $(function() {
 	$("#delUser").bind("click", UserManage.delUser);
 	$("#unlockUser").bind("click", UserManage.unLockUser);
 	$("#lockUser").bind("click", UserManage.lockUser);
-	$("#showUser").bind("click", UserManage.editUser);
+	$("#showUser").bind("click", UserManage.showUser);
 });
 var m_userType;
 var m_userInfo_dlg = null;
@@ -97,7 +101,7 @@ var UserManage = {
 			$.messager.alert("操作提示", ex.message, "error");
 		}
 	},
-	editUser : function() {
+	showUser : function(){	
 		try {
 			var hasRows = $('#userListGrid').datagrid('getRows');
 			if (hasRows.length == 0) {
@@ -113,26 +117,68 @@ var UserManage = {
 				$.messager.alert('操作提示', "只能选择单个操作项!", "warning");
 				return;
 			}
-
+	
 			UserManage.packageObject(target[0]);
-
+	
 			var userId = target[0].id;
-
+	
 			m_userInfo_dlg = art
 					.dialog({
 						id : 'dlgAddUser',
-						title : '编辑用户',
+						title : '车主信息查看',
 						content : "<iframe scrolling='no' frameborder='0' src='view/user/userBill.jsp?type=1&userId="
 								+ userId
 								+ "&userType="
 								+ m_userType
-								+ "' style='width:310px;height:350px;overflow:hidden'/>",
+								+ "' style='width:710px;height:270px;overflow:hidden'/>",
 						lock : true,
 						initFn : function() {
 						}
 					});
 		} catch (ex) {
 			$.messager.alert("操作提示", ex.message, "error");
+		}
+	},
+	editUser : function() {
+		if(m_userType == 0||m_userType=="0"){
+			UserManage.showUser();
+		}else{
+			try {
+				var hasRows = $('#userListGrid').datagrid('getRows');
+				if (hasRows.length == 0) {
+					$.messager.alert('操作提示', "没有可操作数据", "warning");
+					return;
+				}
+				var target = $("#userListGrid").datagrid("getChecked");
+				if (!target || target.length == 0) {
+					$.messager.alert('操作提示', "请选择操作项!", "warning");
+					return;
+				}
+				if (target.length > 1) {
+					$.messager.alert('操作提示', "只能选择单个操作项!", "warning");
+					return;
+				}
+	
+				UserManage.packageObject(target[0]);
+	
+				var userId = target[0].id;
+	
+				m_userInfo_dlg = art
+						.dialog({
+							id : 'dlgAddUser',
+							title : '编辑用户',
+							content : "<iframe scrolling='no' frameborder='0' src='view/user/userBill.jsp?type=1&userId="
+									+ userId
+									+ "&userType="
+									+ m_userType
+									+ "' style='width:310px;height:350px;overflow:hidden'/>",
+							lock : true,
+							initFn : function() {
+							}
+						});
+			} catch (ex) {
+				$.messager.alert("操作提示", ex.message, "error");
+			}
 		}
 	},
 

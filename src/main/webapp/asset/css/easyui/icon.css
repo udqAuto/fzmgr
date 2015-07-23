@@ -153,3 +153,34 @@
 .icon_xfxg_birthday{
 	background:url('icons/birthday.png') no-repeat center center;
 }
+
+/************点趣洗车项目icon样式表单******************/
+.icon-udq-add{
+	background:url('icons/add.png') no-repeat center center;
+}
+.icon-udq-edit{
+	background:url('icons/compose-4.png') no-repeat center center;
+}
+.icon-udq-delete{
+	background:url('icons/delete2.png') no-repeat center center;
+}
+.icon-udq-close{
+	background:url('icons/cross.png') no-repeat center center;
+}
+.icon-udq-show{
+	background:url('icons/speech-bubble-left-2.png') no-repeat center center;
+}
+.icon-udq-lock{
+	background:url('icons/udq_lock.png') no-repeat center center;
+}
+.icon-udq-unlock{
+	background:url('icons/udq_unlock.png') no-repeat center center;
+}
+.icon-udq-save{
+	background:url('icons/udq_save.png') no-repeat center center;
+} 
+
+.displaynone{
+	display:none;
+}
+/******************************/

@@ -13,12 +13,12 @@
   <body>
     <div id="OrganizationTb">  
                 <a id="AddOrganization" name="AddOrganization" href="javascript:void(0);" class="easyui-linkbutton"
-                    iconcls="icon_xfxg_add" plain="true">新增</a> 
+                    iconcls="icon-udq-add" plain="true">新增</a> 
                 <a id="EditOrganization" name="EditOrganization"
-                    href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon_xfxg_edit"
+                    href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-udq-edit"
                     plain="true">编辑</a>
                 <a id="DelOrganization" name="DelOrganization"
-                    href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon_xfxg_delete"
+                    href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-udq-delete"
                     plain="true">删除</a> 
     </div>
     <div id="OrganizationTree"  style="margin:10px"></div>  

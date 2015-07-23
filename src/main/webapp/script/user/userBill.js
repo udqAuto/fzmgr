@@ -20,12 +20,15 @@ $(function() {
 		$("#txtUserEmail").val(score.email);
 		$("#div_userInfo p[name='p_pwd']").hide();
 		if(m_userType=="0"||m_userType==0){
-			$("#div_userInfo a[doc='systemUser']").attr("style","display:none");
 			$("#txtUserSex").combobox('disable');
 			$("#txtUserOrgName").combotree('disable');
 			$("#txtUserName").attr("readonly","readonly");
 			$("#txtUserMobile").attr("readonly","readonly");
 			$("#txtUserEmail").attr("readonly","readonly");
+			$("#userAutoInfo").removeClass("displaynone");
+			$("#div_userInfo").attr("style","width:45%;float:left;");
+			$("#btnSaveUserInfo").attr("style","display:none");
+			UserManage.loadAutoByUserId(m_userId);
 		}
 	}
 	
@@ -43,7 +46,43 @@ var UserManage = {
 				onLoadSuccess:a
 			});
 		},
-		
+		loadAutoByUserId:function(uId){
+			$('#dgAuto').datagrid({
+				url : 'auto/getAutoListByUserId.do?userId='+uId,
+				fitColumns : true,
+				rownumbers : true,
+				pagination : false,  
+				singleSelect : true,
+				idField : 'id',  
+				title :"拥有车辆",
+				columns : [ [ {
+					title : '品牌',
+					field : 'brand',
+					align : 'center',
+					width : 100
+				}, {
+					title : '车牌号码',
+					field : 'pn',
+					align : 'center',
+					width : 100,
+				}, {
+					title : '型号',
+					field : 'model',
+					align : 'center',
+					width : 100
+				}, {
+					title : '颜色',
+					field : 'color',
+					align : 'center',
+					width : 100
+				}, {
+					title : '区域',
+					field : 'regionName',
+					align : 'center',
+					width : 100
+				} ] ]
+			});
+		},
 		saveUser:function(){
 			u_obj.id = m_userId;
 			u_obj.userType = m_userType;

@@ -36,4 +36,16 @@ public class AutoController {
 
 		return rs.toJson();
 	}
+	@RequestMapping(value = "getAutoListByUserId.do", produces = "application/json;charset=UTF-8")
+	public @ResponseBody
+	String getAutoListByUserId(  
+			@RequestParam(value = "userId", required = false) Integer userId,
+			HttpServletRequest request) throws Exception {
+
+		Map<String, Object> map = new HashMap<String, Object>();    
+		map.put("userId", userId);   
+		ListResult<AutoVM> rs = autoService.loadAutolist(map);
+
+		return rs.toJson();
+	}
 }

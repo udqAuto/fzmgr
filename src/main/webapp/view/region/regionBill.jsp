@@ -19,8 +19,8 @@
   <body>
    <div style="text-align:left;overflow:hidden;">
 		 <p id="tb_operation" style="padding:2px;border-bottom:1px solid black;">
-		 	<a id="btnSaveRegionInfo"  href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-add" plain="true">确定</a> 
-			<a id="btnCancelSave"  href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-delete" plain="true">关闭</a> 
+		 	<a id="btnSaveRegionInfo"  href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-udq-save" plain="true">保存</a> 
+			<a id="btnCancelSave"  href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-udq-close" plain="true">关闭</a> 
 		 </p> 
 		 <p><label>上级区域：</label><input id="txtParentName" class="easyui-validatebox"  style="width:234px" readonly="readonly"/></p>
 		 <p><label>区域名称：</label><input id="txtRegionName" class="easyui-validatebox"  style="width:234px" /></p>

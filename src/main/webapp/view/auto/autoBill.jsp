@@ -19,7 +19,7 @@
   <body>
    <div id="div_autoInfo" style="text-align:left;overflow:hidden;">
 		 <p id="tb_operation" style="padding:2px;border-bottom:1px solid black;">
-			<a id="btnCancelSave"  href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-delete" plain="true">关闭</a> 
+			<a id="btnCancelSave"  href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-udq-close" plain="true">关闭</a> 
 		 </p>
 		 
 		 <p><label>车主名称：</label><input id="txtAutoName" style="width:234px"  class="easyui-validatebox"   readonly="readonly"/></p>
