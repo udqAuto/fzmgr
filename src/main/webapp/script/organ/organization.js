@@ -57,12 +57,11 @@ var OrganManage = {
 		editOrganization:function(){
 			try{
 				var node = $("#OrganizationTree").treegrid("getSelected");
-				var nodes = $('#OrganizationTree').treegrid('getParent', node.id)
-
 				if (!node || node.length == 0) {
 					$.messager.alert('操作提示', "请选择要操作的机构节点!", "warning");
 					return;
 				}
+				var nodes = $('#OrganizationTree').treegrid('getParent', node.id);
 				var parentName ="";
 				if(nodes==undefined){
 					parentName = "";

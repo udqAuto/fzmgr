@@ -60,6 +60,9 @@ function onTreeMenuDblClick(row) {
 	case "机构区域管理":
 		src = "view/region/regionListInfo.jsp";
 		break; 
+	case "洗车类型管理":
+		src = "view/washType/washTypeListInfo.jsp";
+		break; 
 	case "用户":
 		src = "view/test.jsp";
 		break;

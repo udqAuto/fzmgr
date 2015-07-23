@@ -4,6 +4,8 @@ import com.udianqu.wash.core.MyBatisRepository;
 import com.udianqu.wash.model.WashType;
 import com.udianqu.wash.model.WashTypeExample;
 import java.util.List;
+import java.util.Map;
+
 import org.apache.ibatis.annotations.Param;
 
 @MyBatisRepository
@@ -95,4 +97,6 @@ public interface WashTypeMapper {
      * @mbggenerated Mon Jul 20 12:31:35 CST 2015
      */
     int updateByPrimaryKey(WashType record);
+
+	List<WashType> loadWashTypeListWithPage(Map<String, Object> map);
 }

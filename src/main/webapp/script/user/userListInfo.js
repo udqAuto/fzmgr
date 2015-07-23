@@ -158,7 +158,6 @@ var UserManage = {
 					$.messager.alert('操作提示', "只能选择单个操作项!", "warning");
 					return;
 				}
-	
 				UserManage.packageObject(target[0]);
 	
 				var userId = target[0].id;

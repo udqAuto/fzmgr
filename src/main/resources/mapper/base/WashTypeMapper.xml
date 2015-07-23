@@ -315,4 +315,13 @@
       is_used = #{isUsed,jdbcType=BIT}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <select id="loadWashTypeListWithPage" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_wash_type
+    where 1=1
+    <if test="pageStart !=null">
+  		limit #{pageStart,jdbcType=INTEGER}, #{pageSize,jdbcType=INTEGER}
+  		</if>
+  </select>
 </mapper>
