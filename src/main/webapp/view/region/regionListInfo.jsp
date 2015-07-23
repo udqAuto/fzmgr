@@ -6,7 +6,7 @@
   <head>
     <base href="<%=basePath%>">
     <script src='<%=basePath%>script/region/regionList.js' 	type='text/javascript'></script> 
-    <title>组织结构</title>
+    <title>区域列表</title>
 
   </head>
   
