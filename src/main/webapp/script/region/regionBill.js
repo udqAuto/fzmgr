@@ -16,7 +16,7 @@ if(m_type==1||m_type=="1"){
 		
 		$("#txtRegionName").val(score.name);
 		if( score.shopId>0){
-		$("#txtShopName").combobox('setValue', score.shopId);//设置的是name
+		$("#txtShopName").combotree('setValue', score.shopId);//设置的是name
 		}
 		if(score.isEstate){
 			$("#txtIsEstate").attr("checked","true");
@@ -31,11 +31,8 @@ if(m_type==1||m_type=="1"){
 var m_region_obj = {};
 var RegionManage = {
 		initBaseAttribute:function(){
-			$("#txtShopName").combobox({
-				url:'organ/getAllShopList.do',    
-			    valueField:'id',    
-			    textField:'name'
-			    //onLoadSuccess:a
+			$("#txtShopName").combotree({ 
+				url:'organ/getOrganList.do?parentid=0' 
 			});
 		},
 		saveRegion:function(){
@@ -48,7 +45,7 @@ var RegionManage = {
 			m_region_obj.name = regionName;
 			m_region_obj.pid = m_parentId;
 			
-			var shopId = $("#txtShopName").combobox("getValue");
+			var shopId = $("#txtShopName").combotree("getValue");
 			m_region_obj.shopId = shopId;
 			
 			var s = $("input[type='checkbox']:checked");

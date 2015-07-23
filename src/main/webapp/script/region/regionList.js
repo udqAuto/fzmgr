@@ -33,7 +33,7 @@ var RegionManage = {
 				title : '新增机构区域',
 				content : "<iframe scrolling='yes' frameborder='0' src='view/region/regionBill.jsp?type=0&parentId="
 					+parentId+"&parentName="
-					+parentName+"&regionId=0' style='width:600px;height:470px;overflow:hidden'/>",
+					+parentName+"&regionId=0' style='width:310px;height:350px;overflow:hidden'/>",
 				lock : true,
 				initFn : function() {
 				}

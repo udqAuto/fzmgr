@@ -77,6 +77,9 @@
 						<li>
 							<span>机构区域管理</span>
 						</li>  
+						<li>
+							<span>洗车类型管理</span>
+						</li> 
 					</ul> 
 			</li>
 			

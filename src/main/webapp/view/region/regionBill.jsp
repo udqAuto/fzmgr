@@ -21,13 +21,12 @@
 		 <p id="tb_operation" style="padding:2px;border-bottom:1px solid black;">
 		 	<a id="btnSaveRegionInfo"  href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-add" plain="true">确定</a> 
 			<a id="btnCancelSave"  href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-delete" plain="true">关闭</a> 
-		 </p>
-		 
-		 <p><label>区域名称：</label><input id="txtRegionName" class="easyui-validatebox"  style="width:324px" /><input id="txtid" type="hidden"/></p>
-		 <p><label>上级区域：</label><input id="txtParentName" class="easyui-validatebox"  style="width:324px" readonly="readonly"/></p>
-		 <p><label>是否关联小区：</label><input id="txtIsEstate" type="checkbox" /></p>
-		 <p><label>小区地址：</label><input id="txtRegionAddress" class="easyui-validatebox"  style="width:324px" /></p> 
-		 <p><label>关联洗车店：</label><input id="txtShopName" type="text" class="easyui-combobox"  style="width:324px" /></p> 
+		 </p> 
+		 <p><label>上级区域：</label><input id="txtParentName" class="easyui-validatebox"  style="width:234px" readonly="readonly"/></p>
+		 <p><label>区域名称：</label><input id="txtRegionName" class="easyui-validatebox"  style="width:234px" /></p>
+		 <p><label>关联门店：</label><input id="txtShopName" type="text" class="easyui-combotree"  style="width:234px" /></p> 
+		 <p><label>关联小区：</label><input id="txtIsEstate" type="checkbox" /></p>
+		 <p><label>小区地址：</label><input id="txtRegionAddress" class="easyui-validatebox"  style="width:234px" /></p> 
 	 </div>
   </body>
 </html>
