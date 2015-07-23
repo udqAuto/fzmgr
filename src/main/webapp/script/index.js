@@ -1,11 +1,13 @@
 var m_index_user;
 var m_changePwd_dlg;
 var m_index_orgId;
+var m_index_user={};
 var m_index_permission;
 var m_index_iconStyles = {};
 
 $(function() {  
-	getCurrentUser();
+	m_index_user = getCurrentUser();
+	m_index_orgId = m_index_user.orgId
 	$('#treeMenu').tree({
 		checkbox : false, 
 		onClick : onTreeMenuDblClick
@@ -48,8 +50,11 @@ function onTreeMenuDblClick(row) {
 	case "用户管理":
 		src = "view/user/userListInfo.jsp?userType=1";
 		break;
-	case "订单管理":
-		src = "view/order/orderListInfo.jsp";
+	case "未处理订单":
+		src = "view/order/orderListInfo.jsp?orderState=0&orgId="=m_index_orgId;
+		break;
+	case "已处理订单":
+		src = "view/order/orderListInfo.jsp?orderState=1&orgId="=m_index_orgId;
 		break;
 	case "车辆管理":
 		src = "view/auto/autoListInfo.jsp";
