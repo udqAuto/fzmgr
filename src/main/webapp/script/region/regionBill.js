@@ -55,7 +55,12 @@ var RegionManage = {
 			var address = $.trim($("#txtRegionAddress").val());
 			if(s.length>0){  
 				m_region_obj.isEstate = true;
-				m_region_obj.address = address;
+				if(address == ""||address==undefined){
+					$.messager.alert("操作提示", "请填写小区地址！", "error");
+					return;
+				}else{
+					m_region_obj.address = address;
+				}
 			}else{
 				m_region_obj.isEstate = false;
 				if(address == ""||address == undefined){

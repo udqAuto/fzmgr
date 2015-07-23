@@ -23,7 +23,7 @@ var RegionManage = {
 			try{
 				var target = $("#RegionTree").treegrid("getSelected");
 				if (!target || target.length == 0) {
-					$.messager.alert('操作提示', "请选择机构作为父级节点!", "warning");
+					$.messager.alert('操作提示', "请选择区域作为父级节点!", "warning");
 					return;
 				}
 				var parentId = target.id;
@@ -48,7 +48,7 @@ var RegionManage = {
 				var nodes = $('#RegionTree').treegrid('getParent', node.id);
 
 				if (!node || node.length == 0) {
-					$.messager.alert('操作提示', "请选择要操作的机构节点!", "warning");
+					$.messager.alert('操作提示', "请选择要操作的区域节点!", "warning");
 					return;
 				}
 				var parentName ="";
@@ -78,19 +78,33 @@ var RegionManage = {
 				$.messager.alert("操作提示",ex.message,"error"); 
 			}
 		},
-		DelRegion:function(){
+		delRegion:function(){
+			var target = $("#RegionTree").treegrid("getSelected");
+			if (!target || target.length == 0) {
+				$.messager.alert('操作提示', "请选择机构作为父级节点!", "warning");
+				return;
+			}
+			var regionId = target.id;
 			$.messager.confirm("删除确认", "确认删除该区域？", function(r) {
 				if (r) {
-					$.messager.confirm("删除确认", "确认删除当前区域 ？", function(r) {
-						if (r) {
-							RegionManage.delRegionAction(orgId);
-						}
-					}); 
+					RegionManage.delRegionAction(regionId);
 				}
 			});
 		},
-		delRegionAction:function(orgId){
-			
+		delRegionAction:function(regionId){
+			$.ajax({
+	    		url :  "region/deleteRegion.do?Id="+regionId,
+	    		type : "POST",
+	    		dataType : "json",
+	    		async : false,
+	    		success : function(req) {
+	    			if (req.isSuccess) {
+	    				$('#RegionTree').treegrid("reload");
+	    			} else {
+	    				$.messager.alert('删除失败ʾ', req.msg, "warning");
+	    			}
+	    		}
+	    	});
 		},
 		closeDialog : function() {
 			m_RegionInfo_dlg.close();

@@ -33,5 +33,10 @@ public class RegionServiceImpl implements RegionService {
 		// TODO Auto-generated method stub
 		regionMapper.insert(region);
 	}
+	@Override
+	public void deleteRegion(Integer id) {
+		// TODO Auto-generated method stub
+		regionMapper.deleteByPrimaryKey(id);
+	}
 
 }
