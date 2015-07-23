@@ -11,11 +11,11 @@
 
 </head>
 <body>
-	<div id="autoTb">
+	<div id="orderTb">
 		<div>
 			<p>
 				<a id="showOrder" name="showOrder" href="javascript:void(0);"
-					class="easyui-linkbutton" iconcls="icon-remove" plain="true">查看</a>
+					class="easyui-linkbutton" iconcls="icon-show" plain="true">查看</a>
 			</p>
 		</div>
 	</div>

@@ -22,7 +22,7 @@
 		<div>
 			<p>
 				<a id="showAuto" name="showAuto" href="javascript:void(0);"
-					class="easyui-linkbutton" iconcls="icon-remove" plain="true">查看</a>
+					class="easyui-linkbutton" iconcls="icon-show" plain="true">查看</a>
 			</p>
 		</div>
 	</div>

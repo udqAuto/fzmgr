@@ -3,7 +3,11 @@ package com.udianqu.wash.dao;
 import com.udianqu.wash.core.MyBatisRepository;
 import com.udianqu.wash.model.WashOrder;
 import com.udianqu.wash.model.WashOrderExample;
+import com.udianqu.wash.viewmodel.WashOrderVM;
+
 import java.util.List;
+import java.util.Map;
+
 import org.apache.ibatis.annotations.Param;
 
 @MyBatisRepository
@@ -95,4 +99,6 @@ public interface WashOrderMapper {
      * @mbggenerated Mon Jul 20 12:31:35 CST 2015
      */
     int updateByPrimaryKey(WashOrder record);
+
+	List<WashOrderVM> loadWashOrderlistWithPage(Map<String, Object> map);
 }

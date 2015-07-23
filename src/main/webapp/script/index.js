@@ -48,6 +48,9 @@ function onTreeMenuDblClick(row) {
 	case "用户管理":
 		src = "view/user/userListInfo.jsp?userType=1";
 		break;
+	case "订单管理":
+		src = "view/order/orderListInfo.jsp";
+		break;
 	case "车辆管理":
 		src = "view/auto/autoListInfo.jsp";
 		break;
