@@ -50,6 +50,14 @@
 					</ul> 
 			</li>
 			<li>
+				<span>优惠券</span>
+					<ul>
+						<li>
+							<span>系统优惠券</span>
+						</li> 
+					</ul>
+			</li>
+			<li>
 				<span>统计分析</span>
 					<ul>
 						<li>
@@ -68,10 +76,7 @@
 						</li>
 						<li>
 							<span>机构区域管理</span>
-						</li> 
-						<li>
-							<span>系统优惠券</span>
-						</li> 
+						</li>  
 					</ul> 
 			</li>
 			
