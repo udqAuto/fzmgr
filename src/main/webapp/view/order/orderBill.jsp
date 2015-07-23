@@ -29,6 +29,9 @@
 		 <p><label>支付类型：</label><input id="txtAutoColor" class="easyui-validatebox" style="width:324px" readonly="readonly"/></p>
 		 <p><label>预约时间：</label><input id="txtAutoRegion" class="easyui-validatebox" style="width:324px" readonly="readonly"/></p>
 		 <p><label>提交订单时间：</label><input id="txtAutoRegion" class="easyui-validatebox" style="width:324px" readonly="readonly"/></p>
+		 <p><label>洗车工：</label><input id="txtAutoRegion" class="easyui-validatebox" style="width:324px" readonly="readonly"/></p>
+		 <p><label>状态：</label><input id="txtAutoRegion" class="easyui-validatebox" style="width:324px" readonly="readonly"/></p>
+		 <p><label>提交订单时间：</label><input id="txtAutoRegion" class="easyui-validatebox" style="width:324px" readonly="readonly"/></p>
 	 </div>
   </body>
 </html>
