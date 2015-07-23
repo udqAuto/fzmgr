@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.udianqu.wash.dao.OrganizationMapper;
 import com.udianqu.wash.model.Organization;
 import com.udianqu.wash.service.OrganService;
+import com.udianqu.wash.viewmodel.OrganVM;
 
 @Service
 public class OrganServiceImpl implements OrganService{
@@ -15,7 +16,7 @@ public class OrganServiceImpl implements OrganService{
 	@Autowired OrganizationMapper organMapper;
 	
 	@Override
-	public List<Organization> getOrganList(Integer id) {
+	public List<OrganVM> getOrganList(Integer id) {
 		// TODO Auto-generated method stub
 		return organMapper.getOrganList(id);
 	}

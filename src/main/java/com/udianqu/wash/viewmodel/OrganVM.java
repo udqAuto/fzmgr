@@ -8,7 +8,7 @@ public class OrganVM extends Organization {
 	private List<OrganVM> children;
 	private String state;
 	private String text; 
-	
+	private String bmName;
 	public List<OrganVM> getChildren() {
 		return children;
 	}
@@ -26,5 +26,11 @@ public class OrganVM extends Organization {
 	}
 	public void setText(String text) {
 		this.text = text;
+	}
+	public String getBmName() {
+		return bmName;
+	}
+	public void setBmName(String bmName) {
+		this.bmName = bmName;
 	}
 }

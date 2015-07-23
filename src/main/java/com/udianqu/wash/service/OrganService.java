@@ -3,10 +3,11 @@ package com.udianqu.wash.service;
 import java.util.List;
 
 import com.udianqu.wash.model.Organization;
+import com.udianqu.wash.viewmodel.OrganVM;
 
 public interface OrganService {
 
-	List<Organization> getOrganList(Integer qid);
+	List<OrganVM> getOrganList(Integer qid);
 
 	List<Organization> getParentIdItems(Integer parentId);
 

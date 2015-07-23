@@ -5,6 +5,7 @@ var m_index_permission;
 var m_index_iconStyles = {};
 
 $(function() {  
+	getCurrentUser();
 	$('#treeMenu').tree({
 		checkbox : false, 
 		onClick : onTreeMenuDblClick

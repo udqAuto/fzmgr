@@ -12,7 +12,7 @@ $(function() {
 	m_parentId = args.parentId;
 	m_parentName = args.parentName;
 	$("#txtParentName").val(m_parentName);
-if(m_type==1||m_type=="1"){
+	if(m_type==1||m_type=="1"){
 		
 		$("#txtOrganName").val(score.name);
 		if( score.bmId>0){
@@ -20,10 +20,13 @@ if(m_type==1||m_type=="1"){
 		}
 		if(score.isShop){
 			$("#txtIsShop").attr("checked","true");
+		}else{ 
+			$("p[name='p_isShop']").attr("style","display:none");
 		}
 		$("#txtOrganDescription").val(score.note);
+	}else{
+		$("p[name='p_isShop']").attr("style","display:none");
 	}
-	
 	$("#btnSaveOrganInfo").bind("click", OrganManage.saveOrgan);
 	$("#btnCancelSave").bind("click", OrganManage.closeWindow);
 	
@@ -40,6 +43,14 @@ var OrganManage = {
 			    textField:'name'
 			    //onLoadSuccess:a
 			});
+		},
+		onCheckShop:function(){
+			var s = $("input[type='checkbox']:checked");
+			if(s.length>0){  
+				$("p[name='p_isShop']").removeAttr("style");
+			}else{
+				$("p[name='p_isShop']").attr("style","display:none");
+			}
 		},
 		saveOrgan:function(){
 			var organName = $.trim($("#txtOrganName").val());

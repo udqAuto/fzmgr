@@ -20,19 +20,22 @@
      <div id="userTb" >
         <div>
             <p> 
-                <a id="addUser" name="addUser"
+                <a id="addUser" name="addUser" doc="systemUser"
                     href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-add"
                     plain="true">新增</a>
-                <a id="editUser" name="editUser"
+                <a id="editUser" name="editUser" doc="systemUser"
                     href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-edit"
                     plain="true">修改</a>
-                <a id="delUser" name="delUser"
+                <a id="delUser" name="delUser" doc="systemUser"
                     href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-remove"
                     plain="true">删除</a>
-                <a id="unlockUser" name="unlockUser"
+                <a id="showUser" name="showUser" 
+                    href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-show"
+                    plain="true">查看</a>
+                <a id="unlockUser" name="unlockUser" doc="systemUser"
                     href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-unlock"
                     plain="true">启用</a>
-                <a id="lockUser" name="lockUser"
+                <a id="lockUser" name="lockUser" doc="systemUser"
                     href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-lock"
                     plain="true">锁定</a>
             </p>  
