@@ -51,10 +51,10 @@ function onTreeMenuDblClick(row) {
 		src = "view/user/userListInfo.jsp?userType=1";
 		break;
 	case "未处理订单":
-		src = "view/order/orderListInfo.jsp?orderState=0&orgId="=m_index_orgId;
+		src = "view/order/orderListInfo.jsp?orderState=0&orgId="+m_index_orgId;
 		break;
 	case "已处理订单":
-		src = "view/order/orderListInfo.jsp?orderState=1&orgId="=m_index_orgId;
+		src = "view/order/orderListInfo.jsp?orderState=1&orgId="+m_index_orgId;
 		break;
 	case "车辆管理":
 		src = "view/auto/autoListInfo.jsp";
