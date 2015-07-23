@@ -22,12 +22,12 @@
 			<a id="btnCancelSave"  href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-delete" plain="true">关闭</a> 
 		 </p>
 		 
-		 <p><label>车主名称：</label><input id="txtAutoName" class="easyui-validatebox"   readonly="readonly"/></p>
-		 <p><label>车牌号码：</label><input id="txtAutoPN" class="easyui-validatebox" readonly="readonly"/></p>
-		 <p><label>车辆品牌：</label><input id="txtAutoBrand" class="easyui-validatebox"  readonly="readonly"/></p>
-		 <p><label>车辆型号：</label><input id="txtAutoModel" class="easyui-validatebox" readonly="readonly"/></p>
-		 <p><label>特征颜色：</label><input id="txtAutoColor" class="easyui-validatebox" readonly="readonly"/></p>
-		 <p><label>所属区域：</label><input id="txtAutoRegion" class="easyui-validatebox"  readonly="readonly"/></p>
+		 <p><label>车主名称：</label><input id="txtAutoName" style="width:234px"  class="easyui-validatebox"   readonly="readonly"/></p>
+		 <p><label>车牌号码：</label><input id="txtAutoPN" style="width:234px"  class="easyui-validatebox" readonly="readonly"/></p>
+		 <p><label>车辆品牌：</label><input id="txtAutoBrand" style="width:234px"  class="easyui-validatebox"  readonly="readonly"/></p>
+		 <p><label>车辆型号：</label><input id="txtAutoModel" style="width:234px"  class="easyui-validatebox" readonly="readonly"/></p>
+		 <p><label>特征颜色：</label><input id="txtAutoColor" style="width:234px"  class="easyui-validatebox" readonly="readonly"/></p>
+		 <p><label>所属区域：</label><input id="txtAutoRegion" style="width:234px"  class="easyui-validatebox"  readonly="readonly"/></p>
 	 </div>
   </body>
 </html>

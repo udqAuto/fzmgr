@@ -3,10 +3,11 @@ package com.udianqu.wash.service;
 import java.util.List;
 
 import com.udianqu.wash.model.Region;
+import com.udianqu.wash.viewmodel.RegionVM;
 
 public interface RegionService {
 
-	List<Region> getRegionList(Integer qid);
+	List<RegionVM> getRegionList(Integer qid);
 
 	Region selectByPrimaryKey(Integer id);
 

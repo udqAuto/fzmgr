@@ -8,13 +8,14 @@ import org.springframework.stereotype.Service;
 import com.udianqu.wash.dao.RegionMapper;
 import com.udianqu.wash.model.Region;
 import com.udianqu.wash.service.RegionService;
+import com.udianqu.wash.viewmodel.RegionVM;
  
 @Service
 public class RegionServiceImpl implements RegionService {
 
 	@Autowired RegionMapper regionMapper;
 	@Override
-	public List<Region> getRegionList(Integer id) {
+	public List<RegionVM> getRegionList(Integer id) {
 		// TODO Auto-generated method stub
 		return regionMapper.getRegionList(id);
 	}
