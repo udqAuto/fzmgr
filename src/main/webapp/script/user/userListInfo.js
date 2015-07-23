@@ -1,13 +1,18 @@
 $(function() {
-
+	getCurrentUser();
 	var obj = getUrlArgs();
 	m_userType = obj.userType;
+	if(m_userType == 0||m_userType =="0"){
+		$("#userTb a[doc='systemUser']").attr("style","display:none");
+	}
+	
 	UserManage.loadUserList();
 	$("#addUser").bind("click", UserManage.addUser);
 	$("#editUser").bind("click", UserManage.editUser);
 	$("#delUser").bind("click", UserManage.delUser);
 	$("#unlockUser").bind("click", UserManage.unLockUser);
 	$("#lockUser").bind("click", UserManage.lockUser);
+	$("#showUser").bind("click", UserManage.editUser);
 });
 var m_userType;
 var m_userInfo_dlg = null;
@@ -49,12 +54,12 @@ var UserManage = {
 				align : 'center',
 				width : 150,
 				formatter : function(value, rowData, index) {
-					if (value == 1 || value == "1") {
+					if (value == 0 || value == "0") {
 						return "男";
-					} else if (value == 2 || value == "2") {
+					} else if (value == 1 || value == "1") {
 						return "女";
 					} else {
-						return "男";
+						return "保密";
 					}
 				}
 			}, {
@@ -83,7 +88,7 @@ var UserManage = {
 						title : '新增用户',
 						content : "<iframe scrolling='yes' frameborder='0' src='view/user/userBill.jsp?type=0&userId=0&userType="
 								+ m_userType
-								+ "' style='width:600px;height:470px;overflow:hidden'/>",
+								+ "' style='width:310px;height:350px;overflow:hidden'/>",
 						lock : true,
 						initFn : function() {
 						}
@@ -121,7 +126,7 @@ var UserManage = {
 								+ userId
 								+ "&userType="
 								+ m_userType
-								+ "' style='width:600px;height:470px;overflow:hidden'/>",
+								+ "' style='width:310px;height:350px;overflow:hidden'/>",
 						lock : true,
 						initFn : function() {
 						}

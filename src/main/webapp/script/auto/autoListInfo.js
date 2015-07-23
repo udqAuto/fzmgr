@@ -1,5 +1,5 @@
 $(function() {
-
+	getCurrentUser();
 	AutoManage.loadAutoList();
 	$("#showAuto").bind("click", AutoManage.showAuto);
 });
@@ -84,7 +84,7 @@ var AutoManage = {
 						.dialog({
 							id : 'dlgShowAuto',
 							title : '查看车辆信息',
-							content : "<iframe scrolling='yes' frameborder='0' src='view/auto/autoBill.jsp' style='width:600px;height:470px;overflow:hidden'/>",
+							content : "<iframe scrolling='yes' frameborder='0' src='view/auto/autoBill.jsp' style='width:310px;height:350px;overflow:hidden'/>",
 							lock : true,
 							initFn : function() {
 							}

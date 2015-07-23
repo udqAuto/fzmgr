@@ -104,7 +104,7 @@ public class OrgController {
 			HttpServletRequest request, HttpServletResponse response
 			){
 		Integer qid = null;  
-		List<Organization> ls = new ArrayList<Organization>();
+		List<OrganVM> ls = new ArrayList<OrganVM>();
 		List<OrganVM> list = new ArrayList<OrganVM>();
 		if (hybrid_id != null) {
 			qid = hybrid_id;  
@@ -129,10 +129,10 @@ public class OrgController {
 		return result.toString(); 
 	}
 	
-	private List<OrganVM> getNodes(List<Organization> ls, Integer qid) {
+	private List<OrganVM> getNodes(List<OrganVM> ls, Integer qid) {
 		// TODO Auto-generated method stub
 		List<OrganVM> list = new ArrayList<OrganVM>(); 
-		for(Organization o :ls ){
+		for(OrganVM o :ls ){
 			if(o.getPid() == qid){
 				OrganVM v = new OrganVM();
 				v.setId(o.getId());
@@ -146,7 +146,8 @@ public class OrgController {
 				v.setNote(o.getNote());
 				v.setSort(o.getSort());
 				v.setBmId(o.getBmId());
-				List<Organization> l = getItemByParentId(o.getId());
+				v.setBmName(o.getBmName());
+				List<OrganVM> l = getItemByParentId(o.getId());
 				if(l.size()>0){ 
 					v.setChildren(getNodes(l,o.getId())); 
 				}else{
@@ -159,9 +160,9 @@ public class OrgController {
 		return list;
 	}
 
-	private List<Organization> getItemByParentId(Integer id) {
+	private List<OrganVM> getItemByParentId(Integer id) {
 		// TODO Auto-generated method stub
-		List<Organization> ls = organService.getOrganList(id); 
+		List<OrganVM> ls = organService.getOrganList(id); 
 		return ls;
 	}
  

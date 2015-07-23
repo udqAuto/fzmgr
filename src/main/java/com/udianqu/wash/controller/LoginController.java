@@ -17,10 +17,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.udianqu.wash.core.Result;
 import com.udianqu.wash.model.User;
 import com.udianqu.wash.service.LoginService;
 import com.udianqu.wash.service.UserService;
-import com.udianqu.wash.viewmodel.UserVM;
+import com.udianqu.wash.viewmodel.UserVM; 
 
 /**
  * 登录、注册
@@ -119,6 +120,32 @@ public class LoginController {
 			throws IOException {
 		request.getSession().invalidate();// 清除当前用户相关的session对象
 		response.sendRedirect("../login.jsp"); 
+	}
+	/**
+	 * 判断用户是否登录，若session过期，返回登录页面
+	 * 
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "isSignIn.do", produces = "application/json;charset=UTF-8")
+	public @ResponseBody
+	String isSignIn(HttpServletRequest request, HttpServletResponse response)
+			throws IOException {
+		try {
+			HttpSession session = request.getSession();
+			UserVM u = (UserVM) session.getAttribute("user");
+			if (u == null) {
+				Result<UserVM> s = new Result<UserVM>(null, false, false,
+						false, "登录过期，请重新登录");
+				return s.toJson();
+			} else {
+				Result<UserVM> s = new Result<UserVM>(u, true, false, false, "");
+				return s.toJson();
+			}
+		} catch (Exception ex) {
+			Result<UserVM> s = new Result<UserVM>(null, false, false, false,
+					"获取登录用户信息失败，请联系网站管理员");
+			return s.toJson();
+		}
 	}
 	
 	/**

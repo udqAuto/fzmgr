@@ -1,4 +1,5 @@
 $(function() {  
+	getCurrentUser();
 	OrganManage.loadOrganList();
 	$("#AddOrganization").bind("click", OrganManage.addOrganization);
 	$("#EditOrganization").bind("click", OrganManage.editOrganization);
@@ -10,13 +11,23 @@ var OrganManage = {
 		loadOrganList:function(){
 			$('#OrganizationTree').treegrid({
 		    	url: 'organ/getOrganList.do?parentid=0', 
-		        rownumbers: true, 
+		        rownumbers: true,  
+				fitColumns : true,
 		        idField: 'id',
 		        treeField: 'name',
 		        toolbar:'#OrganizationTb',
 		        columns: [[
 		               { title: 'id', field: 'id', align: 'left', width: 200,hidden:true } ,
-		               { title: '组织机构名称', field: 'name', align: 'left', width: 300 } 
+		               { title: '组织机构名称', field: 'name', align: 'left', width: 300 }, 
+		               { title: '是否门店', field: 'isShop', align: 'center', width: 100,formatter:function(value,rowData,index){
+		            	   if(value){
+		            		   return "是";
+		            	   }else{
+		            		   return "";
+		            	   }
+		               } }, 
+		               { title: '门店经理', field: 'bmName', align: 'center', width: 100 }, 
+		               { title: '描述', field: 'note', align: 'center', width: 200 }  
 		        ]]
 		    });
 		},
@@ -34,7 +45,7 @@ var OrganManage = {
 				title : '新增组织机构',
 				content : "<iframe scrolling='yes' frameborder='0' src='view/organ/organBill.jsp?type=0&parentId="
 					+parentId+"&parentName="
-					+parentName+"&orgId=0' style='width:600px;height:470px;overflow:hidden'/>",
+					+parentName+"&orgId=0' style='width:310px;height:350px;overflow:hidden'/>",
 				lock : true,
 				initFn : function() {
 				}
@@ -70,7 +81,7 @@ var OrganManage = {
 				id : 'dlgEditOrgan',
 				title : '编辑组织机构',
 				content : "<iframe scrolling='yes' frameborder='0' src='view/organ/organBill.jsp?type=1&parentId=0&parentName="
-					+parentName+"&orgId="+orgId+"' style='width:600px;height:470px;overflow:hidden'/>",
+					+parentName+"&orgId="+orgId+"' style='width:310px;height:350px;overflow:hidden'/>",
 				lock : true,
 				initFn : function() {
 				}

@@ -3,6 +3,8 @@ package com.udianqu.wash.dao;
 import com.udianqu.wash.core.MyBatisRepository;
 import com.udianqu.wash.model.Organization;
 import com.udianqu.wash.model.OrganizationExample;
+import com.udianqu.wash.viewmodel.OrganVM;
+
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
@@ -96,7 +98,7 @@ public interface OrganizationMapper {
      */
     int updateByPrimaryKey(Organization record);
 
-	List<Organization> getOrganList(Integer id);
+	List<OrganVM> getOrganList(Integer id);
 
 	List<Organization> getParentIdItems(Integer id);
 

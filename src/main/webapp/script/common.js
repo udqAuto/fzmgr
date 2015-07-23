@@ -335,7 +335,7 @@ function isSignIn(callback) {
 function getCurrentUser(){
 	var user=null;
 	$.ajax({
-		url : "index/isSignIn.do",
+		url : "login/isSignIn.do",
 		type : "POST",
 		dataType : "json",
 		async : false,
