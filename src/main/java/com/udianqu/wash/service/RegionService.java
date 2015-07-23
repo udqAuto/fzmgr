@@ -14,4 +14,6 @@ public interface RegionService {
 
 	void insert(Region region);
 
+	void deleteRegion(Integer id);
+
 }

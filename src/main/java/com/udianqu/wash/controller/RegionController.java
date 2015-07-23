@@ -72,10 +72,20 @@ public class RegionController {
 	}
 	
 	@RequestMapping(value = "deleteRegion.do", produces = "application/json;charset=UTF-8")
-	public @ResponseBody ModelAndView deleteRegion(
-			HttpServletRequest request, HttpServletResponse response
+	public @ResponseBody String deleteRegion(
+			@RequestParam(value = "Id", required = true) Integer id,
+			HttpServletRequest request
 			){
-		return null;
+		try{
+			regionService.deleteRegion(id);
+			Result<RegionVM> s = new Result<RegionVM>(null, true, false,
+					false, "调用后台方法出错");
+			return s.toJson();
+		}catch(Exception ex){
+			Result<RegionVM> s = new Result<RegionVM>(null, false, false,
+					false, "调用后台方法出错");
+			return s.toJson();
+		}
 	}
 	
 	@RequestMapping(value = "updateRegion.do", produces = "application/json;charset=UTF-8")

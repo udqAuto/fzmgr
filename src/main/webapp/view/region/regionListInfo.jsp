@@ -17,7 +17,7 @@
                 <a id="editRegion" name="EditRegion"
                     href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon_xfxg_edit"
                     plain="true">编辑</a>
-                <a id="delregion" name="Delregion"
+                <a id="delRegion" name="Delregion"
                     href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon_xfxg_delete"
                     plain="true">删除</a> 
     </div>
