@@ -45,7 +45,7 @@ function onTreeMenuDblClick(row) {
 	var src = null;  
 	switch (row.text) {
 	case "车主管理":
-		src = "view/user/userListInfo.jsp?userType=0";
+		src = "view/user/userListInfo.jsp?userType=8";
 		break;
 	case "用户管理":
 		src = "view/user/userListInfo.jsp?userType=1";

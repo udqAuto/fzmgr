@@ -11,25 +11,8 @@ $(function() {
 	m_userType = args.userType;
 	UserManage.initOrgan();
 	
-	//编辑
 	if(m_type==1||m_type=="1"){
-		$("#txtUserName").val(score.name);
-		$("#txtUserSex").combobox('setValue', score.sex);
-		$("#txtUserMobile").val(score.mobile);
-		$("#txtUserOrgName").combotree('setValue', score.orgId);
-		$("#txtUserEmail").val(score.email);
-		$("#div_userInfo p[name='p_pwd']").hide();
-		if(m_userType=="0"||m_userType==0){
-			$("#txtUserSex").combobox('disable');
-			$("#txtUserOrgName").combotree('disable');
-			$("#txtUserName").attr("readonly","readonly");
-			$("#txtUserMobile").attr("readonly","readonly");
-			$("#txtUserEmail").attr("readonly","readonly");
-			$("#userAutoInfo").removeClass("displaynone");
-			$("#div_userInfo").attr("style","width:45%;float:left;");
-			$("#btnSaveUserInfo").attr("style","display:none");
-			UserManage.loadAutoByUserId(m_userId);
-		}
+		UserManage.showUserInfo();
 	}
 	
 	
@@ -40,6 +23,25 @@ function a (){
 	$("#txtUserOrgName").combotree('setValue', score.orgId);
 }
 var UserManage = {
+		showUserInfo : function(){
+			$("#txtUserName").val(score.name);
+			$("#txtUserSex").combobox('setValue', score.sex);
+			$("#txtUserMobile").val(score.mobile);
+			$("#txtUserOrgName").combotree('setValue', score.orgId);
+			$("#txtUserEmail").val(score.email);
+			$("#div_userInfo p[name='p_pwd']").hide();
+			if(m_userType=="8"||m_userType==8){
+				$("#txtUserSex").combobox('disable');
+				$("#txtUserOrgName").combotree('disable');
+				$("#txtUserName").attr("readonly","readonly");
+				$("#txtUserMobile").attr("readonly","readonly");
+				$("#txtUserEmail").attr("readonly","readonly");
+				$("#userAutoInfo").removeClass("displaynone");
+				$("#div_userInfo").attr("style","width:45%;float:left;");
+				$("#btnSaveUserInfo").attr("style","display:none");
+				UserManage.loadAutoByUserId(m_userId);
+			}
+		},
 		initOrgan:function(){
 			$("#txtUserOrgName").combotree({
 				url:'organ/getOrganList.do?parentid=0',

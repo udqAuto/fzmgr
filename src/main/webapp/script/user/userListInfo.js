@@ -2,7 +2,7 @@ $(function() {
 	getCurrentUser();
 	var obj = getUrlArgs();
 	m_userType = obj.userType;
-	if(m_userType == 0||m_userType =="0"){
+	if(m_userType == 8||m_userType =="8"){
 		$("#userTb a[doc='systemUser']").attr("style","display:none");
 	} 
 	else{

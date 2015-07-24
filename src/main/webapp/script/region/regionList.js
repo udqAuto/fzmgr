@@ -1,4 +1,5 @@
-$(function() {  
+$(function() { 
+	getCurrentUser();
 	RegionManage.loadRegionList();
 	$("#addRegion").bind("click", RegionManage.addRegion);
 	$("#editRegion").bind("click", RegionManage.editRegion);
