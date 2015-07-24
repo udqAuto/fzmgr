@@ -19,7 +19,8 @@ $(function() {
 		$("#txtUserOrgName").combotree('setValue', score.orgId);
 		$("#txtUserEmail").val(score.email);
 		$("#div_userInfo p[name='p_pwd']").hide();
-		if(m_userType=="0"||m_userType==0){
+		if(m_userType=="8"||m_userType==8){
+			$("#div_userInfo p[name='p_utype']").hide();
 			$("#txtUserSex").combobox('disable');
 			$("#txtUserOrgName").combotree('disable');
 			$("#txtUserName").attr("readonly","readonly");
@@ -29,6 +30,8 @@ $(function() {
 			$("#div_userInfo").attr("style","width:45%;float:left;");
 			$("#btnSaveUserInfo").attr("style","display:none");
 			UserManage.loadAutoByUserId(m_userId);
+		}else{
+			$("#txtUserType").combobox('setValue', score.userType);
 		}
 	}
 	
@@ -85,7 +88,7 @@ var UserManage = {
 		},
 		saveUser:function(){
 			u_obj.id = m_userId;
-			u_obj.userType = m_userType;
+			//u_obj.userType = m_userType;
 			var username = $.trim($("#txtUserName").val());//需要验证是否重复
 			if (username == "" || username == undefined) {
 				$.messager.alert("操作提示", "用户姓名必须填写！", "error");
@@ -120,6 +123,13 @@ var UserManage = {
 				return;
 		    } else {
 			    u_obj.orgId = $("#txtUserOrgName").combotree("getValue");
+		    }
+
+			if ($("#txtUserType").combobox("getValue") == ""
+				|| $("#txtUserType").combobox("getValue") == undefined) {
+				$.messager.alert("操作提示", "请选择用户类型！", "error");
+		    } else {
+			    u_obj.userType = $("#txtUserType").combobox("getValue");
 		    }
 			
 			u_obj.name = username;

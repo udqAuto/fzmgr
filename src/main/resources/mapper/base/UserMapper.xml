@@ -230,16 +230,24 @@
   </select>
   <select id="countByMap" resultType="java.lang.Integer"   parameterType="java.util.Map" >
   		select count(*) from t_user 
+  		where 1=1 
   		<if test="userType!=null">
-  			where user_type = #{userType,jdbcType=INTEGER}
+  			and user_type in
+  			<foreach item="item" index="index" collection="userType" open="(" separator="," close=")">  
+					#{item}
+			</foreach>
   		</if>
   </select>
   <select id="loadUserlistWithPage"   parameterType="java.util.Map"  resultMap="BaseVMResultMap"  >
   		select <include refid="BaseVM_Column_List" /> 
   		from t_user u 
   		left join t_org o on u.org_id = o.id
+  		where 1=1
   		<if test="userType!=null">
-  			where user_type = #{userType,jdbcType=INTEGER}
+  			and user_type in
+  			<foreach item="item" index="index" collection="userType" open="(" separator="," close=")">  
+					#{item}
+			</foreach>
   		</if>
   		<if test="pageStart !=null">
   		limit #{pageStart,jdbcType=INTEGER}, #{pageSize,jdbcType=INTEGER}
@@ -248,6 +256,6 @@
   <select id="loadadminUserlist"   resultMap="BaseResultMap"  >
   		select <include refid="Base_Column_List" /> 
   		from t_user u 
-  		 where user_type = 1
+  		 where user_type in (1,2,4)
   </select>
 </mapper>
