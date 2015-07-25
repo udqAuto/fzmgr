@@ -2,6 +2,7 @@ package com.udianqu.wash.controller;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.HashMap; 
 import java.util.List;
 import java.util.Map;
@@ -85,14 +86,19 @@ public class UserController {
 	String getUserList( 
 			@RequestParam(value = "page", required = false) Integer page,
 			@RequestParam(value = "rows", required = false) Integer rows,
-			@RequestParam(value = "userType", required = false) Integer userType,
+			@RequestParam(value = "userType", required = false) String userType,
 			HttpServletRequest request) throws Exception {
 
 		Map<String, Object> map = new HashMap<String, Object>();   
 		page = page == 0 ? 1 : page;
 		map.put("pageStart", (page - 1) * rows);
 		map.put("pageSize", rows);   
-		map.put("userType", userType);   
+		List<Integer> ids = new ArrayList<Integer>(); 
+		String[] str = userType.split(",");
+		for(String s :str){
+			ids.add(Integer.parseInt(s));
+		} 
+		map.put("userType", ids);   
 		ListResult<UserVM> rs = userService.loadUserlist(map);
 
 		return rs.toJson();

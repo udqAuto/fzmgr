@@ -48,7 +48,7 @@ function onTreeMenuDblClick(row) {
 		src = "view/user/userListInfo.jsp?userType=8";
 		break;
 	case "用户管理":
-		src = "view/user/userListInfo.jsp?userType=1";
+		src = "view/user/userListInfo.jsp?userType=1,2,4";
 		break;
 	case "未处理订单":
 		src = "view/order/orderListInfo.jsp?orderState=0&orgId="+m_index_orgId;

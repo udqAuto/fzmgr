@@ -29,6 +29,7 @@ var UserManage = {
 		m_userInfo_Object.mobile = row.mobile;
 		m_userInfo_Object.orgId = row.orgId;
 		m_userInfo_Object.email = row.email;
+		m_userInfo_Object.userType = row.userType;
 	},
 	loadUserList : function() {
 		$('#userListGrid').datagrid({
@@ -53,6 +54,27 @@ var UserManage = {
 				align : 'center',
 				width : 150
 			}, {
+				title : '机构名称',
+				field : 'orgName',
+				align : 'center',
+				width : 150
+			}, {
+				title : '用户类型',
+				field : 'userType',
+				align : 'center',
+				width : 150,
+				formatter : function(value, rowData, index) {
+					if (value == 1 || value == "1") {
+						return "系统管理员";
+					} else if (value == 2 || value == "2") {
+						return "公司员工";
+					} else if (value == 4 || value == "4"){
+						return "洗车工";
+					} else{
+						return "车主";
+					}
+				}
+			}, {
 				title : '性别',
 				field : 'sex',
 				align : 'center',
@@ -69,11 +91,6 @@ var UserManage = {
 			}, {
 				title : '电话',
 				field : 'mobile',
-				align : 'center',
-				width : 50
-			}, {
-				title : '机构名称',
-				field : 'orgName',
 				align : 'center',
 				width : 50
 			}, {
@@ -140,7 +157,7 @@ var UserManage = {
 		}
 	},
 	editUser : function() {
-		if(m_userType == 0||m_userType=="0"){
+		if(m_userType == 8||m_userType=="8"){
 			UserManage.showUser();
 		}else{
 			try {

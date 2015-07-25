@@ -27,6 +27,7 @@
 		 <p name="p_pwd"><label>登录密码：</label><input id="txtUserPwd" type="password" style="width:217px"  class="easyui-validatebox"  /></p>
 		 <p name="p_pwd"><label>登录密码：</label><input id="txtUserPwdAgain" type="password" style="width:217px"  class="easyui-validatebox"/></p>
 		 <p><label>机构名称：</label><input id="txtUserOrgName" type="text" class="easyui-combotree" style="width:217px"  /></p>
+		 <p name="p_utype"><label>用户类型：</label><input id="txtUserType" type="text" class="easyui-combobox" style="width:217px"   data-options="valueField:'id',textField:'name',data:[{id: 1,name: '系统管理员'},{id: 2,name: '公司员工'},{id: 4,name: '洗车工'}]" /></p>
 		 <p><label>用户性别：</label><input id="txtUserSex" class="easyui-combobox" style="width:217px"  data-options="valueField:'id',textField:'name',data:[{id: 0,name: '男'},{id: 1,name: '女'},{id: 2,name: '保密'}]" /></p>
 		 <p><label>用户电话：</label><input id="txtUserMobile" class="easyui-validatebox" style="width:217px" /></p>
 		 <p><label>电子邮箱：</label><input id="txtUserEmail" class="easyui-validatebox"  style="width:217px" /></p>
