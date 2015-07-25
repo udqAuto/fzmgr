@@ -18,7 +18,7 @@ public class WashTypeService {
 
 	public ListResult<WashType> loadWashTypeList(Map<String, Object> map) {
 		// TODO Auto-generated method stub
-		int count = 0;
+		int count = washTypeMapper.countByMap(map);
 		List<WashType> ls=washTypeMapper.loadWashTypeListWithPage(map);
 
 		ListResult<WashType> result=new ListResult<WashType>(count,ls);

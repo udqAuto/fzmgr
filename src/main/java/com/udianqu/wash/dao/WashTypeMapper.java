@@ -99,4 +99,6 @@ public interface WashTypeMapper {
     int updateByPrimaryKey(WashType record);
 
 	List<WashType> loadWashTypeListWithPage(Map<String, Object> map);
+
+	int countByMap(Map<String, Object> map);
 }

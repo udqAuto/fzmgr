@@ -219,6 +219,10 @@
       <include refid="Example_Where_Clause" />
     </if>
   </select>
+  <select id="countByMap" parameterType="java.util.Map" resultType="java.lang.Integer" >
+    select count(*) from t_wash_type
+    where 1=1
+  </select>
   <update id="updateByExampleSelective" parameterType="map" >
     <!--
       WARNING - @mbggenerated

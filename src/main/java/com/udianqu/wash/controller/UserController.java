@@ -3,12 +3,11 @@ package com.udianqu.wash.controller;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
-import java.util.HashMap; 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import net.sf.json.JSONArray;
@@ -18,13 +17,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.udianqu.wash.core.ListResult;
 import com.udianqu.wash.core.Result;
 import com.udianqu.wash.model.User;
 import com.udianqu.wash.service.LoginService;
-import com.udianqu.wash.service.RegistService;
 import com.udianqu.wash.service.UserService;
 import com.udianqu.wash.viewmodel.UserVM;
 
@@ -43,7 +40,6 @@ import com.udianqu.wash.viewmodel.UserVM;
 public class UserController { 
 	@Autowired UserService userService; 
 	@Autowired LoginService loginService; 
-	@Autowired RegistService registService; 
 	
 	@RequestMapping("/saveUserObj.do")
 	@ResponseBody
@@ -104,15 +100,11 @@ public class UserController {
 		return rs.toJson();
 	}
 	/*
-	 * 获取注册用户列表，以下拉列表形式呈现；
+	 * 
 	 */
 	@RequestMapping(value = "getAllUserList.do", produces = "application/json;charset=UTF-8")
 	public @ResponseBody
-	String getAllUserList( 
-			@RequestParam(value = "page", required = false) Integer page,
-			@RequestParam(value = "rows", required = false) Integer rows,
-			@RequestParam(value = "userType", required = false) Integer userType,
-			HttpServletRequest request) throws Exception { 
+	String getAllUserList(HttpServletRequest request) throws Exception { 
 		List<User> rs = userService.loadadminUserlist(); 
 		JSONArray result = JSONArray.fromObject(rs);
 		return result.toString(); 

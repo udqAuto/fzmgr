@@ -22,6 +22,11 @@ public class ListResult<T> {
 		jsonConfig.registerJsonValueProcessor(java.util.Date.class, new DateJsonValueProcessor());
 	}
 
+	public ListResult(List<T> rows){
+		this();
+		this.rows=rows;
+		this.isSuccess=true;
+	}
 	public ListResult(int total,List<T> rows){
 		this();
 		this.total=total;

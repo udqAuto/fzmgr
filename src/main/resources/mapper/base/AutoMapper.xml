@@ -331,6 +331,13 @@
       default_region_id = #{defaultRegionId,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <select id="countByMap" resultType="java.lang.Integer"   parameterType="java.util.Map" >
+  		select count(*) from t_auto 
+  		where 1=1 
+  		<if test="userId!=null">
+  			and user_id = #{userId,jdbcType=INTEGER}
+  		</if>
+  </select>
   <select id="loadAutolistWithPage"   parameterType="java.util.Map"  resultMap="BaseVMResultMap"  >
   		select <include refid="BaseVM_Column_List" /> 
   		from t_auto a 
