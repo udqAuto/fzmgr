@@ -4,6 +4,8 @@ import com.udianqu.wash.core.MyBatisRepository;
 import com.udianqu.wash.model.BillSerial;
 import com.udianqu.wash.model.BillSerialExample;
 import java.util.List;
+import java.util.Map;
+
 import org.apache.ibatis.annotations.Param;
 
 @MyBatisRepository
@@ -95,4 +97,7 @@ public interface BillSerialMapper {
      * @mbggenerated Mon Jul 20 12:31:35 CST 2015
      */
     int updateByPrimaryKey(BillSerial record);
+
+	String getNextBillSerialNo(Map<String, Object> map);
+	String updateBillSerialNo(Map<String,Object> map);
 }

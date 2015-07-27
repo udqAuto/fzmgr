@@ -20,27 +20,25 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.udianqu.wash.core.ListResult;
 import com.udianqu.wash.core.Result;
-import com.udianqu.wash.model.User;
+import com.udianqu.wash.model.User; 
 import com.udianqu.wash.service.LoginService;
 import com.udianqu.wash.service.UserService;
 import com.udianqu.wash.viewmodel.UserVM;
 
 /**
- * 用户
- * 包括（user_type)
- * 1=系统管理员
- * 2=职员
- * 4=洗车工
- * 8=用户
+ * 用户 包括（user_type) 1=系统管理员 2=职员 4=洗车工 8=用户
+ * 
  * @author xml777
- *
+ * 
  */
-@Controller 
+@Controller
 @RequestMapping("/user")
-public class UserController { 
-	@Autowired UserService userService; 
-	@Autowired LoginService loginService; 
-	
+public class UserController {
+	@Autowired
+	UserService userService;
+	@Autowired
+	LoginService loginService;
+
 	@RequestMapping("/saveUserObj.do")
 	@ResponseBody
 	public String saveUserObj(UserVM user, HttpServletRequest request) {
@@ -49,11 +47,11 @@ public class UserController {
 			HttpSession session = request.getSession();
 			UserVM u = (UserVM) session.getAttribute("user");
 			if (u == null) {
-				Result<UserVM> s = new Result<UserVM>(null, true,
-						false, false, "页面过期，请重新登录");
+				Result<UserVM> s = new Result<UserVM>(null, true, false, false,
+						"页面过期，请重新登录");
 				return s.toJson();
 			} else {
-				
+
 				if (user.getId() > 0) {
 					user.setPsd(u.getPsd());
 					userService.updateByPrimaryKey(user);
@@ -62,70 +60,74 @@ public class UserController {
 					user.setPsd(psd);
 					userService.insert(user);
 				}
-				Result<UserVM> s = new Result<UserVM>(null, true,
-						false, false, "保存成功");
+				Result<UserVM> s = new Result<UserVM>(null, true, false, false,
+						"保存成功");
 				return s.toJson();
 			}
 		} catch (Exception ex) {
-			Result<UserVM> s = new Result<UserVM>(null, false, false,
-					false, "调用后台方法出错");
+			Result<UserVM> s = new Result<UserVM>(null, false, false, false,
+					"调用后台方法出错");
 			return s.toJson();
 		}
 	}
-	
 
 	/*
 	 * 获取注册用户列表，以列表形式呈现；
 	 */
 	@RequestMapping(value = "getUserList.do", produces = "application/json;charset=UTF-8")
 	public @ResponseBody
-	String getUserList( 
+	String getUserList(
 			@RequestParam(value = "page", required = false) Integer page,
 			@RequestParam(value = "rows", required = false) Integer rows,
 			@RequestParam(value = "userType", required = false) String userType,
 			HttpServletRequest request) throws Exception {
-
-		Map<String, Object> map = new HashMap<String, Object>();   
-		page = page == 0 ? 1 : page;
-		map.put("pageStart", (page - 1) * rows);
-		map.put("pageSize", rows);   
-		List<Integer> ids = new ArrayList<Integer>(); 
-		String[] str = userType.split(",");
-		for(String s :str){
-			ids.add(Integer.parseInt(s));
-		} 
-		map.put("userType", ids);   
-		ListResult<UserVM> rs = userService.loadUserlist(map);
-
-		return rs.toJson();
+		try {
+			Map<String, Object> map = new HashMap<String, Object>();
+			page = page == 0 ? 1 : page;
+			map.put("pageStart", (page - 1) * rows);
+			map.put("pageSize", rows);
+			List<Integer> ids = new ArrayList<Integer>();
+			String[] str = userType.split(",");
+			for (String s : str) {
+				ids.add(Integer.parseInt(s));
+			}
+			map.put("userType", ids);
+			ListResult<UserVM> rs = userService.loadUserlist(map);
+			return rs.toJson();
+		} catch (Exception ex) {
+			ListResult<UserVM> rs = new ListResult<UserVM>(0, null);
+			return rs.toJson();
+		}
 	}
+
 	/*
 	 * 
 	 */
 	@RequestMapping(value = "getAllUserList.do", produces = "application/json;charset=UTF-8")
 	public @ResponseBody
-	String getAllUserList(HttpServletRequest request) throws Exception { 
-		List<User> rs = userService.loadadminUserlist(); 
+	String getAllUserList(HttpServletRequest request) throws Exception {
+		List<User> rs = userService.loadadminUserlist();
 		JSONArray result = JSONArray.fromObject(rs);
-		return result.toString(); 
+		return result.toString();
 	}
-	
+
 	@RequestMapping(value = "deleteUser.do", produces = "application/json;charset=UTF-8")
-	public @ResponseBody String  deleteUser(
-			@RequestParam(value = "Id", required = true) Integer id,
-			HttpServletRequest request){
-		try{
+	public @ResponseBody
+	String deleteUser(@RequestParam(value = "Id", required = true) Integer id,
+			HttpServletRequest request) {
+		try {
 			userService.deleteUser(id);
-			Result<UserVM> s = new Result<UserVM>(null, true, false,
-					false, "调用后台方法出错");
+			Result<UserVM> s = new Result<UserVM>(null, true, false, false,
+					"调用后台方法出错");
 			return s.toJson();
-		}catch(Exception ex){
-			Result<UserVM> s = new Result<UserVM>(null, false, false,
-					false, "调用后台方法出错");
+		} catch (Exception ex) {
+			Result<UserVM> s = new Result<UserVM>(null, false, false, false,
+					"调用后台方法出错");
 			return s.toJson();
 		}
-		
+
 	}
+
 	/**
 	 * 
 	 * @param plainText

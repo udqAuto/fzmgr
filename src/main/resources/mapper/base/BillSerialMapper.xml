@@ -212,6 +212,18 @@
       <include refid="Example_Where_Clause" />
     </if>
   </select>
+  
+  
+    <select id = "getNextBillSerialNo" parameterType="java.util.Map"  resultType="java.lang.String">
+  	{call get_next_bill_serial_no(#{billType,jdbcType=INTEGER},#{billDate,jdbcType=INTEGER})}
+  </select>
+  
+  <select id = "updateBillSerialNo" parameterType="java.util.Map"  resultType="java.lang.String">
+  	{call update_bill_serial_no(#{billType,jdbcType=INTEGER},#{billDate,jdbcType=INTEGER})}
+  </select>
+  
+  
+  
   <update id="updateByExampleSelective" parameterType="map" >
     <!--
       WARNING - @mbggenerated
