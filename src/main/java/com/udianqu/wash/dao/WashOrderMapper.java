@@ -101,4 +101,6 @@ public interface WashOrderMapper {
     int updateByPrimaryKey(WashOrder record);
 
 	List<WashOrderVM> loadWashOrderlistWithPage(Map<String, Object> map);
+
+	int loadWashOrderCount(Map<String, Object> map);
 }
