@@ -33,4 +33,5 @@ public interface UserMapper {
 	UserVM loadUserByNameAndPwd(Map<String, Object> map);
 
 	List<User> loadadminUserlist();
+
 }

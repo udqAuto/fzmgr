@@ -49,4 +49,14 @@ public class UserService {
 		return userMapper.loadadminUserlist();
 	}
 
+	public User selectByName(String name) {
+		// TODO Auto-generated method stub
+		return userMapper.selectByName(name);
+	}
+
+	public User selectByMobile(String mobile) {
+		// TODO Auto-generated method stub
+		return userMapper.selectByMobile(mobile);
+	}
+
 }

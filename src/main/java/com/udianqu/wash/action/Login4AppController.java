@@ -16,23 +16,26 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.udianqu.wash.core.Result;
+import com.udianqu.wash.model.User;
+import com.udianqu.wash.service.LoginService;
 import com.udianqu.wash.service.UserService;
 import com.udianqu.wash.viewmodel.UserVM;
 
 @Controller
 @RequestMapping("/login4App")
 public class Login4AppController {
-	
-	@Autowired UserService userService;
-	
+
+	@Autowired
+	UserService userService;
+
 	@RequestMapping(value = "login4App.do", produces = "application/json;charset=UTF-8")
-	public @ResponseBody String login4App(
+	public @ResponseBody
+	String login4App(
 			@RequestParam(value = "username", required = true) String username,
 			@RequestParam(value = "password", required = true) String password,
-			HttpServletRequest request, HttpServletResponse response
-			){
+			HttpServletRequest request, HttpServletResponse response) {
 		Result<UserVM> s = new Result<UserVM>();
-		try{
+		try {
 			if (username.isEmpty()) {
 				s = new Result<UserVM>(null, false, false, false, "请输入用户名");
 				return s.toJson();
@@ -41,7 +44,7 @@ public class Login4AppController {
 				s = new Result<UserVM>(null, false, false, false, "请输入密码");
 				return s.toJson();
 			}
-			
+
 			if (username.trim().length() == 0) {
 				s = new Result<UserVM>(null, false, false, false, "请输入用户名");
 				return s.toJson();
@@ -59,18 +62,69 @@ public class Login4AppController {
 			UserVM u = userService.loadUserByNameAndPwd(map);
 			if (u != null) {
 				session.setAttribute("user", u);
-				 s = new Result<UserVM>(u, true, false, false, "登录成功");
+				s = new Result<UserVM>(u, true, false, false, "登录成功");
 				return s.toJson();
 			} else {
 				s = new Result<UserVM>(null, false, false, false, "用户名或密码错误");
 				return s.toJson();
 			}
-		}catch(Exception ex){
-				s = new Result<UserVM>(null, false, false, false, "系统登录错误，请联系网站管理员");
+		} catch (Exception ex) {
+			s = new Result<UserVM>(null, false, false, false, "系统登录错误，请联系网站管理员");
 			return s.toJson();
 		}
 	}
-	
+
+	@RequestMapping("/saveUser.do")
+	@ResponseBody
+	public String saveUser(UserVM user, HttpServletRequest request) {
+
+		Result<UserVM> s = new Result<UserVM>();
+		try {
+			HttpSession session = request.getSession();
+			UserVM u = (UserVM) session.getAttribute("user");
+			if (u == null) {
+				s = new Result<UserVM>(null, false, false, false,
+						"页面过期，请重新登录");
+				return s.toJson();
+			} else {
+
+				if (user.getId() > 0) {
+					user.setPsd(u.getPsd());
+					userService.updateByPrimaryKey(user);
+				} else {//注册
+					String name = user.getName();
+					String mobile = user.getMobile();
+					User user1 = userService.selectByName(name);
+					User user2 = userService.selectByMobile(mobile);
+					if(user1 !=null){
+						s = new Result<UserVM>(null, false, false, false,
+								"用户名称已存在");
+						return s.toJson();
+					}
+					if(user2 !=null){
+						s = new Result<UserVM>(null, false, false, false,
+								"电话号码已存在");
+						return s.toJson();
+					}
+					if(user1 == null&&user2 == null){
+						String psd = encryption(user.getPsd());
+						user.setPsd(psd);
+						user.setUserType(8);
+						userService.insert(user);
+					}
+					
+				}
+				s = new Result<UserVM>(null, true, false, false,
+						"注册成功");
+				return s.toJson();
+			}
+		} catch (Exception ex) {
+			s = new Result<UserVM>(null, false, false, false,
+					"调用后台方法出错");
+			return s.toJson();
+		}
+	}
+
 	/**
 	 * 
 	 * @param plainText
