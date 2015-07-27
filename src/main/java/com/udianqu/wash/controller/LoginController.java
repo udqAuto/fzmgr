@@ -68,8 +68,6 @@ public class LoginController {
 	@RequestMapping(value = "login.do", produces = "application/json;charset=UTF-8")
 	 @ResponseBody
 	public void login(
-			/*@RequestParam(value = "identity", required = true) String username,
-			@RequestParam(value = "password", required = true) String password,*/
 			@RequestParam(value = "username", required = true) String username,
 			@RequestParam(value = "password", required = true) String password,
 			HttpServletRequest request, HttpServletResponse response
@@ -94,6 +92,7 @@ public class LoginController {
 			}
 			Map<String, Object> map = new HashMap<String, Object>();
 			String nPwd = encryption(password);
+			map.put("mobile",username);
 			map.put("name", username);
 			map.put("pwd", nPwd);
 			UserVM u = userService.loadUserByNameAndPwd(map);

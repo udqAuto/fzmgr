@@ -16,8 +16,7 @@ public class AutoService {
 	@Autowired AutoMapper autoMapper;
 
 	public ListResult<AutoVM> loadAutolist(Map<String, Object> map) {
-		//int count=autoMapper.countByMap(map);
-		int count = 0;
+		int count=autoMapper.countByMap(map);
 		List<AutoVM> ls=autoMapper.loadAutolistWithPage(map);
 		ListResult<AutoVM> result=new ListResult<AutoVM>(count,ls);
 		return result;
