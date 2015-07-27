@@ -22,4 +22,19 @@ public class AutoService {
 		return result;
 	}
 
+	public void updateByPrimaryKey(AutoVM auto) {
+		// TODO Auto-generated method stub
+		autoMapper.updateByPrimaryKey(auto);
+	}
+
+	public void insert(AutoVM auto) {
+		// TODO Auto-generated method stub
+		autoMapper.insert(auto);
+	}
+
+	public void deleteAuto(Integer id) {
+		// TODO Auto-generated method stub
+		autoMapper.deleteByPrimaryKey(id);
+	}
+
 }

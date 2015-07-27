@@ -213,8 +213,8 @@
     select <include refid="BaseVM_Column_List" />
     from t_user u
     left join t_org o on u.org_id = o.id
-    where u.name = #{name,jdbcType=VARCHAR} and u.psd = #{pwd,jdbcType=VARCHAR}
-    or u.mobile = #{mobile,jdbcType=VARCHAR} and u.psd = #{pwd,jdbcType=VARCHAR}
+    where u.name = #{name,jdbcType=VARCHAR} and u.psd = #{psd,jdbcType=VARCHAR}
+    or u.mobile = #{mobile,jdbcType=VARCHAR} and u.psd = #{psd,jdbcType=VARCHAR}
     limit 0,1;
   </select>
   

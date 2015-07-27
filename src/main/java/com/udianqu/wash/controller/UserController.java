@@ -117,7 +117,7 @@ public class UserController {
 		try{
 			userService.deleteUser(id);
 			Result<UserVM> s = new Result<UserVM>(null, true, false,
-					false, "调用后台方法出错");
+					false, "删除成功");
 			return s.toJson();
 		}catch(Exception ex){
 			Result<UserVM> s = new Result<UserVM>(null, false, false,

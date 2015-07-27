@@ -92,9 +92,8 @@ public class LoginController {
 			}
 			Map<String, Object> map = new HashMap<String, Object>();
 			String nPwd = encryption(password);
-			map.put("mobile",username);
 			map.put("name", username);
-			map.put("pwd", nPwd);
+			map.put("psd", nPwd);
 			UserVM u = userService.loadUserByNameAndPwd(map);
 			if (u != null) {
 				session.setAttribute("user", u);

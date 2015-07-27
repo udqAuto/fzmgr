@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.udianqu.wash.core.Result;
 import com.udianqu.wash.model.User;
-import com.udianqu.wash.service.LoginService;
 import com.udianqu.wash.service.UserService;
 import com.udianqu.wash.viewmodel.UserVM;
 
@@ -55,10 +54,8 @@ public class Login4AppController {
 			}
 			HttpSession session = request.getSession();
 			Map<String, Object> map = new HashMap<String, Object>();
-			String nPwd = encryption(password);
 			map.put("mobile", username);
-			map.put("name", username);
-			map.put("pwd", nPwd);
+			map.put("psd", password);
 			UserVM u = userService.loadUserByNameAndPwd(map);
 			if (u != null) {
 				session.setAttribute("user", u);
@@ -74,9 +71,9 @@ public class Login4AppController {
 		}
 	}
 
-	@RequestMapping("/saveUser.do")
+	@RequestMapping("/registUser.do")
 	@ResponseBody
-	public String saveUser(UserVM user, HttpServletRequest request) {
+	public String registUser(UserVM user, HttpServletRequest request) {
 
 		Result<UserVM> s = new Result<UserVM>();
 		try {
@@ -92,23 +89,13 @@ public class Login4AppController {
 					user.setPsd(u.getPsd());
 					userService.updateByPrimaryKey(user);
 				} else {//注册
-					String name = user.getName();
 					String mobile = user.getMobile();
-					User user1 = userService.selectByName(name);
-					User user2 = userService.selectByMobile(mobile);
+					User user1 = userService.selectByMobile(mobile);
 					if(user1 !=null){
-						s = new Result<UserVM>(null, false, false, false,
-								"用户名称已存在");
-						return s.toJson();
-					}
-					if(user2 !=null){
 						s = new Result<UserVM>(null, false, false, false,
 								"电话号码已存在");
 						return s.toJson();
-					}
-					if(user1 == null&&user2 == null){
-						String psd = encryption(user.getPsd());
-						user.setPsd(psd);
+					}else{
 						user.setUserType(8);
 						userService.insert(user);
 					}
