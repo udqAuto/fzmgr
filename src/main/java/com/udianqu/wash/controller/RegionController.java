@@ -1,7 +1,9 @@
 package com.udianqu.wash.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
  
+import com.udianqu.wash.core.ListResult;
 import com.udianqu.wash.core.Result;
 import com.udianqu.wash.model.Organization;
 import com.udianqu.wash.model.Region; 
@@ -95,6 +98,39 @@ public class RegionController {
 		return null;
 	}
 	
+	@RequestMapping(value = "getRegion4App.do", produces = "application/json;charset=UTF-8")
+	public @ResponseBody
+	String getRegion4App( 
+//			@RequestParam(value = "id", required = false) Integer hybrid_id,
+//			@RequestParam(value = "parentid", required = false) Integer parentid,
+			HttpServletRequest request, HttpServletResponse response
+			){
+		Integer level = null;  
+		List<RegionVM> cityArray = new ArrayList<RegionVM>();
+		List<RegionVM> regionArray = new ArrayList<RegionVM>();
+		ListResult<RegionVM> region = new ListResult<RegionVM>();
+//		if (hybrid_id != null) {
+//			qid = hybrid_id;  
+//		} else {
+//			qid = parentid;
+//		}
+/*		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("level",2);
+		map.put("pid",1);
+		ListResult<RegionVM> result = regionService.getRegionByPidAndLevel(map);
+		for(int i=0;i<result.getTotal();i++){
+			result.getRows()
+		}
+		regionArray = regionService.getRegion(3,pid);
+		name
+		disArray = regionService.getDis();
+		region = new ListResult<RegionVM>(name,disArray);
+		regionArray = regionService.getRegionList(); 
+		citys = getNodes(regionArray,level);
+		JSONArray  json = JSONArray.fromObject();
+		String resutl  = json.toString();*/
+		return null;
+	}
 	
 	@RequestMapping(value = "getRegionList.do", produces = "application/json;charset=UTF-8")
 	public @ResponseBody String getRegionList(
