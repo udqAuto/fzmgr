@@ -549,18 +549,52 @@
       grade_user = #{gradeUser,jdbcType=TINYINT}
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <select id="loadWashOrderlistWithPage"   parameterType="java.util.Map"  resultMap="BaseVMResultMap"  >
-  		select <include refid="BaseVM_Column_List" /> 
-  		from t_wash_order w 
-  		left join t_user u on w.user_id = u.id
-  		
-  		left join t_auto a on w.auto_id = a.id
-  		left join t_region r on w.region_id = r.id
-  		
-  		left join t_org o on w.org_id = o.id
-  		
-  		left join t_pay p on w.pay_id = p.id
-  		left join t_user x on w.washer_id = x.id
+  
+  <select id="loadWashOrderCount"   parameterType="java.util.Map"  resultType="java.lang.Integer" >
+	select  count(*)
+	from t_wash_order o 
+	where o.org_id = #{orgId,jdbcType=INTEGER}
+		<if test="stateIds != null ">
+			and o.state in
+  			<foreach item="item" index="index" collection="stateIds" open="(" separator="," close=")">  
+					#{item}
+			</foreach>
+		</if>
+		<if test="startTime != null ">
+			and o.order_time  &gt;=#{startTime,jdbcType=TIMESTAMP}
+		</if>
+		<if test="endTime != null">
+			and o.order_time  &lt;=#{endTime,jdbcType=TIMESTAMP}
+		</if>
+  </select>
+  <select id="loadWashOrderlistWithPage"   parameterType="java.util.Map"   resultType="com.udianqu.wash.viewmodel.WashOrderVM"   >
+	select  o.id                as id,
+			o.state 			as state, 
+			o.order_no 			as orderNo, 
+			u.name 				as customerName, 
+			o.user_note 		as userNote, 
+			a.pn 				as autoPN,
+			o.order_time 		as orderTime,
+			o.bill_time 		as billTime, 
+			o.accept_time 		as acceptTime,
+			o.begin_time 		as beginTime,
+			o.finish_time 		as finishTime 
+	from t_wash_order o 
+		left join t_user u on o.user_id = u.id and u.user_type = 8
+		left join t_auto a on o.auto_id = a.id
+	where o.org_id = #{orgId,jdbcType=INTEGER}
+		<if test="stateIds != null ">
+			and o.state in
+  			<foreach item="item" index="index" collection="stateIds" open="(" separator="," close=")">  
+					#{item}
+			</foreach>
+		</if>
+		<if test="startTime != null ">
+			and o.order_time  &gt;=#{startTime,jdbcType=TIMESTAMP}
+		</if>
+		<if test="endTime != null">
+			and o.order_time  &lt;=#{endTime,jdbcType=TIMESTAMP}
+		</if>
   		<if test="pageStart !=null">
   		limit #{pageStart,jdbcType=INTEGER}, #{pageSize,jdbcType=INTEGER}
   		</if>

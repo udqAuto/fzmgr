@@ -18,7 +18,7 @@ public class WashOrderService {
 
 	public ListResult<WashOrderVM> loadOrderlist(Map<String, Object> map) {
 		// TODO Auto-generated method stub
-		int count = 0;
+		int count = washOrderMapper.loadWashOrderCount(map);
 		List<WashOrderVM> ls=washOrderMapper.loadWashOrderlistWithPage(map);
 		ListResult<WashOrderVM> result=new ListResult<WashOrderVM>(count,ls);
 		return result;

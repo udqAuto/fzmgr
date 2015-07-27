@@ -42,10 +42,13 @@
 				<span>订单</span>
 					<ul>
 						<li>
-							<span>未处理订单</span>
+							<span>未完成订单</span>
 						</li>
 						<li>
-							<span>已处理订单</span>
+							<span>已完成订单</span>
+						</li>
+						<li>
+							<span>已取消订单</span>
 						</li>
 						<li>
 							<span>评价管理</span>

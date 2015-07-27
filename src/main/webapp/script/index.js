@@ -50,11 +50,14 @@ function onTreeMenuDblClick(row) {
 	case "用户管理":
 		src = "view/user/userListInfo.jsp?userType=1,2,4";
 		break;
-	case "未处理订单":
-		src = "view/order/orderListInfo.jsp?orderState=0&orgId="+m_index_orgId;
+	case "未完成订单":
+		src = "view/order/orderListInfo.jsp?orderState=1,2,3&orgId="+m_index_orgId;
 		break;
-	case "已处理订单":
-		src = "view/order/orderListInfo.jsp?orderState=1&orgId="+m_index_orgId;
+	case "已完成订单":
+		src = "view/order/orderListInfo.jsp?orderState=4&orgId="+m_index_orgId;
+		break;
+	case "已取消订单":
+		src = "view/order/orderListInfo.jsp?orderState=10,11&orgId="+m_index_orgId;
 		break;
 	case "车辆管理":
 		src = "view/auto/autoListInfo.jsp";
