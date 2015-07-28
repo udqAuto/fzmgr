@@ -37,6 +37,12 @@ public class Result<T> {
 		this.isTimeOut=isTimeOut;
 		this.msg=msg;
 	}
+	public Result(T data,boolean isSuccess,String msg){
+		this();
+		this.data=data;
+		this.isSuccess=isSuccess;
+		this.msg=msg;
+	}
 	
 	public String toJson(){
 		//JSONObject rs=JSONObject.fromObject(this);

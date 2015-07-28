@@ -31,6 +31,7 @@
             		<label>预约结束时间:</label><input id="sch_endTime" class="easyui-datebox" style="width:120px"  data-options="editable:false" />
             	</span>
             	<a id="btnSearch" href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-search" plain="true" onclick="OrderManage.doSearch();">查询</a>
+            	<a id="btnclearUp" href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-udq-clear" plain="true" onclick="OrderManage.doClean();">清空</a>
 			</p>
 			
 		</div>
