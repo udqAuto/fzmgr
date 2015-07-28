@@ -86,7 +86,7 @@ public class Login4AppController {
 			String mobile = user.getMobile();
 			if(mobile == null||mobile == ""){
 				s = new Result<UserVM>(null, false, false, false,
-						"請填寫電話號碼");
+						"请输入电话号码");
 				return s.toJson();
 			}
 			User user1 = userService.selectByMobile(mobile);
@@ -96,9 +96,9 @@ public class Login4AppController {
 					return s.toJson();
 				}else{
 					user.setUserType(8);
-					user.setSex((byte) 0);
+					user.setSex((byte) 2);
 					userService.insert(user);
-					s = new Result<UserVM>(null, true, false, false,
+					s = new Result<UserVM>(user, true, false, false,
 							"注册成功");
 					return s.toJson();
 				}

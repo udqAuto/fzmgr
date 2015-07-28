@@ -123,15 +123,15 @@
 		<table style="margin: 20px;">
 			<tr style="height: 40px;">
 				<td align="right" style="font-size: 12px;">原密码：</td>
-				<td><input type="password" name="password" /></td>
+				<td><input id="txtOldPassword" type="password" name="password" /></td>
 			</tr>
 			<tr style="height: 40px;">
 				<td align="right" style="font-size: 12px;">新密码：</td>
-				<td><input type="password" name="newPassword" /></td>
+				<td><input id="txtNewPassword" type="password" name="newPassword" /></td>
 			</tr>
 			<tr style="height: 40px;">
 				<td align="right" style="font-size: 12px;">确认密码：</td>
-				<td><input type="password" name="TooNewPassword" /></td>
+				<td><input id="txtTooNewPassword" type="password" name="TooNewPassword" /></td>
 			</tr>
 			<tr style="height: 40px;">
 				<td align="center" style="font-size: 12px;"><input type="reset" class="easyui-linkbutton" value="重置" /></td>

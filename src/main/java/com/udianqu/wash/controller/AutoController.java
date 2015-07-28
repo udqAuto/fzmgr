@@ -6,6 +6,8 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import net.sf.json.JSONObject;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -54,9 +56,12 @@ public class AutoController {
 	
 	@RequestMapping("/saveAuto4App.do")
 	@ResponseBody
-	public String saveAuto4App(AutoVM auto, HttpServletRequest request) {
-
+	public String saveAuto4App(
+			@RequestParam(value = "autoInfo", required = true) String autoInfo,
+			HttpServletRequest request) {
 		try {
+			JSONObject jObj = JSONObject.fromObject(autoInfo);
+			AutoVM auto = (AutoVM) JSONObject.toBean(jObj,AutoVM.class);
 		    if (auto.getId() > 0) {//edit
 				autoService.updateByPrimaryKey(auto);
 			} else {//add

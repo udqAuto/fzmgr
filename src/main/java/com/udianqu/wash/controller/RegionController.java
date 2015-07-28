@@ -101,15 +101,13 @@ public class RegionController {
 	@RequestMapping(value = "getRegion4App.do", produces = "application/json;charset=UTF-8")
 	public @ResponseBody
 	String getRegion4App( 
-//			@RequestParam(value = "id", required = false) Integer hybrid_id,
-//			@RequestParam(value = "parentid", required = false) Integer parentid,
 			HttpServletRequest request, HttpServletResponse response
 			){
 		Integer qid = 0;  
 		List<RegionVM> ls = new ArrayList<RegionVM>();
 		List<RegionVM> list = new ArrayList<RegionVM>();
-		ls = regionService.getRegionList4App(qid); 
-		list = getNodes(ls,qid);
+		ls = regionService.getRegionList(qid); 
+		list = getNodes4App(ls,qid);
 		JSONArray  json = JSONArray.fromObject(list);
 		String resutl  = json.toString();
 		return resutl;
@@ -160,6 +158,25 @@ public class RegionController {
 					v.setChildren(null); 
 				}
 				v.setState("open");
+				list.add(v);
+			}
+		}
+		return list;
+	}
+	private List<RegionVM> getNodes4App(List<RegionVM> ls, Integer qid) {
+		// TODO Auto-generated method stub
+		List<RegionVM> list = new ArrayList<RegionVM>(); 
+		for(RegionVM o :ls ){
+			if(o.getPid() == qid){
+				RegionVM v = new RegionVM();
+				v.setId(o.getId());
+				v.setName(o.getName());
+				List<RegionVM> l = getItemByParentId(o.getId());
+				if(l.size()>0){ 
+					v.setChildren(getNodes(l,o.getId())); 
+				}else{
+					v.setChildren(null); 
+				}
 				list.add(v);
 			}
 		}

@@ -181,7 +181,7 @@ var UserManage = {
 	
 				m_userInfo_dlg = art
 						.dialog({
-							id : 'dlgAddUser',
+							id : 'dlgEditUser',
 							title : '编辑用户',
 							content : "<iframe scrolling='no' frameborder='0' src='view/user/userBill.jsp?type=1&userId="
 									+ userId
