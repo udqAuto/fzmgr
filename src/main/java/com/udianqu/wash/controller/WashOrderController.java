@@ -16,7 +16,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.udianqu.wash.core.ListResult;
+import com.udianqu.wash.core.Result;
+import com.udianqu.wash.model.Organization;
+import com.udianqu.wash.service.OrganService;
 import com.udianqu.wash.service.WashOrderService;
+import com.udianqu.wash.viewmodel.AutoVM;
 import com.udianqu.wash.viewmodel.WashOrderVM;
 
 @Controller
@@ -25,6 +29,9 @@ public class WashOrderController {
 
 	@Autowired
 	WashOrderService orderService;
+
+	@Autowired
+	OrganService organService;
 
 	@RequestMapping(value = "getOrderList.do", produces = "application/json;charset=UTF-8")
 	public @ResponseBody
@@ -42,7 +49,9 @@ public class WashOrderController {
 		map.put("pageSize", rows);
 		int orgId = joQuery.getInt("orgId");
 		int orderType = joQuery.getInt("orderType");
+		Organization o = organService.selectByPrimaryKey(orgId);
 		map.put("orgId", orgId);
+		map.put("orgPath", o.getPath() == null ? (orgId+"") : o.getPath());
 
 		String startTime = joQuery.getString("startTime");
 		String endTime = joQuery.getString("endTime");
@@ -79,9 +88,22 @@ public class WashOrderController {
 		}
 		map.put("stateIds", ids);
 
-		ListResult<WashOrderVM> rs = orderService.loadOrderlist(map);
-
+		ListResult<WashOrderVM> rs = orderService.loadOrderlist(map); 
 		return rs.toJson();
 	}
-
+	@RequestMapping(value = "getOrderObjById.do", produces = "application/json;charset=UTF-8")
+	public @ResponseBody
+	String getOrderObjById(
+			@RequestParam(value = "orderId", required = false) String orderId, 
+			HttpServletRequest request) throws Exception {
+		try{
+			WashOrderVM wovm = orderService.loadOrderObjById(orderId);
+			Result<WashOrderVM> s = new Result<WashOrderVM>(wovm, true,"查询订单信息成功");
+			return s.toJson();
+		}catch(Exception ex){
+			Result<WashOrderVM> s = new Result<WashOrderVM>(null, false,"查询订单信息失败");
+			return s.toJson();
+		} 
+	}
+	
 }

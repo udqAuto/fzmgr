@@ -103,4 +103,6 @@ public interface WashOrderMapper {
 	List<WashOrderVM> loadWashOrderlistWithPage(Map<String, Object> map);
 
 	int loadWashOrderCount(Map<String, Object> map);
+
+	WashOrderVM loadOrderObjById(String id);
 }

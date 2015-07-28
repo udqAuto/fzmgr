@@ -19,27 +19,91 @@
   <body>
    <div id="div_orderInfo" style="text-align:left;overflow:hidden;">
 		 <p id="tb_operation" style="padding:2px;border-bottom:1px solid black;">
-			<a id="btnCancelSave"  href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-delete" plain="true">关闭</a> 
+			<a id="btnCancelSave"  href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-udq-close" plain="true">关闭</a> 
 		 </p>
-		 
-		 <p><label>订单号：</label><input id="txtOrderNo" class="easyui-validatebox" readonly="readonly"/><input id="txtid" type="hidden"/></p>
-		 <p><label>下单用户：</label><input id="txtUserName" class="easyui-validatebox"  readonly="readonly"/></p>
-		 <p><label>用户备注：</label><input id="txtUserNote" class="easyui-validatebox" readonly="readonly"/></p>
-		 <p><label>车牌号：</label><input id="txtAutoPN" class="easyui-validatebox" readonly="readonly"/></p>
-		 <p><label>小区：</label><input id="txtRegionName" class="easyui-validatebox"  readonly="readonly"/></p>
-		 <p><label>洗车店：</label><input id="txtShopName" class="easyui-validatebox"  readonly="readonly"/></p>
-		 <p><label>支付类型：</label><input id="txtPayType" class="easyui-validatebox"  readonly="readonly"/></p>
-		 <p><label>预约时间：</label><input id="txtOrderTime" class="easyui-validatebox" readonly="readonly"/></p>
-		 <p><label>提交订单时间：</label><input id="txtBillTime" class="easyui-validatebox" readonly="readonly"/></p>
-		 <p><label>管理员：</label><input id="txtWasherName" class="easyui-validatebox" readonly="readonly"/></p>
-		 <p><label>管理员备注：</label><input id="txtWasherNote" class="easyui-validatebox" readonly="readonly"/></p>
-		 <p><label>状态：</label><input id="txtStateNote" class="easyui-validatebox" readonly="readonly"/></p>
-		 <p><label>接收订单时间：</label><input id="txtAcceptTime" class="easyui-validatebox" readonly="readonly"/></p>
-		 <p><label>开始洗车时间：</label><input id="txtBeginTime" class="easyui-validatebox" readonly="readonly"/></p>
-		 <p><label>完成时间：</label><input id="txtFinishTime" class="easyui-validatebox" readonly="readonly"/></p>
-		 <p><label>客户评分：</label><input id="txtGradeUser" class="easyui-validatebox" readonly="readonly"/></p>
-		 <p><label>洗车工队评分：</label><input id="txtGradeWasher" class="easyui-validatebox" readonly="readonly"/></p>
-		 
+		 <p><h2>订单基本信息</h2></p>
+		  <table style="font-size:12px;font-family:微软雅黑;width:100%;text-align:left;">
+		 	<tr>
+		 		<td>
+		 			<label>订单编号：</label>
+		 		</td>
+		 		<td style="width:100px">
+		 			<label id="txtOrderNo"></label>
+		 		</td>
+		 		<td>
+		 			<label>订单状态：</label>
+		 		</td>
+		 		<td style="width:100px">
+					<label id="txtOrderState"></label>
+		 		</td>
+		 		<td>
+		 			<label>洗车类型：</label>
+		 		</td>
+		 		<td>
+		 			<label id="txtOrderType"></label>
+		 		</td>
+		 	</tr>
+		 	<tr>
+		 		<td><label>客户姓名：</label></td>
+		 		<td><label id="txtCustomerName"></label></td>
+		 		<td><label>联系电话：</label></td>
+		 		<td><label id="txtCustomerMobile"></label></td>
+		 		<td><label>车牌号码：</label></td>
+		 		<td><label id="txtCustomerPN"></label></td>
+		 	</tr>
+		 	<tr>
+		 		<td><label>所属小区：</label></td>
+		 		<td><label id="txtCustomerRegion"></label></td>
+		 		<td><label>订单时间：</label></td>
+		 		<td><label id="txtBillTime"></label></td>
+		 		<td><label>预约时间：</label></td>
+		 		<td><label id="txtOrderTime"></label></td> 
+		 	</tr>
+		 	<tr>
+		 		<td><label>固定价格：</label></td>
+		 		<td><label id="txtOrderPrice"></label></td>
+		 		<td><label>　优惠券：</label></td>
+		 		<td><label id="txtIsCoupon"></label></td>
+		 		<td><label>优惠金额：</label></td>
+		 		<td><label id="txtCouponAmount"></label></td>
+		 	</tr>
+		 	<tr>
+		 		<td><label>结算价格：</label></td>
+		 		<td colspan="4"><label id="txtOrderAmount"></label></td>
+		 	</tr>
+		 	<tr>
+		 		<td><label>订单备注：</label></td>
+		 		<td colspan="4"><label id="txtOrderNotes"></label></td>
+		 	</tr> 
+		 </table>   
+		 <p><h2>订单处理信息</h2></p>
+		 <table style="font-size:12px;font-family:微软雅黑;width:100%;text-align:left;">
+		 	<tr> 
+		 		<td><label>接单员工：</label></td>
+		 		<td style="width:100px"><label id="txtWasherName"></label></td> 
+		 		<td><label>接单时间：</label></td>
+		 		<td style="width:100px"><label id="txtAcceptTime"></label></td>
+		 		<td></td>
+		 		<td style="width:100px"></td>
+		 	</tr>
+		 	<tr>
+		 		<td><label>开始时间：</label></td>
+		 		<td><label id="txtBeginTime"></label></td>
+		 		<td><label>结束时间：</label></td>
+		 		<td><label id="txtEndTime"></label></td>
+		 	</tr>
+		 </table> 
+		 <p><h2>订单评价信息</h2></p>
+		 <table style="font-size:12px;font-family:微软雅黑;width:100%;text-align:left;">
+		 	<tr>
+		 		<td><label>客户评分：</label></td>
+		 		<td style="width:100px"><label id="txtCustomerGrade"></label></td>
+		 		<td><label>店员评分：</label></td>
+		 		<td style="width:100px"><label id="txtWasherGrade"></label></td>
+		 		<td></td>
+		 		<td style="width:100px"></td>
+		 	</tr>
+		 </table> 
 	 </div>
   </body>
 </html>

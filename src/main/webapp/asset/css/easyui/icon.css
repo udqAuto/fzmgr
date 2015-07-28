@@ -179,7 +179,12 @@
 .icon-udq-save{
 	background:url('icons/udq_save.png') no-repeat center center;
 } 
-
+.icon-udq-clear{
+	background:url('icons/udq_clear.png') no-repeat center center;
+}
+.icon-udq-search{
+	background:url('icons/udq_search.png') no-repeat center center;
+}
 .displaynone{
 	display:none;
 }

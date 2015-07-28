@@ -50,27 +50,7 @@ var OrderManage = {
 			} 
 			m_order_query.startTime = $("#sch_startTime").datebox("getValue");
 			m_order_query.endTime = $("#sch_endTime").datebox("getValue");
-		},
-		packageObject : function(row) {
-			order_obj.id = row.id;
-			order_obj.orderNo = row.orderNo;
-			order_obj.customerName = row.customerName;
-			order_obj.userNote = row.userNote;
-			order_obj.autoPN = row.autoPN;
-			order_obj.regionName = row.regionName;
-			order_obj.shopName = row.shopName;
-			order_obj.payType = row.payType;
-			order_obj.orderTime = row.orderTime;
-			order_obj.billTime = row.billTime;
-			order_obj.washerName = row.washerName;
-			order_obj.washerNote = row.washerNote;
-			order_obj.stateNote = row.stateNote;
-			order_obj.acceptTime = row.acceptTime;
-			order_obj.beginTime = row.beginTime;
-			order_obj.finishTime = row.finishTime;
-			order_obj.gradeUser = row.gradeUser;
-			order_obj.gradeWasher = row.gradeWasher;
-		},
+		}, 
 		loadOrderList : function() {
 			$('#orderListGrid').datagrid({
 				url : 'order/getOrderList.do',
@@ -147,6 +127,13 @@ var OrderManage = {
 			OrderManage.packageQuery();
 			$('#orderListGrid').datagrid("reload",{'order_Query' : JSON.stringify(m_order_query)});
 		},
+		doClean:function(){
+			$("#txtcmbOrgan").combotree("setValue","");
+			$("#txtOrderState").combobox("setValue",0);
+			$("#txtCancelType").combobox("setValue",0);
+			$("#sch_startTime").datebox("setValue","");
+			$("#sch_endTime").combotree("setValue",""); 
+		},
 		showOrder : function(){
 			try {
 				var dataRows = $('#orderListGrid').datagrid('getRows');
@@ -158,13 +145,13 @@ var OrderManage = {
 				if (!target || target.length == 0) {
 					$.messager.alert('操作提示', "请选择操作项!", "warning");
 					return;
-				}
-				OrderManage.packageObject(target[0]);
+				} 
+				var orderId = target[0].id;
 				m_order_dlg = art
 						.dialog({
 							id : 'dlgShowOrder',
 							title : '查看订单信息',
-							content : "<iframe scrolling='yes' frameborder='0' src='view/order/orderBill.jsp' style='width:310px;height:350px;overflow:hidden'/>",
+							content : "<iframe scrolling='yes' frameborder='0' src='view/order/orderBill.jsp?orderId="+orderId+"' style='width:710px;height:450px;overflow:hidden'/>",
 							lock : true,
 							initFn : function() {
 							}
