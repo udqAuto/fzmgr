@@ -30,10 +30,10 @@ $(function() {
 	$("#btnSaveOrganInfo").bind("click", OrganManage.saveOrgan);
 	$("#btnCancelSave").bind("click", OrganManage.closeWindow);
 	
-//	function a (){
-//		$("#txtUserName").combotree('setValue', score.bmId);
-//	}
 });
+//function a (){
+//$("#txtUserName").combobox('setValue', score.bmId);
+//}
 var m_organ_obj = {};
 var OrganManage = {
 		initBaseAttribute:function(){
@@ -41,7 +41,7 @@ var OrganManage = {
 				url:'user/getAllUserList.do',    
 			    valueField:'id',    
 			    textField:'name'
-			    //onLoadSuccess:a
+//			    onLoadSuccess:a
 			});
 		},
 		onCheckShop:function(){

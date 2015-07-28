@@ -6,6 +6,8 @@ import com.udianqu.wash.model.RegionExample;
 import com.udianqu.wash.viewmodel.RegionVM;
 
 import java.util.List;
+import java.util.Map;
+
 import org.apache.ibatis.annotations.Param;
 
 @MyBatisRepository
@@ -99,4 +101,15 @@ public interface RegionMapper {
     int updateByPrimaryKey(Region record);
 
 	List<RegionVM> getRegionList(Integer id);
+	
+	List<RegionVM> getRegion();
+
+	int countByMap(Map<String, Object> map);
+
+	List<RegionVM> getRegionByPidAndLevel(Map<String, Object> map);
+
+	List<RegionVM> getRegionList4App(Integer id);
+
+	String getName(Map<String, Object> map);
+	
 }

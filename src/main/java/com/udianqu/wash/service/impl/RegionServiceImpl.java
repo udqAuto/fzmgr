@@ -46,9 +46,18 @@ public class RegionServiceImpl implements RegionService {
 	public ListResult<RegionVM> getRegionByPidAndLevel(Map<String, Object> map) {
 		// TODO Auto-generated method stub
 		int count = regionMapper.countByMap(map);
+		String name = regionMapper.getName(map);
 		List<RegionVM> ls=regionMapper.getRegionByPidAndLevel(map);
-		ListResult<RegionVM> result=new ListResult<RegionVM>(count,ls);
-		return result;
+		
+		List<RegionVM> disArray = regionMapper.getRegionByPidAndLevel(map);
+		ListResult<RegionVM> regionArray =new ListResult<RegionVM>(disArray);
+		
+		return regionArray;
+	}
+	@Override
+	public List<RegionVM> getRegionList4App(Integer qid) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

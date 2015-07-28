@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import net.sf.json.JSONObject;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -73,38 +75,35 @@ public class Login4AppController {
 
 	@RequestMapping("/registUser.do")
 	@ResponseBody
-	public String registUser(UserVM user, HttpServletRequest request) {
+	public String registUser(
+			@RequestParam(value = "userInfo", required = true) String userInfo,
+			HttpServletRequest request) {
 
 		Result<UserVM> s = new Result<UserVM>();
 		try {
-			HttpSession session = request.getSession();
-			UserVM u = (UserVM) session.getAttribute("user");
-			if (u == null) {
+			JSONObject jObj = JSONObject.fromObject(userInfo);
+			UserVM user = (UserVM) JSONObject.toBean(jObj,UserVM.class);
+			String mobile = user.getMobile();
+			if(mobile == null||mobile == ""){
 				s = new Result<UserVM>(null, false, false, false,
-						"页面过期，请重新登录");
-				return s.toJson();
-			} else {
-
-				if (user.getId() > 0) {
-					user.setPsd(u.getPsd());
-					userService.updateByPrimaryKey(user);
-				} else {//注册
-					String mobile = user.getMobile();
-					User user1 = userService.selectByMobile(mobile);
-					if(user1 !=null){
-						s = new Result<UserVM>(null, false, false, false,
-								"电话号码已存在");
-						return s.toJson();
-					}else{
-						user.setUserType(8);
-						userService.insert(user);
-					}
-					
-				}
-				s = new Result<UserVM>(null, true, false, false,
-						"注册成功");
+						"請填寫電話號碼");
 				return s.toJson();
 			}
+			User user1 = userService.selectByMobile(mobile);
+			if(user1 !=null){
+					s = new Result<UserVM>(null, false, false, false,
+							"电话号码已存在");
+					return s.toJson();
+				}else{
+					user.setUserType(8);
+					user.setSex((byte) 0);
+					userService.insert(user);
+					s = new Result<UserVM>(null, true, false, false,
+							"注册成功");
+					return s.toJson();
+				}
+			
+			
 		} catch (Exception ex) {
 			s = new Result<UserVM>(null, false, false, false,
 					"调用后台方法出错");

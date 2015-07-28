@@ -6,7 +6,7 @@ var score = parent.order_obj;
 var OrderManage = {
 		showOrderInfo : function(){
 			$("#txtOrderNo").val(score.orderNo);
-			$("#txtUserName").val(score.userName);
+			$("#txtUserName").val(score.customerName);
 			$("#txtUserNote").val(score.userNote);
 			$("#txtAutoPN").val(score.autoPN);
 			$("#txtRegionName").val(score.regionName);

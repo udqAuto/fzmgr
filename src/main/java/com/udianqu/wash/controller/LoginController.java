@@ -45,26 +45,6 @@ public class LoginController {
 	@Autowired LoginService loginService;
 	@Autowired UserService userService;
 	
-	@RequestMapping(value = "login4App.do", produces = "application/json;charset=UTF-8")
-	public @ResponseBody String login4App(
-			/*@RequestParam(value = "identity", required = true) String username,
-			@RequestParam(value = "password", required = true) String password,*/
-			@RequestParam(value = "identity", required = false) String username,
-			@RequestParam(value = "password", required = false) String password,
-			HttpServletRequest request, HttpServletResponse response
-			){
-		
-		String info;
-		boolean b = loginService.login(username, password);
-			if (b) {
-				info = "angular.callbacks._0({'status':'success'})";
-			} else {
-				info = "Error";
-			}
-		
-		return info;
-	}
-	
 	@RequestMapping(value = "login.do", produces = "application/json;charset=UTF-8")
 	 @ResponseBody
 	public void login(

@@ -2,6 +2,8 @@ package com.udianqu.wash.core;
 
 import java.util.List;
 
+import com.udianqu.wash.viewmodel.RegionVM;
+
 import net.sf.json.JSONObject;
 import net.sf.json.JsonConfig;
 
@@ -21,7 +23,6 @@ public class ListResult<T> {
 		jsonConfig=new JsonConfig();
 		jsonConfig.registerJsonValueProcessor(java.util.Date.class, new DateJsonValueProcessor());
 	}
-
 	public ListResult(List<T> rows){
 		this();
 		this.rows=rows;
@@ -99,4 +100,6 @@ public class ListResult<T> {
 	public void setIsSessionExpired(boolean isSessionExpired) {
 		this.isSessionExpired = isSessionExpired;
 	}
+
+	
 }

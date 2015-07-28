@@ -21,4 +21,6 @@ public interface RegionService {
 
 	ListResult<RegionVM> getRegionByPidAndLevel(Map<String, Object> map);
 
+	List<RegionVM> getRegionList4App(Integer qid);
+
 }

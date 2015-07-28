@@ -54,7 +54,7 @@ var OrderManage = {
 		packageObject : function(row) {
 			order_obj.id = row.id;
 			order_obj.orderNo = row.orderNo;
-			order_obj.userName = row.userName;
+			order_obj.customerName = row.customerName;
 			order_obj.userNote = row.userNote;
 			order_obj.autoPN = row.autoPN;
 			order_obj.regionName = row.regionName;
