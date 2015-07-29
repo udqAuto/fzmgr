@@ -60,7 +60,7 @@ public class Login4AppController {
 			map.put("psd", password);
 			UserVM u = userService.loadUserByNameAndPwd(map);
 			if (u != null) {
-				session.setAttribute("user", u);
+				session.setAttribute("appUser", u);
 				s = new Result<UserVM>(u, true, false, false, "登录成功");
 				return s.toJson();
 			} else {
@@ -98,12 +98,11 @@ public class Login4AppController {
 					user.setUserType(8);
 					user.setSex((byte) 2);
 					userService.insert(user);
-					s = new Result<UserVM>(user, true, false, false,
+					User user2 = userService.selectByMobile(mobile);
+					Result<User> ss = new Result<User>(user2, true, false, false,
 							"注册成功");
-					return s.toJson();
+					return ss.toJson();
 				}
-			
-			
 		} catch (Exception ex) {
 			s = new Result<UserVM>(null, false, false, false,
 					"调用后台方法出错");

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.udianqu.wash.core.ListResult;
 import com.udianqu.wash.dao.WashOrderMapper;
+import com.udianqu.wash.model.WashOrder;
 import com.udianqu.wash.viewmodel.AutoVM;
 import com.udianqu.wash.viewmodel.WashOrderVM;
 
@@ -27,6 +28,16 @@ public class WashOrderService {
 	public WashOrderVM loadOrderObjById(String id) {
 		// TODO Auto-generated method stub
 		return washOrderMapper.loadOrderObjById(id);
+	}
+
+	public void insert(WashOrderVM order) {
+		// TODO Auto-generated method stub
+		washOrderMapper.insert(order);
+	}
+
+	public WashOrder selectByOrderNo(String orderNo) {
+		// TODO Auto-generated method stub
+		return washOrderMapper.selectByOrderNo(orderNo);
 	}
 
 }

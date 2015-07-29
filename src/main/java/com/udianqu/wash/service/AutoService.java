@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.udianqu.wash.core.ListResult;
 import com.udianqu.wash.dao.AutoMapper;
+import com.udianqu.wash.model.Auto;
 import com.udianqu.wash.viewmodel.AutoVM;
 
 @Service
@@ -35,6 +36,11 @@ public class AutoService {
 	public void deleteAuto(Integer id) {
 		// TODO Auto-generated method stub
 		autoMapper.deleteByPrimaryKey(id);
+	}
+
+	public Auto selectByPn(String pn) {
+		// TODO Auto-generated method stub
+		return autoMapper.selectByPn(pn);
 	}
 
 }

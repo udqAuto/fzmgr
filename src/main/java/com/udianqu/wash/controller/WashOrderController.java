@@ -18,9 +18,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.udianqu.wash.core.ListResult;
 import com.udianqu.wash.core.Result;
 import com.udianqu.wash.model.Organization;
+import com.udianqu.wash.model.User;
+import com.udianqu.wash.model.WashOrder;
 import com.udianqu.wash.service.OrganService;
 import com.udianqu.wash.service.WashOrderService;
 import com.udianqu.wash.viewmodel.AutoVM;
+import com.udianqu.wash.viewmodel.UserVM;
 import com.udianqu.wash.viewmodel.WashOrderVM;
 
 @Controller
@@ -106,4 +109,25 @@ public class WashOrderController {
 		} 
 	}
 	
+	@RequestMapping("/saveOrder4App.do")
+	@ResponseBody
+	public String saveOrder4App(
+			@RequestParam(value = "orderInfo", required = true) String orderInfo,
+			HttpServletRequest request) {
+
+		Result<WashOrderVM> s = new Result<WashOrderVM>();
+		try {
+			JSONObject jObj = JSONObject.fromObject(orderInfo);
+			WashOrderVM order = (WashOrderVM) JSONObject.toBean(jObj,WashOrderVM.class);
+					orderService.insert(order);
+					WashOrder o = orderService.selectByOrderNo(order.getOrderNo());
+					Result<WashOrder> ss = new Result<WashOrder>(o, true, false, false,
+							"保存成功");
+					return ss.toJson();
+		} catch (Exception ex) {
+			s = new Result<WashOrderVM>(null, false, false, false,
+					"调用后台方法出错");
+			return s.toJson();
+		}
+	}
 }

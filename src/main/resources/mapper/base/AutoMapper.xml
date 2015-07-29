@@ -351,4 +351,11 @@
   		limit #{pageStart,jdbcType=INTEGER}, #{pageSize,jdbcType=INTEGER}
   		</if>
   </select>
+  
+  <select id="selectByPn" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_auto
+    where pn = #{pn,jdbcType=VARCHAR}
+  </select>
 </mapper>

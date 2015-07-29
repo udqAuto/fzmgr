@@ -104,4 +104,7 @@ public interface AutoMapper {
 	int countByMap(Map<String, Object> map);
 
 	List<AutoVM> loadAutolistWithPage(Map<String, Object> map);
+
+	Auto selectByPn(String pn);
+
 }
