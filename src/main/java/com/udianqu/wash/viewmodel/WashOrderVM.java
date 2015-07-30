@@ -1,5 +1,7 @@
 package com.udianqu.wash.viewmodel;
 
+import java.math.BigDecimal;
+
 import com.udianqu.wash.model.WashOrder;
 
 public class WashOrderVM extends WashOrder{
@@ -12,10 +14,24 @@ public class WashOrderVM extends WashOrder{
 	private String washerGrade;
 	private String customerGrade; 
 	private String couponName;
-	private String couponAmount;
-	private String fixedAmount;
-	private String finalAmount;
+	private BigDecimal couponAmount;
+	private BigDecimal fixedAmount;
+	private BigDecimal finalAmount;
+	private Integer couponId;
+	private Integer washTypeId;
 	
+	public Integer getCouponId() {
+		return couponId;
+	}
+	public void setCouponId(Integer couponId) {
+		this.couponId = couponId;
+	}
+	public Integer getWashTypeId() {
+		return washTypeId;
+	}
+	public void setWashTypeId(Integer washTypeId) {
+		this.washTypeId = washTypeId;
+	}
 	public String getCustomerMobile() {
 		return customerMobile;
 	}
@@ -52,22 +68,22 @@ public class WashOrderVM extends WashOrder{
 	public void setCouponName(String couponName) {
 		this.couponName = couponName;
 	}
-	public String getCouponAmount() {
+	public BigDecimal getCouponAmount() {
 		return couponAmount;
 	}
-	public void setCouponAmount(String couponAmount) {
+	public void setCouponAmount(BigDecimal couponAmount) {
 		this.couponAmount = couponAmount;
 	}
-	public String getFixedAmount() {
+	public BigDecimal getFixedAmount() {
 		return fixedAmount;
 	}
-	public void setFixedAmount(String fixedAmount) {
+	public void setFixedAmount(BigDecimal fixedAmount) {
 		this.fixedAmount = fixedAmount;
 	}
-	public String getFinalAmount() {
+	public BigDecimal getFinalAmount() {
 		return finalAmount;
 	}
-	public void setFinalAmount(String finalAmount) {
+	public void setFinalAmount(BigDecimal finalAmount) {
 		this.finalAmount = finalAmount;
 	}
 	public String getCustomerName() {

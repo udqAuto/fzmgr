@@ -1,5 +1,10 @@
 package com.udianqu.wash.service;
 
+import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -7,8 +12,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.udianqu.wash.core.ListResult;
+import com.udianqu.wash.core.Result;
+import com.udianqu.wash.dao.PayMapper;
+import com.udianqu.wash.dao.WashOrderItemMapper;
 import com.udianqu.wash.dao.WashOrderMapper;
+import com.udianqu.wash.model.Pay;
 import com.udianqu.wash.model.WashOrder;
+import com.udianqu.wash.model.WashOrderItem;
 import com.udianqu.wash.viewmodel.AutoVM;
 import com.udianqu.wash.viewmodel.WashOrderVM;
 
@@ -16,6 +26,8 @@ import com.udianqu.wash.viewmodel.WashOrderVM;
 public class WashOrderService {
 	
 	@Autowired WashOrderMapper washOrderMapper;
+	@Autowired WashOrderItemMapper washOrderItemMapper;
+	@Autowired PayMapper payMapper;
 
 	public ListResult<WashOrderVM> loadOrderlist(Map<String, Object> map) {
 		// TODO Auto-generated method stub
@@ -38,6 +50,53 @@ public class WashOrderService {
 	public WashOrder selectByOrderNo(String orderNo) {
 		// TODO Auto-generated method stub
 		return washOrderMapper.selectByOrderNo(orderNo);
+	}
+
+	public WashOrder save(WashOrderVM o) throws ParseException {
+		// TODO Auto-generated method stub
+		WashOrder wo = new WashOrder();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		Date time = sdf.parse(sdf.format(new Date()));
+		//String billType = sdf.format(new Date());
+		//int dates = Integer.parseInt(sdf.format(new Date()));
+		//订单主体对象构造；
+		wo.setState(1);
+		wo.setPayId(1);
+		wo.setAcceptTime(time);
+		wo.setOrderNo(o.getOrderNo());
+		wo.setUserId(o.getUserId());
+		wo.setUserNote(o.getUserNote());
+		wo.setAutoId(o.getAutoId());
+		wo.setRegionId(o.getRegionId());
+		wo.setOrgId(o.getOrgId());
+		wo.setOrderTime(o.getOrderTime());
+		wo.setBillTime(o.getBillTime());
+		int orderId = washOrderMapper.insert(wo);
+		
+		WashOrderItem woi = new WashOrderItem();
+		BigDecimal fixedAmount = o.getFixedAmount();
+		BigDecimal couponAmount = o.getCouponAmount();
+		BigDecimal finalAmount = fixedAmount.subtract(couponAmount);
+		//订单金额对象构造；
+		woi.setOrderId(o.getId());
+		woi.setFinalAmount(finalAmount);
+		woi.setWashTypeId(o.getWashTypeId());
+		woi.setFixedAmount(o.getFixedAmount());
+		woi.setCouponId(o.getCouponId());
+		woi.setCouponAmount(o.getCouponAmount());
+		washOrderItemMapper.insert(woi);
+		
+		Pay p = new Pay();
+		Integer amount = finalAmount.intValue(); 
+		//订单金额支付对象构造；
+		p.setOrderType(1);
+		p.setPayType(1);
+		p.setOrderId(o.getId());
+		p.setUserId(o.getUserId());
+		p.setAmount(amount);
+		payMapper.insert(p);
+		
+		return wo;
 	}
 
 }
