@@ -25,7 +25,7 @@ public class WashOrderService {
 		return result;
 	}
 
-	public WashOrderVM loadOrderObjById(String id) {
+	public WashOrderVM loadOrderObjById(Integer id) {
 		// TODO Auto-generated method stub
 		return washOrderMapper.loadOrderObjById(id);
 	}

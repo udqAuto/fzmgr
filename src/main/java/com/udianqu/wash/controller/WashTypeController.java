@@ -44,6 +44,16 @@ public class WashTypeController {
 		rs = washTypeService.loadWashTypeList(map);
 		return rs.toJson();
 	}
+	@RequestMapping(value = "getWashTypeList4App.do", produces = "application/json;charset=UTF-8")
+	public @ResponseBody
+	String getWashTypeList4App( 
+			HttpServletRequest request) throws Exception {
+		
+		Map<String, Object> map = new HashMap<String, Object>();   
+		ListResult<WashType> rs = new ListResult<WashType>();
+		rs = washTypeService.loadWashTypeList(map);
+		return rs.toJson();
+	}
 	
 	@RequestMapping(value = "saveWashType.do", produces = "application/json;charset=UTF-8")
 	public @ResponseBody String saveWashType(

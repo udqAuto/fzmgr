@@ -104,7 +104,7 @@ public interface WashOrderMapper {
 
 	int loadWashOrderCount(Map<String, Object> map);
 
-	WashOrderVM loadOrderObjById(String id);
+	WashOrderVM loadOrderObjById(@Param(value="id") Integer id);
 
 	WashOrder selectByOrderNo(String orderNo);
 }

@@ -97,7 +97,7 @@ public class WashOrderController {
 	@RequestMapping(value = "getOrderObjById.do", produces = "application/json;charset=UTF-8")
 	public @ResponseBody
 	String getOrderObjById(
-			@RequestParam(value = "orderId", required = false) String orderId, 
+			@RequestParam(value = "id", required = false) Integer orderId, 
 			HttpServletRequest request) throws Exception {
 		try{
 			WashOrderVM wovm = orderService.loadOrderObjById(orderId);
