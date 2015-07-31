@@ -114,6 +114,7 @@ public class WashOrderController {
 	@RequestMapping("/submitOrder4App.do")
 	@ResponseBody
 	public String saveOrder4App(
+//			WashOrderVM order,
 			@RequestParam(value = "orderInfo", required = true) String orderInfo,
 			HttpServletRequest request) {
 
@@ -139,6 +140,8 @@ public class WashOrderController {
 			return result.toJson();
 		}
 	}
+	
+
 	@RequestMapping("/acceptOrder4App.do")
 	@ResponseBody
 	public String acceptOrder4App(
@@ -146,21 +149,21 @@ public class WashOrderController {
 			@RequestParam(value = "washerId", required = true) Integer washerId,
 			//@RequestParam(value = "washerNote", required = true) String washerNote,
 			HttpServletRequest request) {
-		
 		Result<WashOrderVM> result = new Result<WashOrderVM>();
 		try {
 			if(washerId == null||orderNo == null){
 				result = new Result<WashOrderVM>(null, false, false, false, "传入后台数据为空");
 				return result.toJson();
 			}
-			Date acceptTime = GeneralUtil.getCurrentTime();
+			Map<String,Object> m = GeneralUtil.getCurrentTime();
+			Date acceptTime = (Date) m.get("currentTime");
 			Map<String,Object> map=new HashMap<String, Object>();
 			map.put("orderNo", orderNo);
 			map.put("washerId", washerId);
 			map.put("acceptTime", acceptTime);
 			map.put("state", 2);
 			orderService.updateByOrderNo(map);
-			result = new Result<WashOrderVM>(null, true, false, false, "接收订单成功");
+			result = new Result<WashOrderVM>(null, true, false, false, "接受订单成功");
 			return result.toJson();
 		} catch (Exception ex) {
 			result = new Result<WashOrderVM>(null, false, false, false,
@@ -180,13 +183,66 @@ public class WashOrderController {
 				result = new Result<WashOrderVM>(null, false, false, false, "传入后台数据为空");
 				return result.toJson();
 			}
-			Date endTime = GeneralUtil.getCurrentTime();
+			Map<String,Object> m = GeneralUtil.getCurrentTime();
+			Date beginTime = (Date) m.get("beginTime");
+			Date finishTime = (Date) m.get("currentTime");
 			Map<String,Object> map=new HashMap<String, Object>();
-			
+			map.put("beginTime", beginTime);
+			map.put("finishTime", finishTime);
 			map.put("orderNo", orderNo);
-			map.put("state", 3);
+			map.put("state", 4);
 			orderService.updateByOrderNo(map);
-			result = new Result<WashOrderVM>(null, true, false, false, "完成订单");
+			result = new Result<WashOrderVM>(null, true, false, false, "订单已完成");
+			return result.toJson();
+		} catch (Exception ex) {
+			result = new Result<WashOrderVM>(null, false, false, false,
+					"调用后台方法出错");
+			return result.toJson();
+		}
+	}
+	@RequestMapping("/gradeOrder4App.do")
+	@ResponseBody
+	public String gradeOrder4App(
+			@RequestParam(value = "orderNo", required = true) String orderNo,
+			@RequestParam(value = "gradeUser", required = true) Byte gradeUser,
+			HttpServletRequest request) {
+		
+		Result<WashOrderVM> result = new Result<WashOrderVM>();
+		try {
+			if(orderNo == null){
+				result = new Result<WashOrderVM>(null, false, false, false, "传入后台数据为空");
+				return result.toJson();
+			}
+			Map<String,Object> map=new HashMap<String, Object>();
+			map.put("orderNo", orderNo);
+			map.put("gradeUser", gradeUser);
+			orderService.updateByOrderNo(map);
+			result = new Result<WashOrderVM>(null, true, false, false, "评价订单成功");
+			return result.toJson();
+		} catch (Exception ex) {
+			result = new Result<WashOrderVM>(null, false, false, false,
+					"调用后台方法出错");
+			return result.toJson();
+		}
+	}
+	@RequestMapping("/cancelOrder4App.do")
+	@ResponseBody
+	public String cancelOrder4App(
+			@RequestParam(value = "orderNo", required = true) String orderNo,
+			@RequestParam(value = "state", required = true) Integer state,
+			HttpServletRequest request) {
+		
+		Result<WashOrderVM> result = new Result<WashOrderVM>();
+		try {
+			if(orderNo == null||state == null){
+				result = new Result<WashOrderVM>(null, false, false, false, "传入后台数据为空");
+				return result.toJson();
+			}
+			Map<String,Object> map=new HashMap<String, Object>();
+			map.put("orderNo", orderNo);
+			map.put("state", state);
+			orderService.updateByOrderNo(map);
+			result = new Result<WashOrderVM>(null, true, false, false, "取消订单成功");
 			return result.toJson();
 		} catch (Exception ex) {
 			result = new Result<WashOrderVM>(null, false, false, false,

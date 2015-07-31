@@ -52,7 +52,8 @@ public class WashOrderService {
 	public WashOrder save(WashOrderVM o) throws ParseException {
 		// TODO Auto-generated method stub
 		WashOrder wo = new WashOrder();
-		Date time = GeneralUtil.getCurrentTime();
+		Map<String,Object> map = GeneralUtil.getCurrentTime();
+		Date time = (Date) map.get("currentTime");
 		//订单主体对象构造；
 		wo.setState(1);
 		wo.setPayId(1);

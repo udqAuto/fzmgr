@@ -46,12 +46,20 @@ public class GeneralUtil {
 		return map;
 	}
 	
-	public static Date getCurrentTime() throws ParseException{
+	public static Map<String,Object> getCurrentTime() throws ParseException{
 		Calendar  calendar=Calendar.getInstance();
 		DateFormat fmt=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		String d=fmt.format(calendar.getTime());
 		Date time = fmt.parse(d);
-		return time;
+		
+		calendar.setTime(time);
+		calendar.add(Calendar.MINUTE,-7);
+		String d2=fmt.format(calendar.getTime());
+		Date time2 = fmt.parse(d2);
+		Map<String,Object> map=new HashMap<String,Object>();
+		map.put("currentTime", time);
+		map.put("beginTime", time2);
+		return map;
 	}
 	
 

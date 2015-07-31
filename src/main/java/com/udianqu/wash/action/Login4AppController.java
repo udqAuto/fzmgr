@@ -32,32 +32,37 @@ public class Login4AppController {
 	@RequestMapping(value = "login4App.do", produces = "application/json;charset=UTF-8")
 	public @ResponseBody
 	String login4App(
-			@RequestParam(value = "username", required = true) String username,
-			@RequestParam(value = "password", required = true) String password,
+			@RequestParam(value = "userInfo", required = true) String userInfo,
 			HttpServletRequest request, HttpServletResponse response) {
+		JSONObject jObj = JSONObject.fromObject(userInfo);
+		UserVM user = (UserVM) JSONObject.toBean(jObj,UserVM.class);
 		Result<UserVM> s = new Result<UserVM>();
 		try {
-			if (username.isEmpty()) {
+			if(user == null){
+				s = new Result<UserVM>(null, false, false, false, "传入后台参数为空");
+				return s.toJson();
+			}
+			if (user.getUsername().isEmpty()) {
 				s = new Result<UserVM>(null, false, false, false, "请输入用户名");
 				return s.toJson();
 			}
-			if (password.isEmpty()) {
+			if (user.getPsd().isEmpty()) {
 				s = new Result<UserVM>(null, false, false, false, "请输入密码");
 				return s.toJson();
 			}
 
-			if (username.trim().length() == 0) {
+			if (user.getUsername().trim().length() == 0) {
 				s = new Result<UserVM>(null, false, false, false, "请输入用户名");
 				return s.toJson();
 			}
-			if (password.trim().length() == 0) {
+			if (user.getPsd().trim().length() == 0) {
 				s = new Result<UserVM>(null, false, false, false, "请输入密码");
 				return s.toJson();
 			}
 			HttpSession session = request.getSession();
 			Map<String, Object> map = new HashMap<String, Object>();
-			map.put("mobile", username);
-			map.put("psd", password);
+			map.put("mobile", user.getUsername());
+			map.put("psd", user.getPsd());
 			UserVM u = userService.loadUserByNameAndPwd(map);
 			if (u != null) {
 				session.setAttribute("appUser", u);

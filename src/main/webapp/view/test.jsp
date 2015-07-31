@@ -34,10 +34,44 @@ function a (){
 		}
 	});
 }
+var submit_obj={};
+function sub (){
+	submit_obj.washTypeId = 1;
+	submit_obj.couponId = 1;
+	submit_obj.couponAmount = 3;
+	submit_obj.fixedAmount = 9.9;
+	submit_obj.userId = 12;
+	submit_obj.autoId = 5;
+	submit_obj.regionId = 4;
+	submit_obj.orgId = 4;
+	submit_obj.userNote = "sdfadfs";
+	submit_obj.orderTime = "2015-07-31 14:34:34";
+	$.ajax({
+		url : "order/submitOrder4App.do",
+		type : "POST",
+		dataType : "json",
+		data:submit_obj,
+		success : function(req) {
+			if (req) {
+				$.messager.alert("系统提示", req.data.orderNo, "info");
+				$("#s").val(req.data.orderNo);
+			} else {
+				$.messager.alert("系统提示", req, "error");
+			}
+		},
+		failer : function(a, b) {
+			$.messager.alert("消息提示", a, "info");
+		},
+		error : function(a) {
+			$.messager.alert("消息提示", a, "error");
+		}
+	});
+}
 </script>
 </head> 
   <body>  
   <input id="s" type=text" />
   <a onclick="a();">订单编号测试</a>
+  <button onclick="sub();">提交订单测试</button>
   </body>
 </html>
