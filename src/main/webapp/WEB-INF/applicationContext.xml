@@ -45,7 +45,7 @@
 		init-method="init" destroy-method="close">
 		<property name="driverClassName" value="org.gjt.mm.mysql.Driver" />
 		<property name="url" value="jdbc:mysql://121.40.171.43:3306/udqauto?useUnicode=true&amp;characterEncoding=UTF-8" />
-		<property name="username" value="admin" />
+		<property name="username" value="root" />
 		<property name="password" value="8a5c94af1d" />
 	</bean>
 
