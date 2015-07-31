@@ -2,8 +2,6 @@ package com.udianqu.wash.service;
 
 import java.math.BigDecimal;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -11,15 +9,14 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.udianqu.wash.core.GeneralUtil;
 import com.udianqu.wash.core.ListResult;
-import com.udianqu.wash.core.Result;
 import com.udianqu.wash.dao.PayMapper;
 import com.udianqu.wash.dao.WashOrderItemMapper;
 import com.udianqu.wash.dao.WashOrderMapper;
 import com.udianqu.wash.model.Pay;
 import com.udianqu.wash.model.WashOrder;
 import com.udianqu.wash.model.WashOrderItem;
-import com.udianqu.wash.viewmodel.AutoVM;
 import com.udianqu.wash.viewmodel.WashOrderVM;
 
 @Service
@@ -55,10 +52,7 @@ public class WashOrderService {
 	public WashOrder save(WashOrderVM o) throws ParseException {
 		// TODO Auto-generated method stub
 		WashOrder wo = new WashOrder();
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-		Date time = sdf.parse(sdf.format(new Date()));
-		//String billType = sdf.format(new Date());
-		//int dates = Integer.parseInt(sdf.format(new Date()));
+		Date time = GeneralUtil.getCurrentTime();
 		//订单主体对象构造；
 		wo.setState(1);
 		wo.setPayId(1);
@@ -70,15 +64,15 @@ public class WashOrderService {
 		wo.setRegionId(o.getRegionId());
 		wo.setOrgId(o.getOrgId());
 		wo.setOrderTime(o.getOrderTime());
-		wo.setBillTime(o.getBillTime());
-		int orderId = washOrderMapper.insert(wo);
+		wo.setBillTime(time);
+		washOrderMapper.insert(wo);
 		
 		WashOrderItem woi = new WashOrderItem();
 		BigDecimal fixedAmount = o.getFixedAmount();
 		BigDecimal couponAmount = o.getCouponAmount();
 		BigDecimal finalAmount = fixedAmount.subtract(couponAmount);
 		//订单金额对象构造；
-		woi.setOrderId(o.getId());
+		woi.setOrderId(wo.getId());
 		woi.setFinalAmount(finalAmount);
 		woi.setWashTypeId(o.getWashTypeId());
 		woi.setFixedAmount(o.getFixedAmount());
@@ -91,12 +85,17 @@ public class WashOrderService {
 		//订单金额支付对象构造；
 		p.setOrderType(1);
 		p.setPayType(1);
-		p.setOrderId(o.getId());
+		p.setOrderId(wo.getId());
 		p.setUserId(o.getUserId());
 		p.setAmount(amount);
 		payMapper.insert(p);
 		
 		return wo;
+	}
+
+	public void updateByOrderNo(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		washOrderMapper.updateByOrderNo(map);
 	}
 
 }

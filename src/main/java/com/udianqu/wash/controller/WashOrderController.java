@@ -1,9 +1,7 @@
 package com.udianqu.wash.controller;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -116,29 +114,80 @@ public class WashOrderController {
 	@RequestMapping("/submitOrder4App.do")
 	@ResponseBody
 	public String saveOrder4App(
-			@RequestParam(value = "orderInfo", required = false) String orderInfo,
+			@RequestParam(value = "orderInfo", required = true) String orderInfo,
 			HttpServletRequest request) {
 
-		Result<WashOrderVM> result = new Result<WashOrderVM>();
+		Result<WashOrder> result = new Result<WashOrder>();
 		try {
 			JSONObject jObj = JSONObject.fromObject(orderInfo);
 			WashOrderVM order = (WashOrderVM) JSONObject.toBean(jObj,WashOrderVM.class);
 			if(order == null){
+				result = new Result<WashOrder>(null, false, false, false, "传入后台数据为空");
+				return result.toJson();
+			}
+			int billType = 4;
+			Map<String,Object> map=GeneralUtil.getSerialNoPars(billType);
+			String orderNo =  billSerialNoService.getNextBillSerialNo(map);
+			order.setOrderNo(orderNo);
+			WashOrder wo = orderService.save(order);
+			billSerialNoService.updateBillSerialNo(map);
+			result = new Result<WashOrder>(wo, true, false, false, "保存成功");
+			return result.toJson();
+		} catch (Exception ex) {
+			result = new Result<WashOrder>(null, false, false, false,
+					"调用后台方法出错");
+			return result.toJson();
+		}
+	}
+	@RequestMapping("/acceptOrder4App.do")
+	@ResponseBody
+	public String acceptOrder4App(
+			@RequestParam(value = "orderNo", required = true) String orderNo,
+			@RequestParam(value = "washerId", required = true) Integer washerId,
+			//@RequestParam(value = "washerNote", required = true) String washerNote,
+			HttpServletRequest request) {
+		
+		Result<WashOrderVM> result = new Result<WashOrderVM>();
+		try {
+			if(washerId == null||orderNo == null){
 				result = new Result<WashOrderVM>(null, false, false, false, "传入后台数据为空");
 				return result.toJson();
 			}
-			Calendar  calendar=Calendar.getInstance();
-			DateFormat fmt=new SimpleDateFormat("yyMMdd");
-			String d=fmt.format(calendar.getTime());
-			Integer billType=Integer.valueOf(d);
-			Map<String,Object> map1=GeneralUtil.getSerialNoPars(billType);
-			String orderNo =  billSerialNoService.getNextBillSerialNo(map1);
-			order.setOrderNo(orderNo);
-			WashOrder wo = orderService.save(order);
-			Map<String,Object> map2=GeneralUtil.getSerialNoPars(billType);
-			billSerialNoService.updateBillSerialNo(map2);
-			Result<WashOrder> res = new Result<WashOrder>(wo, true, false, false, "保存成功");
-			return res.toJson();
+			Date acceptTime = GeneralUtil.getCurrentTime();
+			Map<String,Object> map=new HashMap<String, Object>();
+			map.put("orderNo", orderNo);
+			map.put("washerId", washerId);
+			map.put("acceptTime", acceptTime);
+			map.put("state", 2);
+			orderService.updateByOrderNo(map);
+			result = new Result<WashOrderVM>(null, true, false, false, "接收订单成功");
+			return result.toJson();
+		} catch (Exception ex) {
+			result = new Result<WashOrderVM>(null, false, false, false,
+					"调用后台方法出错");
+			return result.toJson();
+		}
+	}
+	@RequestMapping("/finishOrder4App.do")
+	@ResponseBody
+	public String finishOrder4App(
+			@RequestParam(value = "orderNo", required = true) String orderNo,
+			HttpServletRequest request) {
+		
+		Result<WashOrderVM> result = new Result<WashOrderVM>();
+		try {
+			if(orderNo == null){
+				result = new Result<WashOrderVM>(null, false, false, false, "传入后台数据为空");
+				return result.toJson();
+			}
+			Date endTime = GeneralUtil.getCurrentTime();
+			Map<String,Object> map=new HashMap<String, Object>();
+			
+			map.put("orderNo", orderNo);
+			map.put("state", 3);
+			orderService.updateByOrderNo(map);
+			result = new Result<WashOrderVM>(null, true, false, false, "完成订单");
+			return result.toJson();
 		} catch (Exception ex) {
 			result = new Result<WashOrderVM>(null, false, false, false,
 					"调用后台方法出错");

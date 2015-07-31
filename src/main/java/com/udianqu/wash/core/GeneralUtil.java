@@ -5,6 +5,7 @@ import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -43,6 +44,14 @@ public class GeneralUtil {
 		map.put("billDate", billDate);
 		
 		return map;
+	}
+	
+	public static Date getCurrentTime() throws ParseException{
+		Calendar  calendar=Calendar.getInstance();
+		DateFormat fmt=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String d=fmt.format(calendar.getTime());
+		Date time = fmt.parse(d);
+		return time;
 	}
 	
 

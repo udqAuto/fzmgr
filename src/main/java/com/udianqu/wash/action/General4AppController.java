@@ -35,7 +35,8 @@ public class General4AppController {
 		
 		Map<String,Object> map=GeneralUtil.getSerialNoPars(billType);
 		
-		return billSerialNoService.getNextBillSerialNo(map);
+		String r = billSerialNoService.getNextBillSerialNo(map);
+		return r;
 	}
 	 
 }

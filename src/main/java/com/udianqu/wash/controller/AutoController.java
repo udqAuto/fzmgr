@@ -76,6 +76,7 @@ public class AutoController {
 			@RequestParam(value = "autoInfo", required = true) String autoInfo,
 			HttpServletRequest request) {
 		try {
+			 autoInfo = java.net.URLDecoder.decode(autoInfo,"UTF-8"); 
 			JSONObject jObj = JSONObject.fromObject(autoInfo);
 			AutoVM auto = (AutoVM) JSONObject.toBean(jObj,AutoVM.class);
 			String pn = auto.getPn();
