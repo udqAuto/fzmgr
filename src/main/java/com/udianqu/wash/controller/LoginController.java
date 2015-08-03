@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import net.sf.json.JSONObject;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -85,6 +87,81 @@ public class LoginController {
 		}catch(Exception ex){ 
 			response.sendRedirect("../login.jsp?optType=4");
 			return;
+		}
+	}
+	
+	@RequestMapping(value = "login4App.do", produces = "application/json;charset=UTF-8")
+	public @ResponseBody
+	String login4App(
+			@RequestParam(value = "userInfo", required = true) String userInfo,
+			HttpServletRequest request, HttpServletResponse response) {
+		JSONObject jObj = JSONObject.fromObject(userInfo);
+		UserVM user = (UserVM) JSONObject.toBean(jObj,UserVM.class);
+		Result<User> s = new Result<User>();
+		try {
+			if(user == null){
+				s = new Result<User>(null, false, false, false, "传入后台参数为空");
+				return s.toJson();
+			}
+			if (user.getUsername().isEmpty()) {
+				s = new Result<User>(null, false, false, false, "请输入用户名");
+				return s.toJson();
+			}
+
+			if (user.getUsername().trim().length() == 0) {
+				s = new Result<User>(null, false, false, false, "请输入用户名");
+				return s.toJson();
+			}
+			HttpSession session = request.getSession();
+			User u = userService.selectByMobile(user.getMobile());
+			if (u != null) {
+				session.setAttribute("appUser", u);
+				s = new Result<User>(u, true, false, false, "登录成功");
+				return s.toJson();
+			} else {
+				s = new Result<User>(null, false, false, false, "用户不存在！");
+				return s.toJson();
+			}
+		} catch (Exception ex) {
+			s = new Result<User>(null, false, false, false, "系统登录错误，请联系网站管理员");
+			return s.toJson();
+		}
+	}
+	
+	@RequestMapping("/registUser4App.do")
+	@ResponseBody
+	public String registUser(
+			@RequestParam(value = "userInfo", required = true) String userInfo,
+			HttpServletRequest request) {
+
+		Result<UserVM> s = new Result<UserVM>();
+		try {
+			JSONObject jObj = JSONObject.fromObject(userInfo);
+			UserVM user = (UserVM) JSONObject.toBean(jObj,UserVM.class);
+			String mobile = user.getMobile();
+			if(mobile == null||mobile == ""){
+				s = new Result<UserVM>(null, false, false, false,
+						"请输入电话号码");
+				return s.toJson();
+			}
+			User user1 = userService.selectByMobile(mobile);
+			if(user1 !=null){
+					s = new Result<UserVM>(null, false, false, false,
+							"电话号码已存在");
+					return s.toJson();
+				}else{
+					user.setUserType(8);
+					user.setSex((byte) 2);
+					user.setPsd("123456");
+					User user2 = userService.insert(user);
+					Result<User> result = new Result<User>(user2, true, false, false,
+							"注册成功");
+					return result.toJson();
+				}
+		} catch (Exception ex) {
+			s = new Result<UserVM>(null, false, false, false,
+					"调用后台方法出错");
+			return s.toJson();
 		}
 	}
 	/**

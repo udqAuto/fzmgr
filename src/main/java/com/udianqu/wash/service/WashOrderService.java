@@ -3,6 +3,7 @@ package com.udianqu.wash.service;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -96,6 +97,35 @@ public class WashOrderService {
 
 	public void updateByOrderNo(Map<String, Object> map) {
 		// TODO Auto-generated method stub
+		washOrderMapper.updateByOrderNo(map);
+	}
+
+	public void handleOrder(WashOrderVM order) throws ParseException {
+		// TODO Auto-generated method stub
+		Integer state = order.getState();
+		Map<String,Object> m = GeneralUtil.getCurrentTime();
+		Map<String,Object> map=new HashMap<String, Object>();
+		map.put("orderNo", order.getOrderNo());
+		if(state == 2){//接收订单
+			Date acceptTime = (Date) m.get("currentTime");
+			map.put("washerId", order.getWasherId());
+			map.put("washerNote", order.getWasherNote());
+			map.put("acceptTime", acceptTime);
+			map.put("state", state);
+		}
+		if(state == 4){//完成订单
+			Date beginTime = (Date) m.get("beginTime");
+			Date finishTime = (Date) m.get("currentTime");
+			map.put("beginTime", beginTime);
+			map.put("finishTime", finishTime);
+			map.put("state", state);
+		}
+		if(state == 0){//评价
+			map.put("gradeUser", order.getGradeUser());
+		}
+		if(state == 10||state == 11){//取消订单
+			map.put("state", state);
+		}
 		washOrderMapper.updateByOrderNo(map);
 	}
 
