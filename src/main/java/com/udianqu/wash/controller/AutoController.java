@@ -1,5 +1,6 @@
 package com.udianqu.wash.controller;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -65,6 +66,7 @@ public class AutoController {
 		
 		Map<String, Object> map = new HashMap<String, Object>();    
 		map.put("userId", userId);   
+		map.put("isUsed", true);   
 		ListResult<AutoVM> rs = autoService.loadAutolist(map);
 		
 		return rs.toJson();
@@ -83,23 +85,16 @@ public class AutoController {
 			JSONObject jObj = JSONObject.fromObject(autoInfo);
 			AutoVM auto = (AutoVM) JSONObject.toBean(jObj,AutoVM.class);
 			String pn = auto.getPn();
-			Auto auto1 = autoService.selectByPn(pn);
+//			Auto auto1 = autoService.selectByPn(pn);
 		    if (auto.getId() > 0) {//edit
-		    	if(auto1.getPn() != pn&&auto1 != null){//更改了车牌却已存在
-		    		Result<AutoVM> s = new Result<AutoVM>(null, false,
-							false, false, "你所修改的车牌号码已存在");
-					return s.toJson();
-		    	}else{
-		    		autoService.updateByPrimaryKey(auto);
-		    	}
+//		    	if(auto1.getPn() != pn&&auto1 != null){//更改了车牌却已存在
+//		    		Result<AutoVM> s = new Result<AutoVM>(null, false,
+//							false, false, "你所修改的车牌号码已存在");
+//					return s.toJson();
+		    	autoService.updateByPrimaryKey(auto);
 			} else {//add
-				if(auto1 != null){
-					Result<AutoVM> s = new Result<AutoVM>(null, false,
-							false, false, "车牌号码已存在");
-					return s.toJson();
-				}else{
-					autoService.insert(auto);
-				}
+				auto.setIsUsed(true);
+				autoService.insert(auto);
 			}
 		    Auto auto2 = autoService.selectByPn(pn);
 			Result<Auto> s = new Result<Auto>(auto2, true, false, false, "保存成功");
@@ -110,12 +105,19 @@ public class AutoController {
 			return s.toJson();
 		}
 	}
+	/**
+	 * 删除时将isUsed置为false
+	 * 
+	 * 
+	 */
 	@RequestMapping(value = "deleteAuto4App.do", produces = "application/json;charset=UTF-8")
 	public @ResponseBody String  deleteAuto4App(
 			@RequestParam(value = "id", required = true) Integer id,
 			HttpServletRequest request){
 		try{
-			autoService.deleteAuto(id);
+			Auto auto = autoService.selectById(id);
+			auto.setIsUsed(false);
+			autoService.updateIsUsedAuto(auto);
 			Result<AutoVM> s = new Result<AutoVM>(null, true, false,
 					false, "删除成功");
 			return s.toJson();

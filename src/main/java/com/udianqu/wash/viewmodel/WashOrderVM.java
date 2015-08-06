@@ -1,6 +1,7 @@
 package com.udianqu.wash.viewmodel;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import com.udianqu.wash.model.WashOrder;
 
@@ -20,6 +21,58 @@ public class WashOrderVM extends WashOrder{
 	private Integer couponId;
 	private Integer washTypeId;
 	
+	private BigDecimal sumCouponAmount;
+	private BigDecimal sumFixedAmount;
+	private BigDecimal sumFinalAmount;
+	
+	private List<Integer> washTypeIds;
+	private List<Integer> couponIds;
+	private List<Double> couponAmounts;
+	private List<Double> fixedAmounts;
+	
+	public BigDecimal getSumCouponAmount() {
+		return sumCouponAmount;
+	}
+	public void setSumCouponAmount(BigDecimal sumCouponAmount) {
+		this.sumCouponAmount = sumCouponAmount;
+	}
+	public BigDecimal getSumFixedAmount() {
+		return sumFixedAmount;
+	}
+	public void setSumFixedAmount(BigDecimal sumFixedAmount) {
+		this.sumFixedAmount = sumFixedAmount;
+	}
+	public BigDecimal getSumFinalAmount() {
+		return sumFinalAmount;
+	}
+	public void setSumFinalAmount(BigDecimal sumFinalAmount) {
+		this.sumFinalAmount = sumFinalAmount;
+	}
+	public List<Integer> getCouponIds() {
+		return couponIds;
+	}
+	public void setCouponIds(List<Integer> couponIds) {
+		this.couponIds = couponIds;
+	}
+	
+	public List<Double> getCouponAmounts() {
+		return couponAmounts;
+	}
+	public void setCouponAmounts(List<Double> couponAmounts) {
+		this.couponAmounts = couponAmounts;
+	}
+	public List<Double> getFixedAmounts() {
+		return fixedAmounts;
+	}
+	public void setFixedAmounts(List<Double> fixedAmounts) {
+		this.fixedAmounts = fixedAmounts;
+	}
+	public List<Integer> getWashTypeIds() {
+		return washTypeIds;
+	}
+	public void setWashTypeIds(List<Integer> washTypeIds) {
+		this.washTypeIds = washTypeIds;
+	}
 	public Integer getCouponId() {
 		return couponId;
 	}

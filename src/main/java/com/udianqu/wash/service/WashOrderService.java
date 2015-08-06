@@ -2,6 +2,7 @@ package com.udianqu.wash.service;
 
 import java.math.BigDecimal;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -50,7 +51,7 @@ public class WashOrderService {
 		return washOrderMapper.selectByOrderNo(orderNo);
 	}
 
-	public WashOrder save(WashOrderVM o) throws ParseException {
+	public WashOrderVM save(WashOrderVM o) throws ParseException {
 		// TODO Auto-generated method stub
 		WashOrder wo = new WashOrder();
 		Map<String,Object> map = GeneralUtil.getCurrentTime();
@@ -58,7 +59,6 @@ public class WashOrderService {
 		//订单主体对象构造；
 		wo.setState(1);
 		wo.setPayId(1);
-		wo.setAcceptTime(time);
 		wo.setOrderNo(o.getOrderNo());
 		wo.setUserId(o.getUserId());
 		wo.setUserNote(o.getUserNote());
@@ -70,29 +70,45 @@ public class WashOrderService {
 		washOrderMapper.insert(wo);
 		
 		WashOrderItem woi = new WashOrderItem();
-		BigDecimal fixedAmount = o.getFixedAmount();
-		BigDecimal couponAmount = o.getCouponAmount();
-		BigDecimal finalAmount = fixedAmount.subtract(couponAmount);
-		//订单金额对象构造；
-		woi.setOrderId(wo.getId());
-		woi.setFinalAmount(finalAmount);
-		woi.setWashTypeId(o.getWashTypeId());
-		woi.setFixedAmount(o.getFixedAmount());
-		woi.setCouponId(o.getCouponId());
-		woi.setCouponAmount(o.getCouponAmount());
-		washOrderItemMapper.insert(woi);
-		
 		Pay p = new Pay();
-		Integer amount = finalAmount.intValue(); 
-		//订单金额支付对象构造；
-		p.setOrderType(1);
-		p.setPayType(1);
-		p.setOrderId(wo.getId());
-		p.setUserId(o.getUserId());
-		p.setAmount(amount);
-		payMapper.insert(p);
-		
-		return wo;
+		BigDecimal sumFinalAmount = new BigDecimal(0);
+		BigDecimal sumFixedAmount = new BigDecimal(0);
+		BigDecimal sumCouponAmount = new BigDecimal(0);
+		List<Double> fixedAmounts = o.getFixedAmounts();
+		List<Double> couponAmounts = o.getCouponAmounts();
+		List<Integer> couponIds = o.getCouponIds();
+		List<Integer> washTypeIds = o.getWashTypeIds();
+		for(int i=0;i<washTypeIds.size();i++){
+			BigDecimal fixedAmount = new BigDecimal(fixedAmounts.get(i));
+			BigDecimal couponAmount = new BigDecimal(couponAmounts.get(i));
+			BigDecimal finalAmount = fixedAmount.subtract(couponAmount);
+			//BigDecimal finalAmount = fixedAmounts.get(i).subtract(couponAmounts.get(i));
+			sumFixedAmount = sumFixedAmount.add(fixedAmount);
+			sumCouponAmount = sumCouponAmount.add(couponAmount);
+			sumFinalAmount = sumFinalAmount.add(finalAmount);
+			
+			woi.setOrderId(wo.getId());
+			woi.setFinalAmount(finalAmount);
+			woi.setWashTypeId(washTypeIds.get(i));
+			woi.setCouponId(couponIds.get(i));
+			woi.setFixedAmount(fixedAmount);
+			woi.setCouponAmount(couponAmount);
+			washOrderItemMapper.insert(woi);
+			
+			Integer amount = finalAmount.intValue(); 
+			//订单金额支付对象构造；
+			p.setOrderType(1);
+			p.setPayType(1);
+			p.setOrderId(wo.getId());
+			p.setUserId(o.getUserId());
+			p.setAmount(amount);
+			payMapper.insert(p);
+		}
+		//将计算过的各种金额总和放入OrderVM
+		o.setSumCouponAmount(sumCouponAmount);
+		o.setSumFinalAmount(sumFinalAmount);
+		o.setSumFixedAmount(sumFixedAmount);
+		return o;
 	}
 
 	public void updateByOrderNo(Map<String, Object> map) {
@@ -127,6 +143,20 @@ public class WashOrderService {
 			map.put("state", state);
 		}
 		washOrderMapper.updateByOrderNo(map);
+	}
+
+	public ListResult<WashOrderVM> getOrderByUserId(Integer userId) {
+		// TODO Auto-generated method stub
+		List<WashOrderVM> ls=washOrderMapper.getOrderByUserId(userId);
+		ListResult<WashOrderVM> result=new ListResult<WashOrderVM>(ls);
+		return result;
+	}
+
+	public ListResult<WashOrderVM> getOrderByState(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		List<WashOrderVM> ls=washOrderMapper.getOrderByMap(map);
+		ListResult<WashOrderVM> result=new ListResult<WashOrderVM>(ls);
+		return result;
 	}
 
 }

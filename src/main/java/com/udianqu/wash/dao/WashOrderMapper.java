@@ -109,4 +109,8 @@ public interface WashOrderMapper {
 	WashOrder selectByOrderNo(String orderNo);
 
 	void updateByOrderNo(Map<String, Object> map);
+
+	List<WashOrderVM> getOrderByMap(Map<String, Object> map);
+
+	List<WashOrderVM> getOrderByUserId(@Param(value="userId") Integer userId);
 }

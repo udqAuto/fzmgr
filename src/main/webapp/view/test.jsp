@@ -36,11 +36,11 @@ function a (){
 }
 var submit_obj={};
 function sub (){
-	submit_obj.washTypeId = 1;
-	submit_obj.couponId = 1;
-	submit_obj.couponAmount = 3;
-	submit_obj.fixedAmount = 9.9;
-	submit_obj.userId = 12;
+	submit_obj.washTypeIds = [1,2,3];
+	submit_obj.couponIds = [1,1,1];
+	submit_obj.couponAmounts = [3.9,4.9,5.9];
+	submit_obj.fixedAmounts = [9.9,9.9,9.9];
+	submit_obj.userId = 16;
 	submit_obj.autoId = 5;
 	submit_obj.regionId = 4;
 	submit_obj.orgId = 4;
@@ -50,7 +50,7 @@ function sub (){
 		url : "order/submitOrder4App.do",
 		type : "POST",
 		dataType : "json",
-		data:submit_obj,
+		data:{"orderInfo" : JSON.stringify(submit_obj)},
 		success : function(req) {
 			if (req) {
 				$.messager.alert("系统提示", req.data.orderNo, "info");

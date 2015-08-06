@@ -43,4 +43,14 @@ public class AutoService {
 		return autoMapper.selectByPn(pn);
 	}
 
+	public void updateIsUsedAuto(Auto auto) {
+		// TODO Auto-generated method stub
+		autoMapper.updateByPrimaryKey(auto);
+	}
+
+	public Auto selectById(Integer id) {
+		// TODO Auto-generated method stub
+		return autoMapper.selectByPrimaryKey(id);
+	}
+
 }

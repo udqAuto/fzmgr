@@ -35,6 +35,12 @@ public class ListResult<T> {
 		this.isSuccess=true;
 	}
 	
+	public ListResult(List<T> rows,boolean isSuccess, String msg){
+		this();
+		this.rows=rows;
+		this.isSuccess=isSuccess;
+		this.msg=msg;
+	}
 	public ListResult(int total,List<T> rows,boolean isSuccess){
 		this();
 		this.total=total;

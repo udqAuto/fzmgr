@@ -17,13 +17,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.udianqu.wash.core.Result;
 import com.udianqu.wash.model.User;
 import com.udianqu.wash.service.LoginService;
 import com.udianqu.wash.service.UserService;
-import com.udianqu.wash.viewmodel.UserVM; 
+import com.udianqu.wash.viewmodel.UserVM;
 
 /**
  * 登录、注册
@@ -103,15 +102,15 @@ public class LoginController {
 				s = new Result<User>(null, false, false, false, "传入后台参数为空");
 				return s.toJson();
 			}
-			if (user.getUsername().isEmpty()) {
-				s = new Result<User>(null, false, false, false, "请输入用户名");
-				return s.toJson();
-			}
-
-			if (user.getUsername().trim().length() == 0) {
-				s = new Result<User>(null, false, false, false, "请输入用户名");
-				return s.toJson();
-			}
+//			if (user.getUsername().isEmpty()) {
+//				s = new Result<User>(null, false, false, false, "请输入手机号");
+//				return s.toJson();
+//			}
+//
+//			if (user.getUsername().trim().length() == 0) {
+//				s = new Result<User>(null, false, false, false, "请输入手机号");
+//				return s.toJson();
+//			}
 			HttpSession session = request.getSession();
 			User u = userService.selectByMobile(user.getMobile());
 			if (u != null) {
@@ -151,7 +150,6 @@ public class LoginController {
 					return s.toJson();
 				}else{
 					user.setUserType(8);
-					user.setSex((byte) 2);
 					user.setPsd("123456");
 					User user2 = userService.insert(user);
 					Result<User> result = new Result<User>(user2, true, false, false,

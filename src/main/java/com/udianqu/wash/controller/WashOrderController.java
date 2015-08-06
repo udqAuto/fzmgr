@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import net.sf.json.JSONObject;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -109,32 +110,59 @@ public class WashOrderController {
 			return s.toJson();
 		} 
 	}
+	@RequestMapping(value = "getOrderByUserId4App.do", produces = "application/json;charset=UTF-8")
+	public @ResponseBody
+	String getOrderByUserId4App(
+			@RequestParam(value = "userId", required = true) Integer userId,
+			HttpServletRequest request){
+		try{
+			ListResult<WashOrderVM> result = orderService.getOrderByUserId(userId);
+			return result.toJson();
+		}catch(Exception ex){
+			ListResult<WashOrderVM> result = new ListResult<WashOrderVM>(null,false,"获取订单信息失败");
+			return result.toJson();
+		} 
+	}
+	@RequestMapping(value = "getOrderByState4App.do", produces = "application/json;charset=UTF-8")
+	public @ResponseBody
+	String getOrderByState4App(
+			@RequestParam(value = "state", required = true) Integer state,
+			HttpServletRequest request){
+		try{
+			Map<String, Object> map = new HashMap<String, Object>();    
+			map.put("state", state);  
+			ListResult<WashOrderVM> result = orderService.getOrderByState(map);
+			return result.toJson();
+		}catch(Exception ex){
+			ListResult<WashOrderVM> result = new ListResult<WashOrderVM>(null,false,"获取订单信息失败");
+			return result.toJson();
+		} 
+	}
 	
 	@RequestMapping("/submitOrder4App.do")
 	@ResponseBody
 	public String saveOrder4App(
-//			WashOrderVM order,
 			@RequestParam(value = "orderInfo", required = true) String orderInfo,
 			HttpServletRequest request) {
 
-		Result<WashOrder> result = new Result<WashOrder>();
+		Result<WashOrderVM> result = new Result<WashOrderVM>();
 		try {
 			JSONObject jObj = JSONObject.fromObject(orderInfo);
 			WashOrderVM order = (WashOrderVM) JSONObject.toBean(jObj,WashOrderVM.class);
 			if(order == null){
-				result = new Result<WashOrder>(null, false, false, false, "传入后台数据为空");
+				result = new Result<WashOrderVM>(null, false, false, false, "传入后台数据为空");
 				return result.toJson();
 			}
 			int billType = 4;
 			Map<String,Object> map=GeneralUtil.getSerialNoPars(billType);
 			String orderNo =  billSerialNoService.getNextBillSerialNo(map);
 			order.setOrderNo(orderNo);
-			WashOrder wo = orderService.save(order);
+			WashOrderVM wovm = orderService.save(order);
 			billSerialNoService.updateBillSerialNo(map);
-			result = new Result<WashOrder>(wo, true, false, false, "保存成功");
+			result = new Result<WashOrderVM>(wovm, true, false, false, "保存成功");
 			return result.toJson();
 		} catch (Exception ex) {
-			result = new Result<WashOrder>(null, false, false, false,
+			result = new Result<WashOrderVM>(null, false, false, false,
 					"调用后台方法出错");
 			return result.toJson();
 		}
