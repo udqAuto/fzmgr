@@ -11,7 +11,7 @@ public class WashOrderVM extends WashOrder{
 	private String customerMobile;
 	private String regionName;
 	private String washerName;
-	private String washerTypeName;
+	private String washTypeName;
 	private String washerGrade;
 	private String customerGrade; 
 	private String couponName;
@@ -27,8 +27,8 @@ public class WashOrderVM extends WashOrder{
 	
 	private List<Integer> washTypeIds;
 	private List<Integer> couponIds;
-	private List<Double> couponAmounts;
-	private List<Double> fixedAmounts;
+	private List couponAmounts;
+	private List fixedAmounts;
 	
 	public BigDecimal getSumCouponAmount() {
 		return sumCouponAmount;
@@ -55,16 +55,16 @@ public class WashOrderVM extends WashOrder{
 		this.couponIds = couponIds;
 	}
 	
-	public List<Double> getCouponAmounts() {
+	public List getCouponAmounts() {
 		return couponAmounts;
 	}
-	public void setCouponAmounts(List<Double> couponAmounts) {
+	public void setCouponAmounts(List couponAmounts) {
 		this.couponAmounts = couponAmounts;
 	}
-	public List<Double> getFixedAmounts() {
+	public List getFixedAmounts() {
 		return fixedAmounts;
 	}
-	public void setFixedAmounts(List<Double> fixedAmounts) {
+	public void setFixedAmounts(List fixedAmounts) {
 		this.fixedAmounts = fixedAmounts;
 	}
 	public List<Integer> getWashTypeIds() {
@@ -151,10 +151,10 @@ public class WashOrderVM extends WashOrder{
 	public void setAutoPN(String autoPN) {
 		this.autoPN = autoPN;
 	}
-	public String getWasherTypeName() {
-		return washerTypeName;
+	public String getWashTypeName() {
+		return washTypeName;
 	}
-	public void setWasherTypeName(String washerTypeName) {
-		this.washerTypeName = washerTypeName;
+	public void setWashTypeName(String washTypeName) {
+		this.washTypeName = washTypeName;
 	}
 }

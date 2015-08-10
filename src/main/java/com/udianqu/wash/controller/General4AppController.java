@@ -1,4 +1,4 @@
-package com.udianqu.wash.action;
+package com.udianqu.wash.controller;
 
 import java.util.ArrayList;
 import java.util.List;

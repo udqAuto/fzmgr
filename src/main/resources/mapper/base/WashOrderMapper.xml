@@ -599,8 +599,7 @@
 	select  o.id                as id,				 
 			o.state 			as state, 			 
 			o.order_no 			as orderNo,         
-			u.name 				as customerName, 	 
-			wt.name 			as washerTypeName, 
+			u.name 				as customerName,  
 			u.mobile  			as customerMobile,  
 			r.name 				as regionName,		 
 			o.user_note 		as userNote, 		 
@@ -611,10 +610,11 @@
 			o.accept_time 		as acceptTime,		 
 			o.begin_time 		as beginTime,		 
 			o.finish_time 		as finishTime, 		 
-			ct.name 			as couponName, 	 
-			w.coupon_amount		as couponAmount,	 
-			w.fixed_amount      as fixedAmount,		 
-			w.final_amount		as finalAmount,	 
+			ct.name 			as couponName,
+			(select group_concat(wtp.name) from t_wash_type wtp, t_wash_order_item wi where wi.order_id = o.id and wtp.id = wi.wash_type_id) as washTypeName,
+	        (select sum(wi.coupon_amount) from t_wash_order_item wi where wi.order_id = o.id) as couponAmount,
+            (select sum(wi.fixed_amount) from t_wash_order_item wi where wi.order_id = o.id) as fixedAmount,
+            (select sum(wi.final_amount) from t_wash_order_item wi where wi.order_id = o.id) as finalAmount, 	 
 			o.grade_washer		as washerGrade,		 
 			o.grade_user		as customerGrade		 
 	from t_wash_order o 
@@ -630,13 +630,13 @@
 	<if test="id != null">
 		and  o.id = #{id,jdbcType=INTEGER}
 	</if>
+	group by o.order_no;
   </select>
   <select id="getOrderByMap"   parameterType="java.util.Map"  resultMap="BaseVMResultMap"  >
-	select  o.id                as id,				 
-			o.state 			as state, 			 
+	select  o.id                as id,	 
+			o.state 			as state,	 
 			o.order_no 			as orderNo,         
-			u.name 				as customerName, 	 
-			wt.name 			as washerTypeName, 
+			u.name 				as customerName,
 			u.mobile  			as customerMobile,  
 			r.name 				as regionName,		 
 			o.user_note 		as userNote, 		 
@@ -647,13 +647,14 @@
 			o.accept_time 		as acceptTime,		 
 			o.begin_time 		as beginTime,		 
 			o.finish_time 		as finishTime, 		 
-			ct.name 			as couponName, 	 
-			w.coupon_amount		as couponAmount,	 
-			w.fixed_amount      as fixedAmount,		 
-			w.final_amount		as finalAmount,	 
+			ct.name 			as couponName,
+            (select group_concat(wtp.name) from t_wash_type wtp, t_wash_order_item wi where wi.order_id = o.id and wtp.id = wi.wash_type_id) as washTypeName,
+	        (select sum(wi.coupon_amount) from t_wash_order_item wi where wi.order_id = o.id) as couponAmount,
+            (select sum(wi.fixed_amount) from t_wash_order_item wi where wi.order_id = o.id) as fixedAmount,
+            (select sum(wi.final_amount) from t_wash_order_item wi where wi.order_id = o.id) as finalAmount,
 			o.grade_washer		as washerGrade,		 
 			o.grade_user		as customerGrade		 
-	from t_wash_order o 
+	from t_wash_order o
 		left join t_user u on o.user_id = u.id and u.user_type = 8
 		left join t_auto a on o.auto_id = a.id
 		left join t_org  org on o.org_id = org.id
@@ -666,13 +667,13 @@
 	<if test="state != null">
 		and o.state = #{state,jdbcType=INTEGER}
 	</if>
+	group by o.order_no;
   </select>
   <select id="getOrderByUserId"  parameterType="java.lang.Integer" resultMap="BaseVMResultMap">
-	select  o.id                as id,				 
-			o.state 			as state, 			 
+	select  o.id                as id,	 
+			o.state 			as state,	 
 			o.order_no 			as orderNo,         
-			u.name 				as customerName, 	 
-			wt.name 			as washerTypeName, 
+			u.name 				as customerName,
 			u.mobile  			as customerMobile,  
 			r.name 				as regionName,		 
 			o.user_note 		as userNote, 		 
@@ -683,13 +684,14 @@
 			o.accept_time 		as acceptTime,		 
 			o.begin_time 		as beginTime,		 
 			o.finish_time 		as finishTime, 		 
-			ct.name 			as couponName, 	 
-			w.coupon_amount		as couponAmount,	 
-			w.fixed_amount      as fixedAmount,		 
-			w.final_amount		as finalAmount,	 
+			ct.name 			as couponName,
+            (select group_concat(wtp.name) from t_wash_type wtp, t_wash_order_item wi where wi.order_id = o.id and wtp.id = wi.wash_type_id) as washTypeName,
+	        (select sum(wi.coupon_amount) from t_wash_order_item wi where wi.order_id = o.id) as couponAmount,
+            (select sum(wi.fixed_amount) from t_wash_order_item wi where wi.order_id = o.id) as fixedAmount,
+            (select sum(wi.final_amount) from t_wash_order_item wi where wi.order_id = o.id) as finalAmount,
 			o.grade_washer		as washerGrade,		 
 			o.grade_user		as customerGrade		 
-	from t_wash_order o 
+	from t_wash_order o
 		left join t_user u on o.user_id = u.id and u.user_type = 8
 		left join t_auto a on o.auto_id = a.id
 		left join t_org  org on o.org_id = org.id
@@ -698,7 +700,11 @@
 		left join t_wash_type wt on w.wash_type_id = wt.id
 		left join t_coupon c on w.coupon_id = c.id
 		left join t_coupon_type ct on c.coupon_type_id = ct.id
-	where o.user_id = #{userId,jdbcType=INTEGER}
+	where 1=1
+	<if test="userId != null">
+		and o.user_id = #{userId,jdbcType=INTEGER}
+	</if>
+	group by o.order_no;
   </select>
   <select id="loadWashOrderlistWithPage"   parameterType="java.util.Map"   resultType="com.udianqu.wash.viewmodel.WashOrderVM"   >
 	select  o.id                as id,

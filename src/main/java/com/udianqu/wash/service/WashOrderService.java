@@ -2,7 +2,6 @@ package com.udianqu.wash.service;
 
 import java.math.BigDecimal;
 import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -65,7 +64,7 @@ public class WashOrderService {
 		wo.setAutoId(o.getAutoId());
 		wo.setRegionId(o.getRegionId());
 		wo.setOrgId(o.getOrgId());
-		wo.setOrderTime(o.getOrderTime());
+		wo.setOrderTime(time);
 		wo.setBillTime(time);
 		washOrderMapper.insert(wo);
 		
@@ -73,26 +72,28 @@ public class WashOrderService {
 		Pay p = new Pay();
 		BigDecimal sumFinalAmount = new BigDecimal(0);
 		BigDecimal sumFixedAmount = new BigDecimal(0);
-		BigDecimal sumCouponAmount = new BigDecimal(0);
-		List<Double> fixedAmounts = o.getFixedAmounts();
-		List<Double> couponAmounts = o.getCouponAmounts();
-		List<Integer> couponIds = o.getCouponIds();
+		//BigDecimal sumCouponAmount = new BigDecimal(0);
+		List fixedAmounts = o.getFixedAmounts();
+		//List<Double> couponAmounts = o.getCouponAmounts();
+		//List<Integer> couponIds = o.getCouponIds();
 		List<Integer> washTypeIds = o.getWashTypeIds();
+		 
 		for(int i=0;i<washTypeIds.size();i++){
-			BigDecimal fixedAmount = new BigDecimal(fixedAmounts.get(i));
-			BigDecimal couponAmount = new BigDecimal(couponAmounts.get(i));
+			Object fixedAmount1=fixedAmounts.get(i);
+			BigDecimal fixedAmount = new BigDecimal(fixedAmount1.toString());
+			//BigDecimal couponAmount = new BigDecimal(couponAmounts.get(i));
+			BigDecimal couponAmount = new BigDecimal(0);
 			BigDecimal finalAmount = fixedAmount.subtract(couponAmount);
-			//BigDecimal finalAmount = fixedAmounts.get(i).subtract(couponAmounts.get(i));
 			sumFixedAmount = sumFixedAmount.add(fixedAmount);
-			sumCouponAmount = sumCouponAmount.add(couponAmount);
+			//sumCouponAmount = sumCouponAmount.add(couponAmount);
 			sumFinalAmount = sumFinalAmount.add(finalAmount);
 			
 			woi.setOrderId(wo.getId());
 			woi.setFinalAmount(finalAmount);
 			woi.setWashTypeId(washTypeIds.get(i));
-			woi.setCouponId(couponIds.get(i));
 			woi.setFixedAmount(fixedAmount);
-			woi.setCouponAmount(couponAmount);
+			//woi.setCouponId(couponIds.get(i));
+			//woi.setCouponAmount(couponAmount);
 			washOrderItemMapper.insert(woi);
 			
 			Integer amount = finalAmount.intValue(); 
@@ -105,7 +106,7 @@ public class WashOrderService {
 			payMapper.insert(p);
 		}
 		//将计算过的各种金额总和放入OrderVM
-		o.setSumCouponAmount(sumCouponAmount);
+		//o.setSumCouponAmount(sumCouponAmount);
 		o.setSumFinalAmount(sumFinalAmount);
 		o.setSumFixedAmount(sumFixedAmount);
 		return o;
@@ -158,5 +159,4 @@ public class WashOrderService {
 		ListResult<WashOrderVM> result=new ListResult<WashOrderVM>(ls);
 		return result;
 	}
-
 }

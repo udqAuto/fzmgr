@@ -37,14 +37,14 @@ function a (){
 var submit_obj={};
 function sub (){
 	submit_obj.washTypeIds = [1,2,3];
-	submit_obj.couponIds = [1,1,1];
-	submit_obj.couponAmounts = [3.9,4.9,5.9];
-	submit_obj.fixedAmounts = [9.9,9.9,9.9];
+	submit_obj.couponIds = [];
+	submit_obj.couponAmounts = [];
+	submit_obj.fixedAmounts = [9.8,9.8,10];
 	submit_obj.userId = 16;
 	submit_obj.autoId = 5;
 	submit_obj.regionId = 4;
 	submit_obj.orgId = 4;
-	submit_obj.userNote = "sdfadfs";
+	submit_obj.userNote = "尽快";
 	submit_obj.orderTime = "2015-07-31 14:34:34";
 	$.ajax({
 		url : "order/submitOrder4App.do",
