@@ -8,8 +8,6 @@ $(function() {
 	else{
 		$("#userTb a[doc='autoUser']").attr("style","display:none");
 	}
- 
-	
 	UserManage.loadUserList();
 	$("#addUser").bind("click", UserManage.addUser);
 	$("#editUser").bind("click", UserManage.editUser);
@@ -30,6 +28,8 @@ var UserManage = {
 		m_userInfo_Object.orgId = row.orgId;
 		m_userInfo_Object.email = row.email;
 		m_userInfo_Object.userType = row.userType;
+		m_userInfo_Object.idCard = row.idCard;
+		m_userInfo_Object.photoUrl = row.photoUrl;
 	},
 	loadUserList : function() {
 		$('#userListGrid').datagrid({
@@ -80,19 +80,24 @@ var UserManage = {
 				align : 'center',
 				width : 150,
 				formatter : function(value, rowData, index) {
-					if (value == 0 || value == "0") {
+					if (value == 1 || value == "1") {
 						return "男";
-					} else if (value == 1 || value == "1") {
+					} else if (value == 2 || value == "2") {
 						return "女";
 					} else {
 						return "保密";
 					}
 				}
 			}, {
+				title : '身份证',
+				field : 'idCard',
+				align : 'center',
+				width : 150
+			}, {
 				title : '电话',
 				field : 'mobile',
 				align : 'center',
-				width : 50
+				width : 150
 			}, {
 				title : '邮箱',
 				field : 'email',
@@ -109,7 +114,7 @@ var UserManage = {
 						title : '新增用户',
 						content : "<iframe scrolling='no' frameborder='0' src='view/user/userBill.jsp?type=0&userId=0&userType="
 								+ m_userType
-								+ "' style='width:310px;height:350px;overflow:hidden'/>",
+								+ "' style='width:310px;height:400px;overflow:hidden'/>",
 						lock : true,
 						initFn : function() {
 						}

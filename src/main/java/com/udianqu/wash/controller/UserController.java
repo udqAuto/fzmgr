@@ -1,5 +1,6 @@
 package com.udianqu.wash.controller;
 
+import java.io.File;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
@@ -17,6 +18,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.multipart.MultipartRequest;
 
 import com.udianqu.wash.core.ListResult;
 import com.udianqu.wash.core.Result;
@@ -41,23 +45,36 @@ public class UserController {
 
 	@RequestMapping("/saveUserObj.do")
 	@ResponseBody
-	public String saveUserObj(UserVM user, HttpServletRequest request) {
-
+	public String saveUserObj(UserVM user,
+			@RequestParam MultipartFile file,
+			HttpServletRequest request) {
+//		MultipartHttpServletRequest   multipartRequest = (MultipartHttpServletRequest) request;
+//        MultipartFile file = multipartRequest.getFile("f");
 		try {
 			HttpSession session = request.getSession();
 			UserVM u = (UserVM) session.getAttribute("user");
+			String path = request.getSession().getServletContext().getRealPath("upload");  
+	        String fileName = file.getOriginalFilename();  
+	        String fileUrl = path +fileName;
+	        File targetFile = new File(path, fileName);  
+	        if(!targetFile.exists()){  
+	            targetFile.mkdirs();  
+	        }  
+	        //保存  
+	        file.transferTo(targetFile);  
+	        
 			if (u == null) {
 				Result<UserVM> s = new Result<UserVM>(null, true, false, false,
 						"页面过期，请重新登录");
 				return s.toJson();
 			} else {
-
 				if (user.getId() > 0) {
 					user.setPsd(u.getPsd());
 					userService.updateByPrimaryKey(user);
 				} else {
 					String psd = encryption(user.getPsd());
 					user.setPsd(psd);
+					user.setPhotoUrl(fileUrl);
 					userService.insert(user);
 				}
 				Result<UserVM> s = new Result<UserVM>(null, true, false, false,
