@@ -28,7 +28,7 @@ var UserManage = {
 		m_userInfo_Object.orgId = row.orgId;
 		m_userInfo_Object.email = row.email;
 		m_userInfo_Object.userType = row.userType;
-		m_userInfo_Object.idCard = row.idCard;
+		m_userInfo_Object.idcard = row.idcard;
 		m_userInfo_Object.photoUrl = row.photoUrl;
 	},
 	loadUserList : function() {
@@ -49,6 +49,14 @@ var UserManage = {
 				field : 'id',
 				hidden : true
 			}, {
+				title : '照片',
+				field : 'photoUrl',
+				align : 'center',
+				//width : 150,
+				formatter : function(value, rowData, index) {
+					return "<img style='width:30px;height:30px;' src='"+rowData.photoUrl+"'>";
+				}
+			},{
 				title : '用户名称',
 				field : 'name',
 				align : 'center',
@@ -90,7 +98,7 @@ var UserManage = {
 				}
 			}, {
 				title : '身份证',
-				field : 'idCard',
+				field : 'idcard',
 				align : 'center',
 				width : 150
 			}, {
@@ -192,7 +200,7 @@ var UserManage = {
 									+ userId
 									+ "&userType="
 									+ m_userType
-									+ "' style='width:310px;height:350px;overflow:hidden'/>",
+									+ "' style='width:310px;height:650px;overflow:hidden'/>",
 							lock : true,
 							initFn : function() {
 							}

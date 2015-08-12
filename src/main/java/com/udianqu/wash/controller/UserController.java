@@ -43,26 +43,27 @@ public class UserController {
 	@Autowired
 	LoginService loginService;
 
-	@RequestMapping("/saveUserObj.do")
-	@ResponseBody
-	public String saveUserObj(UserVM user,
+	@RequestMapping(value = "saveUserObj.do")
+	public @ResponseBody String saveUserObj(UserVM user,
 			@RequestParam MultipartFile file,
 			HttpServletRequest request) {
-//		MultipartHttpServletRequest   multipartRequest = (MultipartHttpServletRequest) request;
-//        MultipartFile file = multipartRequest.getFile("f");
 		try {
 			HttpSession session = request.getSession();
 			UserVM u = (UserVM) session.getAttribute("user");
-			String path = request.getSession().getServletContext().getRealPath("upload");  
-	        String fileName = file.getOriginalFilename();  
-	        String fileUrl = path +fileName;
-	        File targetFile = new File(path, fileName);  
-	        if(!targetFile.exists()){  
-	            targetFile.mkdirs();  
-	        }  
-	        //保存  
-	        file.transferTo(targetFile);  
-	        
+			
+			String path = request.getSession().getServletContext().getRealPath("uploadFile"); 
+			String fileName = file.getOriginalFilename();
+	        //String fileUrl = path+"/"+fileName;
+	        String photoUrl = "uploadFile/"+fileName;
+			if(file.getSize()>0){
+		        File targetFile = new File(path, fileName);  
+		        if(!targetFile.exists()){  
+		            targetFile.mkdirs();  
+		        }  
+		        //保存  
+		        file.transferTo(targetFile);  
+		        user.setPhotoUrl(photoUrl);
+			}
 			if (u == null) {
 				Result<UserVM> s = new Result<UserVM>(null, true, false, false,
 						"页面过期，请重新登录");
@@ -74,7 +75,6 @@ public class UserController {
 				} else {
 					String psd = encryption(user.getPsd());
 					user.setPsd(psd);
-					user.setPhotoUrl(fileUrl);
 					userService.insert(user);
 				}
 				Result<UserVM> s = new Result<UserVM>(null, true, false, false,
@@ -143,6 +143,22 @@ public class UserController {
 			return s.toJson();
 		}
 
+	}
+	@RequestMapping(value = "getPhotoUrl4App.do", produces = "application/json;charset=UTF-8")
+	public @ResponseBody
+	String getPhotoUrlById4App(@RequestParam(value = "Id", required = true) Integer id,
+			HttpServletRequest request) {
+		try {
+			//UserVM user = userService.selectPhotoUrlById(id);
+			Result<UserVM> s = new Result<UserVM>(null, true, false,
+					false, "查询数据成功成功");
+			return s.toJson();
+		} catch (Exception ex) {
+			Result<UserVM> s = new Result<UserVM>(null, false, false, false,
+					"调用后台方法出错");
+			return s.toJson();
+		}
+		
 	}
 
 	/**

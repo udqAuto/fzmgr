@@ -137,8 +137,9 @@ public class WashOrderService {
 			map.put("finishTime", finishTime);
 			map.put("state", state);
 		}
-		if(state == 0){//评价
+		if(state == 5){//评价
 			map.put("gradeUser", order.getGradeUser());
+			map.put("state", state);
 		}
 		if(state == 10||state == 11){//取消订单
 			map.put("state", state);
