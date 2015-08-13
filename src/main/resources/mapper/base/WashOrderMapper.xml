@@ -565,6 +565,9 @@
       <if test="state != null" >
         state = #{state,jdbcType=INTEGER},
       </if>
+      <if test="stateNote != null" >
+        state_note = #{stateNote,jdbcType=VARCHAR},
+      </if>
       <if test="beginTime != null" >
         begin_time = #{beginTime,jdbcType=TIMESTAMP},
       </if>
@@ -597,7 +600,8 @@
   </select>
   <select id="loadOrderObjById"   parameterType="java.lang.Integer"   resultType="com.udianqu.wash.viewmodel.WashOrderVM"   >
 	select  o.id                as id,				 
-			o.state 			as state, 			 
+			o.state 			as state,
+			o.state_note        as stateNote, 			 
 			o.order_no 			as orderNo,         
 			u.name 				as customerName,  
 			u.mobile  			as customerMobile,  
@@ -634,7 +638,8 @@
   </select>
   <select id="getOrderByMap"   parameterType="java.util.Map"  resultMap="BaseVMResultMap"  >
 	select  o.id                as id,	 
-			o.state 			as state,	 
+			o.state 			as state,
+			o.state_note        as stateNote,	 
 			o.order_no 			as orderNo,         
 			u.name 				as customerName,
 			u.mobile  			as customerMobile,  
@@ -665,13 +670,23 @@
 		left join t_coupon_type ct on c.coupon_type_id = ct.id
 	where 1=1
 	<if test="state != null">
-		and o.state = #{state,jdbcType=INTEGER}
+		and o.state = #{state,jdbcType=INTEGER} 
+	</if>
+	<if test="states != null ">
+		and o.state in
+  		<foreach item="item" index="index" collection="states" open="(" separator="," close=")">  
+				#{item}
+		</foreach>
+	</if>
+	<if test="washerId != null">
+		and o.washer_id = #{washerId,jdbcType=INTEGER} 
 	</if>
 	group by o.order_no;
   </select>
   <select id="getOrderByUserId"  parameterType="java.lang.Integer" resultMap="BaseVMResultMap">
 	select  o.id                as id,	 
-			o.state 			as state,	 
+			o.state 			as state,
+			o.state_note        as stateNote,	 
 			o.order_no 			as orderNo,         
 			u.name 				as customerName,
 			u.mobile  			as customerMobile,  
@@ -709,6 +724,7 @@
   <select id="loadWashOrderlistWithPage"   parameterType="java.util.Map"   resultType="com.udianqu.wash.viewmodel.WashOrderVM"   >
 	select  o.id                as id,
 			o.state 			as state, 
+			o.state_note        as stateNote,
 			o.order_no 			as orderNo, 
 			u.name 				as customerName, 
 			o.user_note 		as userNote, 

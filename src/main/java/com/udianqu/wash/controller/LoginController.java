@@ -150,7 +150,8 @@ public class LoginController {
 					return s.toJson();
 				}else{
 					user.setUserType(8);
-					user.setPsd("123456");
+					String psd = encryption("123456");
+					user.setPsd(psd);
 					User user2 = userService.insert(user);
 					Result<User> result = new Result<User>(user2, true, false, false,
 							"注册成功");

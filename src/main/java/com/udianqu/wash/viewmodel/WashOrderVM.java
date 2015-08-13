@@ -20,6 +20,7 @@ public class WashOrderVM extends WashOrder{
 	private BigDecimal finalAmount;
 	private Integer couponId;
 	private Integer washTypeId;
+	private List<Integer> states;
 	
 	private BigDecimal sumCouponAmount;
 	private BigDecimal sumFixedAmount;
@@ -29,7 +30,27 @@ public class WashOrderVM extends WashOrder{
 	private List<Integer> couponIds;
 	private List couponAmounts;
 	private List fixedAmounts;
+	private Object charge;
+	private String channel;
 	
+	public List<Integer> getStates() {
+		return states;
+	}
+	public void setStates(List<Integer> states) {
+		this.states = states;
+	}
+	public String getChannel() {
+		return channel;
+	}
+	public void setChannel(String channel) {
+		this.channel = channel;
+	}
+	public Object getCharge() {
+		return charge;
+	}
+	public void setCharge(Object charge) {
+		this.charge = charge;
+	}
 	public BigDecimal getSumCouponAmount() {
 		return sumCouponAmount;
 	}

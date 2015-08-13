@@ -57,6 +57,7 @@ public class WashOrderService {
 		Date time = (Date) map.get("currentTime");
 		//订单主体对象构造；
 		wo.setState(1);
+		wo.setStateNote("客户已下单");
 		wo.setPayId(1);
 		wo.setOrderNo(o.getOrderNo());
 		wo.setUserId(o.getUserId());
@@ -129,6 +130,7 @@ public class WashOrderService {
 			map.put("washerNote", order.getWasherNote());
 			map.put("acceptTime", acceptTime);
 			map.put("state", state);
+			map.put("stateNote", "门店已接受预约");
 		}
 		if(state == 4){//完成订单
 			Date beginTime = (Date) m.get("beginTime");
@@ -136,6 +138,7 @@ public class WashOrderService {
 			map.put("beginTime", beginTime);
 			map.put("finishTime", finishTime);
 			map.put("state", state);
+			map.put("stateNote", "洗车已完成");
 		}
 		if(state == 5){//评价
 			map.put("gradeUser", order.getGradeUser());
@@ -143,6 +146,7 @@ public class WashOrderService {
 		}
 		if(state == 10||state == 11){//取消订单
 			map.put("state", state);
+			map.put("stateNote", "订单已取消");
 		}
 		washOrderMapper.updateByOrderNo(map);
 	}
