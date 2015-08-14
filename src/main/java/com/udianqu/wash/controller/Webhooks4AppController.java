@@ -20,7 +20,7 @@ import com.pingplusplus.model.Webhooks;
 @RequestMapping("/webhooks")
 public class Webhooks4AppController extends HttpServlet{
 	
-	@RequestMapping("/webhooks4App.do")
+	@RequestMapping(value = "webhooks4App.do", produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	 protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	        request.setCharacterEncoding("UTF8");

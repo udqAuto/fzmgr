@@ -155,7 +155,7 @@ public class WashOrderController{
 	public String saveOrder4App(
 			@RequestParam(value = "orderInfo", required = true) String orderInfo,
 			HttpServletRequest request) {
-
+		String ip = request.getRemoteAddr();
 		Result<WashOrderVM> result = new Result<WashOrderVM>();
 		try {
 			JSONObject jObj = JSONObject.fromObject(orderInfo);
@@ -168,7 +168,7 @@ public class WashOrderController{
 			Map<String,Object> map=GeneralUtil.getSerialNoPars(billType);
 			String orderNo =  billSerialNoService.getNextBillSerialNo(map);
 			order.setOrderNo(orderNo);
-			Charge charge = chargeCreate(order);
+			Charge charge = chargeCreate(order,ip);
 			WashOrderVM wovm = orderService.save(order);
 			billSerialNoService.updateBillSerialNo(map);
 			wovm.setCharge(charge);
@@ -204,7 +204,7 @@ public class WashOrderController{
 		}
 	}
 	
-	public Charge chargeCreate(WashOrderVM order) throws AuthenticationException, InvalidRequestException, APIConnectionException, APIException, ChannelException{
+	public Charge chargeCreate(WashOrderVM order,String ip) throws AuthenticationException, InvalidRequestException, APIConnectionException, APIException, ChannelException{
 		BigDecimal amount = countAmount(order);
 		BigDecimal t = new BigDecimal(100);
 		System.out.println(amount);
@@ -217,7 +217,7 @@ public class WashOrderController{
 	    chargeParams.put("app",app);
 	    chargeParams.put("channel",order.getChannel());
 	    chargeParams.put("currency","cny");
-	    chargeParams.put("client_ip","192.168.1.101");
+	    chargeParams.put("client_ip",ip);
 	    chargeParams.put("subject","点趣洗车");
 	    chargeParams.put("body","点趣洗车订单支付");
 	    return Charge.create(chargeParams);
