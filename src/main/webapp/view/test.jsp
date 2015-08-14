@@ -16,7 +16,7 @@
 function a (){
 	$.ajax({
 		url : "general4App/getNextBillSerialNo.do?billType="+4,
-		type : "POST",
+		type : "POST", 
 		dataType : "json", 
 		success : function(req) {
 			if (req) {
@@ -38,7 +38,7 @@ var m_time_interval;
 var m_verif_time=120*1000;
 function b(){
 	$.ajax({
-		url : "general4App/sendVerifCode.do?mobile=13568865179",
+		url : "general4Apps/sendVerifCode.do?mobile=13568865179",
 		type : "POST",
 		dataType : "json", 
 		success : function(req) {
@@ -84,7 +84,7 @@ function c(){
 		return;
 	}
 	$.ajax({
-		url : "general4App/confirmVerifCode.do?mobile=13568865179&verifCode="+verifCode,
+		url : "general4Apps/confirmVerifCode.do?mobile=13568865179&verifCode="+verifCode,
 		type : "POST",
 		dataType : "json", 
 		success : function(req) {

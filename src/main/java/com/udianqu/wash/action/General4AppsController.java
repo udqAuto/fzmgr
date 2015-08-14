@@ -20,8 +20,8 @@ import com.udianqu.wash.service.BillSerialNoService;
 import com.udianqu.wash.viewmodel.WashOrderVM;  
 
 @Controller
-@RequestMapping("/general4App")
-public class General4AppController {
+@RequestMapping("/general4Apps")
+public class General4AppsController {
 
 	@Autowired
 	BillSerialNoService billSerialNoService;
