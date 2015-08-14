@@ -25,8 +25,8 @@
 		 </p>
    <div id="div_userInfo" style="text-align:left;overflow:hidden;">
          <p name="p_img"><img id="txtUserPhoto" style='width:40px;height:50px;float:right;' src="" class="easyui-validatebox" style="width:217px"/></p>
-		 <p name="p_upload"><label>选择照片：</label><input type="file" id="file" name="file" class="easyui-validatebox" style="width:217px"/></p>
 		 <p><label>用户名称：</label><input id="txtUserName" class="easyui-validatebox"/></p>
+		 <p name="p_upload"><label>选择照片：</label><input type="file" id="file" name="file" class="easyui-validatebox" style="width:170px;"/></p>
 		 <p name="p_pwd"><label>登录密码：</label><input id="txtUserPwd" type="password" style="width:217px"  class="easyui-validatebox"  /></p>
 		 <p name="p_pwd"><label>登录密码：</label><input id="txtUserPwdAgain" type="password" style="width:217px"  class="easyui-validatebox"/></p>
 		 <p><label>机构名称：</label><input id="txtUserOrgName" type="text" class="easyui-combotree" style="width:217px"  /></p>

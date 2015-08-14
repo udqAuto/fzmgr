@@ -217,7 +217,7 @@ public class WashOrderController{
 	    chargeParams.put("app",app);
 	    chargeParams.put("channel",order.getChannel());
 	    chargeParams.put("currency","cny");
-	    chargeParams.put("client_ip","192.168.1.100");
+	    chargeParams.put("client_ip","192.168.1.101");
 	    chargeParams.put("subject","点趣洗车");
 	    chargeParams.put("body","点趣洗车订单支付");
 	    return Charge.create(chargeParams);
