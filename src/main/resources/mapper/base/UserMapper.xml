@@ -201,7 +201,7 @@
       user_type = #{userType,jdbcType=INTEGER},
       org_id = #{orgId,jdbcType=INTEGER},
       email = #{email,jdbcType=VARCHAR}
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER} 
   </update>
   
   <select id="loadUserByNameAndPwd" resultMap="BaseVMResultMap" parameterType="java.util.Map" >
