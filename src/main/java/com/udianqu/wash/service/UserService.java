@@ -34,9 +34,10 @@ public class UserService {
 		userMapper.updateByPrimaryKey(user);
 	}
 
-	public void insert(UserVM user) {
+	public User insert(UserVM user) {
 		// TODO Auto-generated method stub
 		userMapper.insert(user);
+		return user;
 	}
 
 	public int deleteUser(Integer id) {

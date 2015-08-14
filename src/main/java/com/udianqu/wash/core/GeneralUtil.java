@@ -5,6 +5,7 @@ import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -42,6 +43,22 @@ public class GeneralUtil {
 		map.put("billType", billType);
 		map.put("billDate", billDate);
 		
+		return map;
+	}
+	
+	public static Map<String,Object> getCurrentTime() throws ParseException{
+		Calendar  calendar=Calendar.getInstance();
+		DateFormat fmt=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String d=fmt.format(calendar.getTime());
+		Date time = fmt.parse(d);
+		
+		calendar.setTime(time);
+		calendar.add(Calendar.MINUTE,-7);
+		String d2=fmt.format(calendar.getTime());
+		Date time2 = fmt.parse(d2);
+		Map<String,Object> map=new HashMap<String,Object>();
+		map.put("currentTime", time);
+		map.put("beginTime", time2);
 		return map;
 	}
 	

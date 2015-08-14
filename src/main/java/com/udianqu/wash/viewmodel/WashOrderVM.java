@@ -1,6 +1,7 @@
 package com.udianqu.wash.viewmodel;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import com.udianqu.wash.model.WashOrder;
 
@@ -10,7 +11,7 @@ public class WashOrderVM extends WashOrder{
 	private String customerMobile;
 	private String regionName;
 	private String washerName;
-	private String washerTypeName;
+	private String washTypeName;
 	private String washerGrade;
 	private String customerGrade; 
 	private String couponName;
@@ -19,7 +20,80 @@ public class WashOrderVM extends WashOrder{
 	private BigDecimal finalAmount;
 	private Integer couponId;
 	private Integer washTypeId;
+	private List<Integer> states;
 	
+	private BigDecimal sumCouponAmount;
+	private BigDecimal sumFixedAmount;
+	private BigDecimal sumFinalAmount;
+	
+	private List<Integer> washTypeIds;
+	private List<Integer> couponIds;
+	private List couponAmounts;
+	private List fixedAmounts;
+	private Object charge;
+	private String channel;
+	
+	public List<Integer> getStates() {
+		return states;
+	}
+	public void setStates(List<Integer> states) {
+		this.states = states;
+	}
+	public String getChannel() {
+		return channel;
+	}
+	public void setChannel(String channel) {
+		this.channel = channel;
+	}
+	public Object getCharge() {
+		return charge;
+	}
+	public void setCharge(Object charge) {
+		this.charge = charge;
+	}
+	public BigDecimal getSumCouponAmount() {
+		return sumCouponAmount;
+	}
+	public void setSumCouponAmount(BigDecimal sumCouponAmount) {
+		this.sumCouponAmount = sumCouponAmount;
+	}
+	public BigDecimal getSumFixedAmount() {
+		return sumFixedAmount;
+	}
+	public void setSumFixedAmount(BigDecimal sumFixedAmount) {
+		this.sumFixedAmount = sumFixedAmount;
+	}
+	public BigDecimal getSumFinalAmount() {
+		return sumFinalAmount;
+	}
+	public void setSumFinalAmount(BigDecimal sumFinalAmount) {
+		this.sumFinalAmount = sumFinalAmount;
+	}
+	public List<Integer> getCouponIds() {
+		return couponIds;
+	}
+	public void setCouponIds(List<Integer> couponIds) {
+		this.couponIds = couponIds;
+	}
+	
+	public List getCouponAmounts() {
+		return couponAmounts;
+	}
+	public void setCouponAmounts(List couponAmounts) {
+		this.couponAmounts = couponAmounts;
+	}
+	public List getFixedAmounts() {
+		return fixedAmounts;
+	}
+	public void setFixedAmounts(List fixedAmounts) {
+		this.fixedAmounts = fixedAmounts;
+	}
+	public List<Integer> getWashTypeIds() {
+		return washTypeIds;
+	}
+	public void setWashTypeIds(List<Integer> washTypeIds) {
+		this.washTypeIds = washTypeIds;
+	}
 	public Integer getCouponId() {
 		return couponId;
 	}
@@ -98,10 +172,10 @@ public class WashOrderVM extends WashOrder{
 	public void setAutoPN(String autoPN) {
 		this.autoPN = autoPN;
 	}
-	public String getWasherTypeName() {
-		return washerTypeName;
+	public String getWashTypeName() {
+		return washTypeName;
 	}
-	public void setWasherTypeName(String washerTypeName) {
-		this.washerTypeName = washerTypeName;
+	public void setWashTypeName(String washTypeName) {
+		this.washTypeName = washTypeName;
 	}
 }

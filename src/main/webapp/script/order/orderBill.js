@@ -45,7 +45,7 @@ var OrderManage = {
 				 orderState = "客户取消订单";
 			 }
 			 $("#txtOrderState").text(orderState);
-			 $("#txtOrderType").text(data.washerTypeName);
+			 $("#txtOrderType").text(data.washTypeName);
 			 $("#txtCustomerName").text(data.customerName);
 			 $("#txtCustomerMobile").text(data.customerMobile);
 			 $("#txtCustomerPN").text(data.autoPN);
