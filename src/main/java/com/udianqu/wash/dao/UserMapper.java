@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.udianqu.wash.core.MyBatisRepository;
 import com.udianqu.wash.model.User;
+import com.udianqu.wash.viewmodel.DirectorVM;
 import com.udianqu.wash.viewmodel.UserVM;
 
 @MyBatisRepository
@@ -33,5 +34,7 @@ public interface UserMapper {
 	UserVM loadUserByNameAndPwd(Map<String, Object> map);
 
 	List<User> loadadminUserlist();
+
+	DirectorVM selectDirectorById(Integer id);
 
 }

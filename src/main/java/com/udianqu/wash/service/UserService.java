@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.udianqu.wash.core.ListResult;
 import com.udianqu.wash.dao.UserMapper;
 import com.udianqu.wash.model.User; 
+import com.udianqu.wash.viewmodel.DirectorVM;
 import com.udianqu.wash.viewmodel.UserVM;
 
 @Service
@@ -58,6 +59,11 @@ public class UserService {
 	public User selectByMobile(String mobile) {
 		// TODO Auto-generated method stub
 		return userMapper.selectByMobile(mobile);
+	}
+
+	public DirectorVM selectDirectorById(Integer customerId) {
+		// TODO Auto-generated method stub
+		return userMapper.selectDirectorById(customerId);
 	}
 
 }

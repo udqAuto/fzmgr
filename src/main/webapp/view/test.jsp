@@ -38,7 +38,7 @@ var m_time_interval;
 var m_verif_time=120*1000;
 function b(){
 	$.ajax({
-		url : "general4Apps/sendVerifCode.do?mobile=13568865179",
+		url : "general4Apps/sendVerifCode.do?mobile=15208197594",
 		type : "POST",
 		dataType : "json", 
 		success : function(req) {

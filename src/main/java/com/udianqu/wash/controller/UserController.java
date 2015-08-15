@@ -27,6 +27,7 @@ import com.udianqu.wash.core.Result;
 import com.udianqu.wash.model.User; 
 import com.udianqu.wash.service.LoginService;
 import com.udianqu.wash.service.UserService;
+import com.udianqu.wash.viewmodel.DirectorVM;
 import com.udianqu.wash.viewmodel.UserVM;
 
 /**
@@ -144,19 +145,19 @@ public class UserController {
 		}
 
 	}
-	@RequestMapping(value = "getPhotoUrl4App.do", produces = "application/json;charset=UTF-8")
+	@RequestMapping(value = "getDirectorInfo4App.do", produces = "application/json;charset=UTF-8")
 	public @ResponseBody
-	String getPhotoUrlById4App(@RequestParam(value = "Id", required = true) Integer id,
+	String getPhotoUrlById4App(@RequestParam(value = "id", required = true) Integer customerId,
 			HttpServletRequest request) {
 		try {
-			//UserVM user = userService.selectPhotoUrlById(id);
-			Result<UserVM> s = new Result<UserVM>(null, true, false,
-					false, "查询数据成功成功");
-			return s.toJson();
+			DirectorVM director = userService.selectDirectorById(customerId);
+			Result<DirectorVM> result = new Result<DirectorVM>(director, true, false,
+					false, "查询数据成功");
+			return result.toJson();
 		} catch (Exception ex) {
-			Result<UserVM> s = new Result<UserVM>(null, false, false, false,
-					"调用后台方法出错");
-			return s.toJson();
+			Result<DirectorVM> result = new Result<DirectorVM>(null, false, false, false,
+					"查询失败");
+			return result.toJson();
 		}
 		
 	}

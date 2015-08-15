@@ -3,6 +3,7 @@ package com.udianqu.wash.controller;
 import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,7 +19,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.udianqu.wash.core.CCPRestSmsSDK;
+import com.udianqu.wash.core.GeneralUtil;
 import com.udianqu.wash.core.Result;
+import com.udianqu.wash.core.SmsInfo;
 import com.udianqu.wash.model.User;
 import com.udianqu.wash.service.LoginService;
 import com.udianqu.wash.service.UserService;
@@ -126,7 +130,6 @@ public class LoginController {
 			return s.toJson();
 		}
 	}
-	
 	@RequestMapping("/registUser4App.do")
 	@ResponseBody
 	public String registUser(
@@ -149,6 +152,7 @@ public class LoginController {
 							"电话号码已存在");
 					return s.toJson();
 				}else{
+					
 					user.setUserType(8);
 					String psd = encryption("123456");
 					user.setPsd(psd);
@@ -163,6 +167,14 @@ public class LoginController {
 			return s.toJson();
 		}
 	}
+	/**
+	 * 发送验证码
+	 * @param mobile   手机号码
+	 * @param request   
+	 * @return
+	 * @throws Exception
+	 */
+	
 	/**
 	 * 退出主页，返回登录页面
 	 * 
@@ -201,7 +213,6 @@ public class LoginController {
 			return s.toJson();
 		}
 	}
-	
 	/**
 	 * 
 	 * @param plainText

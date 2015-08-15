@@ -61,7 +61,9 @@ public class General4AppsController {
 			HashMap hMap = null;
 			// CCPRestSDK restAPI = new CCPRestSDK();
 			CCPRestSmsSDK restAPI = new CCPRestSmsSDK();
-			restAPI.init("app.cloopen.com", "8883"); 
+			//restAPI.init("app.cloopen.com", "8883"); 
+			restAPI.init("sandboxapp.cloopen.com", "8883"); 
+
 
 			// 初始化服务器地址和端口，沙盒环境配置成sandboxapp.cloopen.com，生产环境配置成app.cloopen.com，端口都是8883. 
 			restAPI.setAccount("aaf98f894dd77eab014ddb6a41de0252","fc045501549c41bb8b44a8580865ef97"); 
@@ -73,23 +75,21 @@ public class General4AppsController {
 			String verifCode = GeneralUtil.createVerifCode();
 			hMap = restAPI.sendTemplateSMS(mobile,"22423", new String[] { verifCode, "2" });
 			
-			@SuppressWarnings("unchecked")
-			Map<String, SmsInfo> smss = (Map<String, SmsInfo>) request.getSession()
-					.getAttribute("verifCodes");
-
-			if (smss == null) {
-				smss = new HashMap<String, SmsInfo>();
-				request.getSession().setAttribute("verifCodes", smss);
-			}
-			
-			SmsInfo smsInfo = new SmsInfo(); 
-			smsInfo.setMobile(mobile); 
-			smsInfo.setVerifCode(verifCode);
-			smsInfo.setSendTime(new Date());
-			smss.put(mobile, smsInfo);
-			
-			
 			if ("000000".equals(hMap.get("statusCode"))) {
+				@SuppressWarnings("unchecked")
+				Map<String, SmsInfo> smss = (Map<String, SmsInfo>) request.getSession()
+						.getAttribute("verifCodes");
+
+				if (smss == null) {
+					smss = new HashMap<String, SmsInfo>();
+					request.getSession().setAttribute("verifCodes", smss);
+				}
+				
+				SmsInfo smsInfo = new SmsInfo(); 
+				smsInfo.setMobile(mobile); 
+				smsInfo.setVerifCode(verifCode);
+				smsInfo.setSendTime(new Date());
+				smss.put(mobile, smsInfo);
 				result = new Result<Object>(null, true, verifCode); 
 			}else{
 				String retMsg = hMap.get("statusMsg").toString();

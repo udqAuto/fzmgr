@@ -274,4 +274,18 @@
   		from t_user u 
   		 where user_type in (1,2,4)
   </select>
+  <select id="selectDirectorById" resultType="com.udianqu.wash.viewmodel.DirectorVM" parameterType="java.lang.Integer" >
+    select 
+    (select u.name from t_user u where u.id = o.bm_id) as directorName,
+    (select u.mobile from t_user u where u.id = o.bm_id) as mobile,
+    (select u.photo_url from t_user u where u.id = o.bm_id) as photoUrl,
+    o.name             as shopName,
+    group_concat(r.name)  as regionName
+    from t_user u
+    left join t_org o on u.org_id = o.id
+    left join t_region r on r.shop_id = o.id
+    where
+    u.id = #{id,jdbcType=INTEGER}
+    group by u.id;
+  </select>
 </mapper>
