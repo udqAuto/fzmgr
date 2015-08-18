@@ -134,47 +134,56 @@ public class LoginController {
 	@ResponseBody
 	public String registUser(
 			@RequestParam(value = "userInfo", required = true) String userInfo,
+			@RequestParam(value = "verifCode", required = false) String verifCode,
 			HttpServletRequest request) {
 
-		Result<UserVM> s = new Result<UserVM>();
+		Result<UserVM> result = new Result<UserVM>();
 		try {
 			JSONObject jObj = JSONObject.fromObject(userInfo);
 			UserVM user = (UserVM) JSONObject.toBean(jObj,UserVM.class);
 			String mobile = user.getMobile();
 			if(mobile == null||mobile == ""){
-				s = new Result<UserVM>(null, false, false, false,
+				result = new Result<UserVM>(null, false, false, false,
 						"请输入电话号码");
-				return s.toJson();
+				return result.toJson();
 			}
-			User user1 = userService.selectByMobile(mobile);
-			if(user1 !=null){
-					s = new Result<UserVM>(null, false, false, false,
-							"电话号码已存在");
-					return s.toJson();
-				}else{
-					
-					user.setUserType(8);
-					String psd = encryption("123456");
-					user.setPsd(psd);
-					User user2 = userService.insert(user);
-					Result<User> result = new Result<User>(user2, true, false, false,
-							"注册成功");
-					return result.toJson();
-				}
+            //验证码验证
+//			@SuppressWarnings("unchecked")
+//			Map<String, SmsInfo> smss = (Map<String, SmsInfo>) request
+//					.getSession().getAttribute("verifCodes");
+//			if (smss == null) {
+//				result = new Result<UserVM>(null, false, "没有产生相关验证码"); 
+//				return result.toJson();
+//			}  else {
+//				SmsInfo smsInfo = smss.get(mobile);
+//				//判断获取验证码时的电话与注册时传的电话是否相等？
+//				if (!smsInfo.getVerifCode().equals(verifCode)) {
+//					result = new Result<UserVM>(null, false, "验证码错误"); 
+//					return result.toJson(); 
+//				} else{
+//					//验证码正确，处理其他业务逻辑，完成注册登录等逻辑
+//					user.setUserType(8);
+//					String psd = encryption("123456");
+//					user.setPsd(psd);
+//					User user2 = userService.insert(user);
+//					Result<User> res = new Result<User>(user2, true, false, false,
+//							"注册成功");
+//					return res.toJson(); 
+//				}
+//			}
+			user.setUserType(8);
+			String psd = encryption("123456");
+			user.setPsd(psd);
+			User user2 = userService.insert(user);
+			Result<User> res = new Result<User>(user2, true, false, false,
+					"注册成功");
+			return res.toJson(); 
 		} catch (Exception ex) {
-			s = new Result<UserVM>(null, false, false, false,
+			result = new Result<UserVM>(null, false, false, false,
 					"调用后台方法出错");
-			return s.toJson();
+			return result.toJson();
 		}
 	}
-	/**
-	 * 发送验证码
-	 * @param mobile   手机号码
-	 * @param request   
-	 * @return
-	 * @throws Exception
-	 */
-	
 	/**
 	 * 退出主页，返回登录页面
 	 * 
@@ -211,6 +220,72 @@ public class LoginController {
 			Result<UserVM> s = new Result<UserVM>(null, false, false, false,
 					"获取登录用户信息失败，请联系网站管理员");
 			return s.toJson();
+		}
+	}
+	/**
+	 * 发送验证码
+	 * @param mobile   手机号码
+	 * @param request   
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "sendVerifCode4App.do", produces = "application/json;charset=UTF-8")
+	public @ResponseBody
+	String sendVerifCode(
+			@RequestParam(value = "mobile", required = false) String mobile,
+			HttpServletRequest request) throws Exception {
+		Result<Object> result = null;
+		try {
+			if (mobile == null || "".equals(mobile)) {
+				result = new Result<Object>(null, false, "请输入手机号码"); 
+				return result.toJson();
+			} 
+//			User user = userService.selectByMobile(mobile);
+//			if(user !=null){
+//					result = new Result<Object>(null, false, false, false,
+//							"电话号码已存在");
+//					return result.toJson();
+//			}
+			HashMap hMap = null;
+			// CCPRestSDK restAPI = new CCPRestSDK();
+			CCPRestSmsSDK restAPI = new CCPRestSmsSDK();
+			//restAPI.init("app.cloopen.com", "8883"); 
+			restAPI.init("sandboxapp.cloopen.com", "8883"); 
+
+			// 初始化服务器地址和端口，沙盒环境配置成sandboxapp.cloopen.com，生产环境配置成app.cloopen.com，端口都是8883. 
+			restAPI.setAccount("aaf98f894dd77eab014ddb6a41de0252","fc045501549c41bb8b44a8580865ef97"); 
+			// 初始化主账号名称和主账号令牌，登陆云通讯网站后，可在"控制台-应用"中看到开发者主账号ACCOUNT SID和
+			// 主账号令牌AUTH TOKEN。
+			restAPI.setAppId("aaf98f894dd77eab014ddc85adb403e9");
+			// 初始化应用ID，如果是在沙盒环境开发，请配置"控制台-应用-测试DEMO"中的APPID。
+			// 如切换到生产环境，请使用自己创建应用的APPID
+			String verifCode = GeneralUtil.createVerifCode();
+			hMap = restAPI.sendTemplateSMS(mobile,"22423", new String[] { verifCode, "2" });
+			
+			if ("000000".equals(hMap.get("statusCode"))) {
+				@SuppressWarnings("unchecked")
+				Map<String, SmsInfo> smss = (Map<String, SmsInfo>) request.getSession()
+						.getAttribute("verifCodes");
+
+				if (smss == null) {
+					smss = new HashMap<String, SmsInfo>();
+					request.getSession().setAttribute("verifCodes", smss);
+				}
+				
+				SmsInfo smsInfo = new SmsInfo(); 
+				smsInfo.setMobile(mobile); 
+				smsInfo.setVerifCode(verifCode);
+				smsInfo.setSendTime(new Date());
+				smss.put(mobile, smsInfo);
+				result = new Result<Object>(null, true, verifCode); 
+			}else{
+				String retMsg = hMap.get("statusMsg").toString();
+				result = new Result<Object>(null, true, retMsg); 
+			}
+			return result.toJson();
+		} catch (Exception ex) {
+			result = new Result<Object>(null, false, "验证码发送失败");
+			return result.toJson();
 		}
 	}
 	/**

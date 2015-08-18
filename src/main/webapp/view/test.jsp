@@ -38,7 +38,7 @@ var m_time_interval;
 var m_verif_time=120*1000;
 function b(){
 	$.ajax({
-		url : "general4Apps/sendVerifCode.do?mobile=15208197594",
+		url : "login/sendVerifCode4App.do?mobile=15208197594",
 		type : "POST",
 		dataType : "json", 
 		success : function(req) {
@@ -83,10 +83,15 @@ function c(){
 	if(verifCode.length==0||verifCode == ""){
 		return;
 	}
+	var regist_obj = {};
+	regist_obj.mobile = 15208197594;
+	regist_obj.sex = 1;
+	regist_obj.name ="jun";
 	$.ajax({
-		url : "general4Apps/confirmVerifCode.do?mobile=13568865179&verifCode="+verifCode,
+		url : "login/registUser4App.do?verifCode="+verifCode,
 		type : "POST",
 		dataType : "json", 
+		data:{"userInfo" : JSON.stringify(regist_obj)},
 		success : function(req) {
 			if (req.isSuccess) {
 				$.messager.alert("系统提示", req.msg, "info");

@@ -9,19 +9,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.pingplusplus.model.Event;
 import com.pingplusplus.model.Webhooks;
 
-@Controller
-@RequestMapping("/webhooks")
+@SuppressWarnings("webhooks")
 public class Webhooks4AppController extends HttpServlet{
 	
-	@RequestMapping(value = "webhooks4App.do", produces = "application/json;charset=UTF-8")
-	@ResponseBody
 	 protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	        request.setCharacterEncoding("UTF8");
 	        //获取头部所有信息

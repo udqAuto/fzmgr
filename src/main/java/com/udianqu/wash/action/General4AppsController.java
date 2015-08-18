@@ -89,6 +89,7 @@ public class General4AppsController {
 				smsInfo.setVerifCode(verifCode);
 				smsInfo.setSendTime(new Date());
 				smss.put(mobile, smsInfo);
+				request.getSession().getAttribute("verifCodes");
 				result = new Result<Object>(null, true, verifCode); 
 			}else{
 				String retMsg = hMap.get("statusMsg").toString();
