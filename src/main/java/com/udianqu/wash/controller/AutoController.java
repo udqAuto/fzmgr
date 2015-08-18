@@ -1,14 +1,10 @@
 package com.udianqu.wash.controller;
 
-import java.io.IOException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
-import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,10 +16,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.udianqu.wash.core.ListResult;
 import com.udianqu.wash.core.Result;
 import com.udianqu.wash.model.Auto;
-import com.udianqu.wash.model.User;
 import com.udianqu.wash.service.AutoService;
 import com.udianqu.wash.viewmodel.AutoVM;
-import com.udianqu.wash.viewmodel.UserVM;
 
 @Controller 
 @RequestMapping("/auto")
@@ -78,10 +72,6 @@ public class AutoController {
 			@RequestParam(value = "autoInfo", required = true) String autoInfo,
 			HttpServletRequest request) {
 		try {
-//			autoInfo = java.net.URLDecoder.decode(autoInfo,"UTF-8");
-			if(autoInfo.startsWith(",")){
-				autoInfo.replaceFirst(",", null);
-			}
 			JSONObject jObj = JSONObject.fromObject(autoInfo);
 			AutoVM auto = (AutoVM) JSONObject.toBean(jObj,AutoVM.class);
 			String pn = auto.getPn();

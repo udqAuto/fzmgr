@@ -56,7 +56,7 @@ public class WashOrderService {
 		Map<String,Object> map = GeneralUtil.getCurrentTime();
 		Date time = (Date) map.get("currentTime");
 		//订单主体对象构造；
-		wo.setState(1);
+		wo.setState(0);
 		wo.setStateNote("客户已下单");
 		wo.setPayId(1);
 		wo.setOrderNo(o.getOrderNo());

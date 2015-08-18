@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -25,10 +26,12 @@ import org.springframework.web.multipart.MultipartRequest;
 import com.udianqu.wash.core.ListResult;
 import com.udianqu.wash.core.Result;
 import com.udianqu.wash.model.User; 
+import com.udianqu.wash.model.WashOrder;
 import com.udianqu.wash.service.LoginService;
 import com.udianqu.wash.service.UserService;
 import com.udianqu.wash.viewmodel.DirectorVM;
 import com.udianqu.wash.viewmodel.UserVM;
+import com.udianqu.wash.viewmodel.WashOrderVM;
 
 /**
  * 用户 包括（user_type) 1=系统管理员 2=职员 4=洗车工 8=用户
@@ -86,6 +89,29 @@ public class UserController {
 			Result<UserVM> s = new Result<UserVM>(null, false, false, false,
 					"调用后台方法出错");
 			return s.toJson();
+		}
+	}
+	
+	@RequestMapping(value = "editUser4App.do")
+	public @ResponseBody String editUser(
+			@RequestParam(value = "userInfo", required = true) String userInfo,
+			HttpServletRequest request) {
+		Result<User> result = null;
+		try {
+			JSONObject jObj = JSONObject.fromObject(userInfo);
+			User user = (User) JSONObject.toBean(jObj,User.class);
+			if(user == null){
+				result = new Result<User>(null, false, false, false, "传入后台数据为空");
+				return result.toJson();
+			}
+			userService.updateById(user);
+			result = new Result<User>(null, true, false, false,
+					"调用后台方法出错");
+			return result.toJson();
+		}catch (Exception ex) {
+			result = new Result<User>(null, false, false, false,
+					"调用后台方法出错");
+			return result.toJson();
 		}
 	}
 
@@ -161,6 +187,23 @@ public class UserController {
 		}
 		
 	}
+	@RequestMapping(value = "getUser4App.do", produces = "application/json;charset=UTF-8")
+	public @ResponseBody
+	String getUser4App(@RequestParam(value = "id", required = true) Integer id,
+			HttpServletRequest request) {
+		try {
+			User user = userService.selectById(id);
+			Result<User> result = new Result<User>(user, true, false,
+					false, "查询数据成功");
+			return result.toJson();
+		} catch (Exception ex) {
+			Result<User> result = new Result<User>(null, false, false, false,
+					"查询失败");
+			return result.toJson();
+		}
+		
+	}
+
 
 	/**
 	 * 

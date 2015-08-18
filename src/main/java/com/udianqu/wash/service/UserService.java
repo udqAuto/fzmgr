@@ -34,6 +34,11 @@ public class UserService {
 		// TODO Auto-generated method stub
 		userMapper.updateByPrimaryKey(user);
 	}
+	
+	public void updateById(User user) {
+		// TODO Auto-generated method stub
+		userMapper.updateByPrimaryKeySelective(user);
+	}
 
 	public User insert(UserVM user) {
 		// TODO Auto-generated method stub
@@ -64,6 +69,11 @@ public class UserService {
 	public DirectorVM selectDirectorById(Integer customerId) {
 		// TODO Auto-generated method stub
 		return userMapper.selectDirectorById(customerId);
+	}
+
+	public User selectById(Integer id) {
+		// TODO Auto-generated method stub
+		return userMapper.selectByPrimaryKey(id);
 	}
 
 }
