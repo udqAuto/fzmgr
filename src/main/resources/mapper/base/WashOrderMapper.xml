@@ -26,6 +26,9 @@
     <result column="washer_note" property="washerNote" jdbcType="VARCHAR" />
     <result column="grade_washer" property="gradeWasher" jdbcType="TINYINT" />
     <result column="grade_user" property="gradeUser" jdbcType="TINYINT" />
+    <result column="photo_url_1" property="photoUrl1" jdbcType="VARCHAR" />
+    <result column="photo_url_2" property="photoUrl2" jdbcType="VARCHAR" />
+    <result column="photo_url_3" property="photoUrl3" jdbcType="VARCHAR" />
   </resultMap>
   <resultMap id="BaseVMResultMap" type="com.udianqu.wash.viewmodel.WashOrderVM" >
     <!--
@@ -555,7 +558,7 @@
   </update>
   <update id="updateByOrderNo" parameterType="java.util.Map" >
     update t_wash_order
-    <set >
+    <set>
       <if test="acceptTime != null" >
         accept_time = #{acceptTime,jdbcType=TIMESTAMP},
       </if>
@@ -576,6 +579,15 @@
       </if>
       <if test="gradeUser != null" >
         grade_user = #{gradeUser,jdbcType=TINYINT},
+      </if>
+      <if test="photoUrl1 != null" >
+        photo_url_1 = #{photoUrl1,jdbcType=VARCHAR},
+      </if>
+      <if test="photoUrl2 != null" >
+        photo_url_2 = #{photoUrl2,jdbcType=VARCHAR},
+      </if>
+      <if test="photoUrl1 != null" >
+        photo_url_3 = #{photoUrl3,jdbcType=VARCHAR},
       </if>
     </set>
     where order_no = #{orderNo,jdbcType=VARCHAR}

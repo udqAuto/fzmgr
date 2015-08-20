@@ -61,6 +61,14 @@ public class GeneralUtil {
 		map.put("beginTime", time2);
 		return map;
 	}
+	public static Map<String,Object> getCurrentDate() throws ParseException{
+		Calendar  calendar=Calendar.getInstance();
+		DateFormat fmt=new SimpleDateFormat("yyyyMMdd");
+		String d=fmt.format(calendar.getTime());
+		Map<String,Object> map=new HashMap<String,Object>();
+		map.put("currentDate", d);
+		return map;
+	}
 	
 
 	public static int getAge(Date birthDay) throws Exception {

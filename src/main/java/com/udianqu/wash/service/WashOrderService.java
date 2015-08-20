@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.udianqu.wash.core.GeneralUtil;
+import com.udianqu.wash.core.TransPayType;
 import com.udianqu.wash.core.ListResult;
 import com.udianqu.wash.dao.PayMapper;
 import com.udianqu.wash.dao.WashOrderItemMapper;
@@ -97,15 +98,17 @@ public class WashOrderService {
 			//woi.setCouponAmount(couponAmount);
 			washOrderItemMapper.insert(woi);
 			
-			Integer amount = finalAmount.intValue(); 
-			//订单金额支付对象构造；
-			p.setOrderType(1);
-			p.setPayType(1);
-			p.setOrderId(wo.getId());
-			p.setUserId(o.getUserId());
-			p.setAmount(amount);
-			payMapper.insert(p);
+			
 		}
+		int payType = TransPayType.transToInt(o.getChannel());
+		Integer amount = sumFinalAmount.intValue(); 
+		//订单金额支付对象构造；
+		p.setOrderType(1);
+		p.setPayType(payType);
+		p.setOrderId(wo.getId());
+		p.setUserId(o.getUserId());
+		p.setAmount(amount);
+		payMapper.insert(p);
 		//将计算过的各种金额总和放入OrderVM
 		//o.setSumCouponAmount(sumCouponAmount);
 		o.setSumFinalAmount(sumFinalAmount);
