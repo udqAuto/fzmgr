@@ -370,4 +370,10 @@
     from t_region r 
     where pid = #{id,jdbcType=INTEGER}
   </select>
+  <select id="selectOrgIdByRegionId" resultType="java.lang.Integer" parameterType="java.lang.Integer" >
+    select 
+        shop_id    as orgId
+    from t_region 
+    where id = #{id,jdbcType=INTEGER}
+  </select>
 </mapper>

@@ -1,5 +1,6 @@
 package com.udianqu.wash.controller;
 
+import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,6 +24,7 @@ import com.pingplusplus.exception.AuthenticationException;
 import com.pingplusplus.exception.ChannelException;
 import com.pingplusplus.exception.InvalidRequestException;
 import com.pingplusplus.model.Charge;
+import com.pingplusplus.util.WxpubOAuth;
 import com.udianqu.wash.core.GeneralUtil;
 import com.udianqu.wash.core.ListResult;
 import com.udianqu.wash.core.Result;
@@ -117,6 +119,22 @@ public class WashOrderController{
 			return s.toJson();
 		} 
 	}
+	@RequestMapping(value = "deletePhoto4App.do", produces = "application/json;charset=UTF-8")
+	public @ResponseBody
+	String deletePhoto(
+			@RequestParam(value = "orderNo", required = true) String orderNo, 
+			@RequestParam(value = "No", required = true) Integer No, 
+			HttpServletRequest request) throws Exception {
+		Result<WashOrder> result = null;
+		try{
+			orderService.deletePhoto(orderNo,No);
+			result = new Result<WashOrder>(null, true,"删除成功");
+			return result.toJson();
+		}catch(Exception ex){
+			result = new Result<WashOrder>(null, false,"删除失败");
+			return result.toJson();
+		} 
+	}
 	@RequestMapping(value = "getOrderByUserId4App.do", produces = "application/json;charset=UTF-8")
 	public @ResponseBody
 	String getOrderByUserId4App(
@@ -138,10 +156,15 @@ public class WashOrderController{
 		try{
 			JSONObject jObj = JSONObject.fromObject(orderInfo);
 			WashOrderVM order = (WashOrderVM) JSONObject.toBean(jObj,WashOrderVM.class);
+			if(order==null){
+				Result<WashOrderVM> res = new Result<WashOrderVM>(null,false,"传入后台数据为空");
+				return res.toJson();
+			}
 			Map<String, Object> map = new HashMap<String, Object>();    
 			map.put("state", order.getState());  
 			map.put("states", order.getStates());  
 			map.put("washerId", order.getWasherId());  
+			map.put("orgId", order.getOrgId());  
 			ListResult<WashOrderVM> result = orderService.getOrderByState(map);
 			return result.toJson();
 		}catch(Exception ex){
@@ -168,10 +191,14 @@ public class WashOrderController{
 			Map<String,Object> map=GeneralUtil.getSerialNoPars(billType);
 			String orderNo =  billSerialNoService.getNextBillSerialNo(map);
 			order.setOrderNo(orderNo);
-			Charge charge = chargeCreate(order,ip);
 			WashOrderVM wovm = orderService.save(order);
 			billSerialNoService.updateBillSerialNo(map);
-			wovm.setCharge(charge);
+			try{
+				Charge charge = chargeCreate(order,ip);
+				wovm.setCharge(charge);
+			}catch(Exception ex){
+				
+			}
 			result = new Result<WashOrderVM>(wovm, true, false, false, "保存成功");
 			return result.toJson();
 		} catch (Exception ex) {
@@ -194,9 +221,8 @@ public class WashOrderController{
 				result = new Result<WashOrder>(null, false, false, false, "传入后台数据为空");
 				return result.toJson();
 			}
-			orderService.handleOrder(order);
-			result = new Result<WashOrder>(null, true, false, false, "操作成功");
-			return result.toJson();
+			Result<WashOrder> res = orderService.handleOrder(order);
+			return res.toJson();
 		} catch (Exception ex) {
 			result = new Result<WashOrder>(null, false, false, false,
 					"调用后台方法出错");
@@ -204,7 +230,7 @@ public class WashOrderController{
 		}
 	}
 	
-	public Charge chargeCreate(WashOrderVM order,String ip) throws AuthenticationException, InvalidRequestException, APIConnectionException, APIException, ChannelException{
+	public Charge chargeCreate(WashOrderVM order,String ip) throws AuthenticationException, InvalidRequestException, APIConnectionException, APIException, ChannelException, UnsupportedEncodingException{
 		BigDecimal amount = countAmount(order);
 		BigDecimal t = new BigDecimal(100);
 		System.out.println(amount);
@@ -220,6 +246,11 @@ public class WashOrderController{
 	    chargeParams.put("client_ip",ip);
 	    chargeParams.put("subject","点趣洗车");
 	    chargeParams.put("body","点趣洗车订单支付");
+	    Map<String, String> extra = new HashMap<String, String>();
+	    String openId = WxpubOAuth.getOpenId("app_5CWvTSPubXHSeLyH","5543cfeff66382f4c2e503f596ee976f",WxpubOAuth.createOauthUrlForCode("app_5CWvTSPubXHSeLyH","5543cfeff66382f4c2e503f596ee976f",false));
+	    extra.put("open_id", openId);
+	    chargeParams.put("extra", extra);
+
 	    return Charge.create(chargeParams);
 	}
 	/*

@@ -1,5 +1,6 @@
 package com.udianqu.wash.service;
 
+import java.io.File;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.util.Date;
@@ -11,9 +12,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.udianqu.wash.core.GeneralUtil;
+import com.udianqu.wash.core.Result;
 import com.udianqu.wash.core.TransPayType;
 import com.udianqu.wash.core.ListResult;
 import com.udianqu.wash.dao.PayMapper;
+import com.udianqu.wash.dao.RegionMapper;
 import com.udianqu.wash.dao.WashOrderItemMapper;
 import com.udianqu.wash.dao.WashOrderMapper;
 import com.udianqu.wash.model.Pay;
@@ -27,6 +30,7 @@ public class WashOrderService {
 	@Autowired WashOrderMapper washOrderMapper;
 	@Autowired WashOrderItemMapper washOrderItemMapper;
 	@Autowired PayMapper payMapper;
+	@Autowired RegionMapper regionMapper;
 
 	public ListResult<WashOrderVM> loadOrderlist(Map<String, Object> map) {
 		// TODO Auto-generated method stub
@@ -54,6 +58,7 @@ public class WashOrderService {
 	public WashOrderVM save(WashOrderVM o) throws ParseException {
 		// TODO Auto-generated method stub
 		WashOrder wo = new WashOrder();
+		int orgId = regionMapper.selectOrgIdByRegionId(o.getRegionId());
 		Map<String,Object> map = GeneralUtil.getCurrentTime();
 		Date time = (Date) map.get("currentTime");
 		//订单主体对象构造；
@@ -65,7 +70,7 @@ public class WashOrderService {
 		wo.setUserNote(o.getUserNote());
 		wo.setAutoId(o.getAutoId());
 		wo.setRegionId(o.getRegionId());
-		wo.setOrgId(o.getOrgId());
+		wo.setOrgId(orgId);
 		wo.setOrderTime(time);
 		wo.setBillTime(time);
 		washOrderMapper.insert(wo);
@@ -121,19 +126,26 @@ public class WashOrderService {
 		washOrderMapper.updateByOrderNo(map);
 	}
 
-	public void handleOrder(WashOrderVM order) throws ParseException {
+	public Result<WashOrder> handleOrder(WashOrderVM order) throws ParseException {
 		// TODO Auto-generated method stub
+		Result<WashOrder> result = null;
 		Integer state = order.getState();
 		Map<String,Object> m = GeneralUtil.getCurrentTime();
 		Map<String,Object> map=new HashMap<String, Object>();
 		map.put("orderNo", order.getOrderNo());
 		if(state == 2){//接收订单
-			Date acceptTime = (Date) m.get("currentTime");
-			map.put("washerId", order.getWasherId());
-			map.put("washerNote", order.getWasherNote());
-			map.put("acceptTime", acceptTime);
-			map.put("state", state);
-			map.put("stateNote", "门店已接受预约");
+			WashOrder o = washOrderMapper.selectByOrderNo(order.getOrderNo());
+			if(o.getState() == 1){
+				Date acceptTime = (Date) m.get("currentTime");
+				map.put("washerId", order.getWasherId());
+				map.put("washerNote", order.getWasherNote());
+				map.put("acceptTime", acceptTime);
+				map.put("state", state);
+				map.put("stateNote", "门店已接受预约");
+			}else{
+				result = new Result<WashOrder>(null, false, "此订单已被接收");
+				return result;
+			}
 		}
 		if(state == 4){//完成订单
 			Date beginTime = (Date) m.get("beginTime");
@@ -142,6 +154,7 @@ public class WashOrderService {
 			map.put("finishTime", finishTime);
 			map.put("state", state);
 			map.put("stateNote", "洗车已完成");
+			map.put("washerNote", order.getWasherNote());
 		}
 		if(state == 5){//评价
 			map.put("gradeUser", order.getGradeUser());
@@ -152,6 +165,8 @@ public class WashOrderService {
 			map.put("stateNote", "订单已取消");
 		}
 		washOrderMapper.updateByOrderNo(map);
+		result = new Result<WashOrder>(null, true, "操作成功");
+		return result;
 	}
 
 	public ListResult<WashOrderVM> getOrderByUserId(Integer userId) {
@@ -166,5 +181,27 @@ public class WashOrderService {
 		List<WashOrderVM> ls=washOrderMapper.getOrderByMap(map);
 		ListResult<WashOrderVM> result=new ListResult<WashOrderVM>(ls);
 		return result;
+	}
+
+	public void deletePhoto(String orderNo, Integer No) throws ParseException {
+		//删除数据库中的
+		Map<String,Object> map=new HashMap<String, Object>();
+		map.put("orderNo", orderNo);
+		switch(No){
+		case 1:
+			map.put("photoUrl1", "");break;
+		case 2:
+			map.put("photoUrl2", "");break;
+		case 3:
+			map.put("photoUrl3", "");break;
+		}
+		washOrderMapper.updateByOrderNo(map);
+		//删除文件
+		Map<String,Object> m = GeneralUtil.getCurrentDate();
+        String date = (String) m.get("currentDate");
+        String path=getClass().getResource("/").getPath();
+        String rootPath = path.substring(0,path.lastIndexOf("WEB-INF"));
+        String photoUrl = rootPath+"washPhoto/"+date+"/"+orderNo+"/"+orderNo+"_"+No+".jpg";
+		boolean success = (new File(photoUrl)).delete();
 	}
 }

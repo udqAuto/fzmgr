@@ -111,5 +111,7 @@ public interface RegionMapper {
 	List<RegionVM> getRegionList4App(Integer id);
 
 	String getName(Map<String, Object> map);
+
+	int selectOrgIdByRegionId(Integer id);
 	
 }

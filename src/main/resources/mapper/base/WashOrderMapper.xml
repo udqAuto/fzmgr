@@ -55,6 +55,9 @@
     <result column="washer_note" property="washerNote" jdbcType="VARCHAR" />
     <result column="grade_washer" property="gradeWasher" jdbcType="TINYINT" />
     <result column="grade_user" property="gradeUser" jdbcType="TINYINT" />
+    <result column="photo_url_1" property="photoUrl1" jdbcType="VARCHAR" />
+    <result column="photo_url_2" property="photoUrl2" jdbcType="VARCHAR" />
+    <result column="photo_url_3" property="photoUrl3" jdbcType="VARCHAR" />
     
     <result column="user_name" property="userName" jdbcType="VARCHAR" />
     <result column="auto_pn" property="autoPN" jdbcType="VARCHAR" />
@@ -565,6 +568,9 @@
       <if test="washerId != null" >
         washer_id = #{washerId,jdbcType=INTEGER},
       </if>
+      <if test="washerNote != null" >
+        washer_note = #{washerNote,jdbcType=VARCHAR},
+      </if>
       <if test="state != null" >
         state = #{state,jdbcType=INTEGER},
       </if>
@@ -586,7 +592,7 @@
       <if test="photoUrl2 != null" >
         photo_url_2 = #{photoUrl2,jdbcType=VARCHAR},
       </if>
-      <if test="photoUrl1 != null" >
+      <if test="photoUrl3 != null" >
         photo_url_3 = #{photoUrl3,jdbcType=VARCHAR},
       </if>
     </set>
@@ -632,7 +638,8 @@
             (select sum(wi.fixed_amount) from t_wash_order_item wi where wi.order_id = o.id) as fixedAmount,
             (select sum(wi.final_amount) from t_wash_order_item wi where wi.order_id = o.id) as finalAmount, 	 
 			o.grade_washer		as washerGrade,		 
-			o.grade_user		as customerGrade		 
+			o.grade_user		as customerGrade,
+			p.pay_type          as PayType		 
 	from t_wash_order o 
 		left join t_user u on o.user_id = u.id and u.user_type = 8
 		left join t_auto a on o.auto_id = a.id
@@ -642,6 +649,7 @@
 		left join t_wash_type wt on w.wash_type_id = wt.id
 		left join t_coupon c on w.coupon_id = c.id
 		left join t_coupon_type ct on c.coupon_type_id = ct.id
+		left join t_pay p on p.order_id = o.id
 	where 1=1 
 	<if test="id != null">
 		and  o.id = #{id,jdbcType=INTEGER}
@@ -670,7 +678,11 @@
             (select sum(wi.fixed_amount) from t_wash_order_item wi where wi.order_id = o.id) as fixedAmount,
             (select sum(wi.final_amount) from t_wash_order_item wi where wi.order_id = o.id) as finalAmount,
 			o.grade_washer		as washerGrade,		 
-			o.grade_user		as customerGrade		 
+			o.grade_user		as customerGrade,
+			o.photo_url_1       as photoUrl1,		 
+			o.photo_url_2       as photoUrl2,		 
+			o.photo_url_3       as photoUrl3,
+			p.pay_type          as payType	 
 	from t_wash_order o
 		left join t_user u on o.user_id = u.id and u.user_type = 8
 		left join t_auto a on o.auto_id = a.id
@@ -680,7 +692,8 @@
 		left join t_wash_type wt on w.wash_type_id = wt.id
 		left join t_coupon c on w.coupon_id = c.id
 		left join t_coupon_type ct on c.coupon_type_id = ct.id
-	where 1=1
+		left join t_pay p on p.order_id = o.id
+    where 1=1
 	<if test="state != null">
 		and o.state = #{state,jdbcType=INTEGER} 
 	</if>
@@ -693,7 +706,10 @@
 	<if test="washerId != null">
 		and o.washer_id = #{washerId,jdbcType=INTEGER} 
 	</if>
-	group by o.order_no;
+	<if test="orgId != null">
+		and o.org_id = #{orgId,jdbcType=INTEGER} 
+	</if>
+	group by o.order_no  order by o.bill_time desc;
   </select>
   <select id="getOrderByUserId"  parameterType="java.lang.Integer" resultMap="BaseVMResultMap">
 	select  o.id                as id,	 
@@ -717,7 +733,11 @@
             (select sum(wi.fixed_amount) from t_wash_order_item wi where wi.order_id = o.id) as fixedAmount,
             (select sum(wi.final_amount) from t_wash_order_item wi where wi.order_id = o.id) as finalAmount,
 			o.grade_washer		as washerGrade,		 
-			o.grade_user		as customerGrade		 
+			o.grade_user		as customerGrade,
+			o.photo_url_1       as photoUrl1,		 
+			o.photo_url_2       as photoUrl2,		 
+			o.photo_url_3       as photoUrl3,
+			p.pay_type          as payType		 
 	from t_wash_order o
 		left join t_user u on o.user_id = u.id and u.user_type = 8
 		left join t_auto a on o.auto_id = a.id
@@ -727,11 +747,12 @@
 		left join t_wash_type wt on w.wash_type_id = wt.id
 		left join t_coupon c on w.coupon_id = c.id
 		left join t_coupon_type ct on c.coupon_type_id = ct.id
+		left join t_pay p on p.order_id = o.id
 	where 1=1
 	<if test="userId != null">
 		and o.user_id = #{userId,jdbcType=INTEGER}
 	</if>
-	group by o.order_no;
+	group by o.order_no  order by o.bill_time desc;
   </select>
   <select id="loadWashOrderlistWithPage"   parameterType="java.util.Map"   resultType="com.udianqu.wash.viewmodel.WashOrderVM"   >
 	select  o.id                as id,
@@ -763,6 +784,7 @@
 		<if test="endTime != null">
 			and o.order_time  &lt;=#{endTime,jdbcType=TIMESTAMP}
 		</if>
+		 order by o.bill_time desc
   		<if test="pageStart !=null">
   		limit #{pageStart,jdbcType=INTEGER}, #{pageSize,jdbcType=INTEGER}
   		</if>

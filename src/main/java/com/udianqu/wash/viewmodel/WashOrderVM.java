@@ -20,6 +20,7 @@ public class WashOrderVM extends WashOrder{
 	private BigDecimal finalAmount;
 	private Integer couponId;
 	private Integer washTypeId;
+	private String payType;
 	private List<Integer> states;
 	
 	private BigDecimal sumCouponAmount;
@@ -33,6 +34,13 @@ public class WashOrderVM extends WashOrder{
 	private Object charge;
 	private String channel;
 	
+	
+	public String getPayType() {
+		return payType;
+	}
+	public void setPayType(String payType) {
+		this.payType = payType;
+	}
 	public List<Integer> getStates() {
 		return states;
 	}
