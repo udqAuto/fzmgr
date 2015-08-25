@@ -197,7 +197,9 @@ public class WashOrderController{
 				Charge charge = chargeCreate(order,ip);
 				wovm.setCharge(charge);
 			}catch(Exception ex){
-				
+				result = new Result<WashOrderVM>(null, false, false, false,
+						ex.getCause().getMessage());
+				return result.toJson(); 
 			}
 			result = new Result<WashOrderVM>(wovm, true, false, false, "保存成功");
 			return result.toJson();
@@ -246,10 +248,10 @@ public class WashOrderController{
 	    chargeParams.put("client_ip",ip);
 	    chargeParams.put("subject","点趣洗车");
 	    chargeParams.put("body","点趣洗车订单支付");
-	    Map<String, String> extra = new HashMap<String, String>();
-	    String openId = WxpubOAuth.getOpenId("app_5CWvTSPubXHSeLyH","5543cfeff66382f4c2e503f596ee976f",WxpubOAuth.createOauthUrlForCode("app_5CWvTSPubXHSeLyH","5543cfeff66382f4c2e503f596ee976f",false));
-	    extra.put("open_id", openId);
-	    chargeParams.put("extra", extra);
+//	    Map<String, String> extra = new HashMap<String, String>();
+//	    String openId = WxpubOAuth.getOpenId("app_5CWvTSPubXHSeLyH","5543cfeff66382f4c2e503f596ee976f",WxpubOAuth.createOauthUrlForCode("app_5CWvTSPubXHSeLyH","5543cfeff66382f4c2e503f596ee976f",false));
+//	    extra.put("open_id", openId);
+//	    chargeParams.put("extra", extra);
 
 	    return Charge.create(chargeParams);
 	}

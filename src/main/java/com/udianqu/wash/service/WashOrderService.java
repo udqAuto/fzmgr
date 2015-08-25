@@ -3,14 +3,27 @@ package com.udianqu.wash.service;
 import java.io.File;
 import java.math.BigDecimal;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import net.sf.json.JSONObject;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import cn.jpush.api.JPushClient;
+import cn.jpush.api.common.resp.APIConnectionException;
+import cn.jpush.api.common.resp.APIRequestException;
+import cn.jpush.api.push.PushResult;
+import cn.jpush.api.push.model.Message;
+import cn.jpush.api.push.model.Platform;
+import cn.jpush.api.push.model.PushPayload;
+import cn.jpush.api.push.model.audience.Audience;
+
+import com.udianqu.wash.core.Constants;
 import com.udianqu.wash.core.GeneralUtil;
 import com.udianqu.wash.core.Result;
 import com.udianqu.wash.core.TransPayType;
@@ -22,11 +35,11 @@ import com.udianqu.wash.dao.WashOrderMapper;
 import com.udianqu.wash.model.Pay;
 import com.udianqu.wash.model.WashOrder;
 import com.udianqu.wash.model.WashOrderItem;
+import com.udianqu.wash.util.NotificationUtil;
 import com.udianqu.wash.viewmodel.WashOrderVM;
 
 @Service
 public class WashOrderService {
-	
 	@Autowired WashOrderMapper washOrderMapper;
 	@Autowired WashOrderItemMapper washOrderItemMapper;
 	@Autowired PayMapper payMapper;
@@ -124,53 +137,80 @@ public class WashOrderService {
 	public void updateByOrderNo(Map<String, Object> map) {
 		// TODO Auto-generated method stub
 		washOrderMapper.updateByOrderNo(map);
+		//消息推送
+		String orderNo = (String) map.get("orderNo");
+		WashOrder order = washOrderMapper.selectByOrderNo(orderNo);
+		Map<String,Object> pushMap=new HashMap<String, Object>();
+		pushMap.put("orgId", order.getOrgId());
+		pushMap.put("MESSAGE", "有新订单可接收！");
+		try {
+			NotificationUtil.SendPush(pushMap,Constants.PUSH_TYPE_WASHER);
+		} catch (APIConnectionException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (APIRequestException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	public Result<WashOrder> handleOrder(WashOrderVM order) throws ParseException {
-		// TODO Auto-generated method stub
 		Result<WashOrder> result = null;
-		Integer state = order.getState();
-		Map<String,Object> m = GeneralUtil.getCurrentTime();
-		Map<String,Object> map=new HashMap<String, Object>();
-		map.put("orderNo", order.getOrderNo());
-		if(state == 2){//接收订单
-			WashOrder o = washOrderMapper.selectByOrderNo(order.getOrderNo());
-			if(o.getState() == 1){
-				Date acceptTime = (Date) m.get("currentTime");
-				map.put("washerId", order.getWasherId());
-				map.put("washerNote", order.getWasherNote());
-				map.put("acceptTime", acceptTime);
-				map.put("state", state);
-				map.put("stateNote", "门店已接受预约");
-			}else{
-				result = new Result<WashOrder>(null, false, "此订单已被接收");
-				return result;
+		try{
+			Integer state = order.getState();
+			Map<String,Object> pushMap=new HashMap<String, Object>();
+			Map<String,Object> m = GeneralUtil.getCurrentTime();
+			Map<String,Object> map=new HashMap<String, Object>();
+			map.put("orderNo", order.getOrderNo());
+			if(state == 2){//接收订单
+				WashOrder o = washOrderMapper.selectByOrderNo(order.getOrderNo());
+				if(o.getState() == 1){
+					Date acceptTime = (Date) m.get("currentTime");
+					map.put("washerId", order.getWasherId());
+					map.put("washerNote", order.getWasherNote());
+					map.put("acceptTime", acceptTime);
+					map.put("state", state);
+					map.put("stateNote", "门店已接受预约");
+				}else{
+					result = new Result<WashOrder>(null, false, "此订单已被接收");
+					return result;
+				}
 			}
+			if(state == 4){//完成订单
+				Date beginTime = (Date) m.get("beginTime");
+				Date finishTime = (Date) m.get("currentTime");
+				map.put("beginTime", beginTime);
+				map.put("finishTime", finishTime);
+				map.put("state", state);
+				map.put("stateNote", "洗车已完成");
+				map.put("washerNote", order.getWasherNote());
+				
+				pushMap.put("customerId", order.getUserId().toString());
+				pushMap.put("MESSAGE", "您好，您的"+order.getAutoPN()+"洗车完成！");
+				NotificationUtil.SendPush(pushMap,Constants.PUSH_TYPE_CUSTOMER);
+			}
+			if(state == 5){//评价
+				map.put("gradeUser", order.getGradeUser());
+				map.put("state", state);
+			}
+			if(state == 10||state == 11){//取消订单
+				map.put("state", state);
+				map.put("stateNote", "订单已取消");
+				pushMap.put("customerId", order.getUserId().toString());
+				pushMap.put("MESSAGE", "您好，您的"+order.getAutoPN()+"订单已取消！");
+				NotificationUtil.SendPush(pushMap,Constants.PUSH_TYPE_CUSTOMER);
+			}
+			washOrderMapper.updateByOrderNo(map);
+			result = new Result<WashOrder>(null, true, "操作成功");
+			return result;
+		}catch(Exception ex){
+			result = new Result<WashOrder>(null, false, "操作失败");
+			return result;
 		}
-		if(state == 4){//完成订单
-			Date beginTime = (Date) m.get("beginTime");
-			Date finishTime = (Date) m.get("currentTime");
-			map.put("beginTime", beginTime);
-			map.put("finishTime", finishTime);
-			map.put("state", state);
-			map.put("stateNote", "洗车已完成");
-			map.put("washerNote", order.getWasherNote());
-		}
-		if(state == 5){//评价
-			map.put("gradeUser", order.getGradeUser());
-			map.put("state", state);
-		}
-		if(state == 10||state == 11){//取消订单
-			map.put("state", state);
-			map.put("stateNote", "订单已取消");
-		}
-		washOrderMapper.updateByOrderNo(map);
-		result = new Result<WashOrder>(null, true, "操作成功");
-		return result;
+		
 	}
 
 	public ListResult<WashOrderVM> getOrderByUserId(Integer userId) {
-		// TODO Auto-generated method stub
 		List<WashOrderVM> ls=washOrderMapper.getOrderByUserId(userId);
 		ListResult<WashOrderVM> result=new ListResult<WashOrderVM>(ls);
 		return result;

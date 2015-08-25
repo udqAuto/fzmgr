@@ -4,13 +4,13 @@ package com.udianqu.wash.core;
 public class TransPayType {
 	public static int transToInt(String channel){
 		int payType=0;
-		if(channel=="alipay"){
+		if("alipay".equals(channel)){
 			payType = 1;
 		}
-		if(channel=="wx"){
+		if("wx".equals(channel)){
 			payType = 2;
 		}
-		if(channel=="upacp"){
+		if("upacp".equals(channel)){
 			payType = 3;
 		}
 		return payType;
