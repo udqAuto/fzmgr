@@ -65,8 +65,11 @@ public class GeneralUtil {
 		Calendar  calendar=Calendar.getInstance();
 		DateFormat fmt=new SimpleDateFormat("yyyyMMdd");
 		String d=fmt.format(calendar.getTime());
+		DateFormat fmat=new SimpleDateFormat("yyMMddHHmmss");
+		String t=fmat.format(calendar.getTime());
 		Map<String,Object> map=new HashMap<String,Object>();
 		map.put("currentDate", d);
+		map.put("currentTime", t);
 		return map;
 	}
 	

@@ -54,7 +54,7 @@ var UserManage = {
 				align : 'center',
 				//width : 150,
 				formatter : function(value, rowData, index) {
-					return "<img style='width:30px;height:30px;' src='"+rowData.photoUrl+"'>";
+					return "<img style='width:30px;height:30px;' src='"+rowData.photoUrl+"'/>";
 				}
 			},{
 				title : '用户名称',

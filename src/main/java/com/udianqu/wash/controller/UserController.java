@@ -23,6 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.MultipartRequest;
 
+import com.udianqu.wash.core.GeneralUtil;
 import com.udianqu.wash.core.ListResult;
 import com.udianqu.wash.core.Result;
 import com.udianqu.wash.model.User; 
@@ -49,30 +50,36 @@ public class UserController {
 
 	@RequestMapping(value = "saveUserObj.do")
 	public @ResponseBody String saveUserObj(UserVM user,
-			@RequestParam MultipartFile file,
-			HttpServletRequest request) {
+			@RequestParam MultipartFile file,HttpServletRequest request) {
 		try {
 			HttpSession session = request.getSession();
 			UserVM u = (UserVM) session.getAttribute("user");
-			
-			String path = request.getSession().getServletContext().getRealPath("uploadFile"); 
-			String fileName = file.getOriginalFilename();
-	        //String fileUrl = path+"/"+fileName;
-	        String photoUrl = "uploadFile/"+fileName;
-			if(file.getSize()>0){
-		        File targetFile = new File(path, fileName);  
-		        if(!targetFile.exists()){  
-		            targetFile.mkdirs();  
-		        }  
-		        //保存  
-		        file.transferTo(targetFile);  
-		        user.setPhotoUrl(photoUrl);
-			}
 			if (u == null) {
 				Result<UserVM> s = new Result<UserVM>(null, true, false, false,
 						"页面过期，请重新登录");
 				return s.toJson();
 			} else {
+				String path = request.getSession().getServletContext().getRealPath("washerPhoto"); 
+				//以当前日期+时间来命名照片名
+				Map<String, Object> m = GeneralUtil.getCurrentDate();
+				String date = (String) m.get("currentTime");
+				String photoName = date+".jpg";
+				
+		        String photoUrl = "washerPhoto/"+photoName;
+				if(file.getSize()>0){
+			        File targetFile = new File(path, photoName);  
+			        if(!targetFile.exists()){  
+			            targetFile.mkdirs();  
+			        }  
+			        //保存  
+			        file.transferTo(targetFile);  
+				}
+				//如果上传了图片就放到user中，没有上传则新增时就为空，编辑时还是原来的图片
+				String fileName = file.getOriginalFilename();
+				if(fileName!=null||fileName != ""){
+					user.setPhotoUrl(photoUrl);
+				}
+			
 				if (user.getId() > 0) {
 					user.setPsd(u.getPsd());
 					userService.updateByPrimaryKey(user);
