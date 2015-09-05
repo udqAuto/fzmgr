@@ -28,7 +28,7 @@ public class Webhooks4AppController extends HttpServlet{
 	WashOrderService orderService;
 	
 	@Override
-	@RequestMapping("/webhooks.do")
+	@RequestMapping(value = "webhooks.do")
 	@ResponseBody
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	        request.setCharacterEncoding("UTF8");

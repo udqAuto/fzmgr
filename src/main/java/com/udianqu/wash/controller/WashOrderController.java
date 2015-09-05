@@ -173,7 +173,7 @@ public class WashOrderController{
 		} 
 	}
 	
-	@RequestMapping("/submitOrder4App.do")
+	@RequestMapping(value = "submitOrder4App.do",produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public String saveOrder4App(
 			@RequestParam(value = "orderInfo", required = true) String orderInfo,
@@ -210,7 +210,7 @@ public class WashOrderController{
 		}
 	}
 	
-	@RequestMapping("/handleOrder4App.do")
+	@RequestMapping(value = "handleOrder4App.do",produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public String handleOrder4App(
 			@RequestParam(value = "orderInfo", required = true) String orderInfo,
@@ -235,7 +235,7 @@ public class WashOrderController{
 	public Charge chargeCreate(WashOrderVM order,String ip) throws AuthenticationException, InvalidRequestException, APIConnectionException, APIException, ChannelException, UnsupportedEncodingException{
 		BigDecimal amount = countAmount(order);
 		BigDecimal t = new BigDecimal(100);
-		System.out.println(amount);
+		//System.out.println(amount);
 		Pingpp.apiKey = "sk_live_EURSbiebpWWpatTR2mQflnRh";
 		Map<String, Object> chargeParams = new HashMap<String, Object>();
 	    chargeParams.put("order_no", order.getOrderNo());
@@ -246,8 +246,8 @@ public class WashOrderController{
 	    chargeParams.put("channel",order.getChannel());
 	    chargeParams.put("currency","cny");
 	    chargeParams.put("client_ip",ip);
-	    chargeParams.put("subject","点趣洗车");
-	    chargeParams.put("body","点趣洗车订单支付");
+	    chargeParams.put("subject","点取车生活");
+	    chargeParams.put("body","点取车生活");
 //	    Map<String, String> extra = new HashMap<String, String>();
 //	    String openId = WxpubOAuth.getOpenId("app_5CWvTSPubXHSeLyH","5543cfeff66382f4c2e503f596ee976f",WxpubOAuth.createOauthUrlForCode("app_5CWvTSPubXHSeLyH","5543cfeff66382f4c2e503f596ee976f",false));
 //	    extra.put("open_id", openId);

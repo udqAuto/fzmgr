@@ -66,7 +66,7 @@ public class AutoController {
 		return rs.toJson();
 	}
 	
-	@RequestMapping("/saveAuto4App.do")
+	@RequestMapping(value = "saveAuto4App.do",produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public String saveAuto4App(
 			@RequestParam(value = "autoInfo", required = true) String autoInfo,

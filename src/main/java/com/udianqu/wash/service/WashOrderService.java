@@ -133,7 +133,10 @@ public class WashOrderService {
 		o.setSumFixedAmount(sumFixedAmount);
 		return o;
 	}
-
+    /*
+     * 支付完成，更改状态，消息推送
+     * 
+     * */
 	public void updateByOrderNo(Map<String, Object> map) {
 		// TODO Auto-generated method stub
 		washOrderMapper.updateByOrderNo(map);
@@ -141,7 +144,7 @@ public class WashOrderService {
 		String orderNo = (String) map.get("orderNo");
 		WashOrder order = washOrderMapper.selectByOrderNo(orderNo);
 		Map<String,Object> pushMap=new HashMap<String, Object>();
-		pushMap.put("orgId", order.getOrgId());
+		pushMap.put("orgId", order.getOrgId().toString());
 		pushMap.put("MESSAGE", "有新订单可接收！");
 		try {
 			NotificationUtil.SendPush(pushMap,Constants.PUSH_TYPE_WASHER);
@@ -153,7 +156,10 @@ public class WashOrderService {
 			e.printStackTrace();
 		}
 	}
-
+	/*
+     * 处理订单：接收、完成、取消、评价。消息推送
+     * 
+     * */
 	public Result<WashOrder> handleOrder(WashOrderVM order) throws ParseException {
 		Result<WashOrder> result = null;
 		try{
@@ -184,7 +190,7 @@ public class WashOrderService {
 				map.put("state", state);
 				map.put("stateNote", "洗车已完成");
 				map.put("washerNote", order.getWasherNote());
-				
+				//消息推送
 				pushMap.put("customerId", order.getUserId().toString());
 				pushMap.put("MESSAGE", "您好，您的"+order.getAutoPN()+"洗车完成！");
 				NotificationUtil.SendPush(pushMap,Constants.PUSH_TYPE_CUSTOMER);
@@ -196,6 +202,7 @@ public class WashOrderService {
 			if(state == 10||state == 11){//取消订单
 				map.put("state", state);
 				map.put("stateNote", "订单已取消");
+				//消息推送
 				pushMap.put("customerId", order.getUserId().toString());
 				pushMap.put("MESSAGE", "您好，您的"+order.getAutoPN()+"订单已取消！");
 				NotificationUtil.SendPush(pushMap,Constants.PUSH_TYPE_CUSTOMER);

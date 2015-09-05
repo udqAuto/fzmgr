@@ -200,7 +200,7 @@ var UserManage = {
 									+ userId
 									+ "&userType="
 									+ m_userType
-									+ "' style='width:310px;height:650px;overflow:hidden'/>",
+									+ "' style='width:310px;height:350px;overflow:hidden'/>",
 							lock : true,
 							initFn : function() {
 							}

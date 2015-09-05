@@ -130,7 +130,7 @@ public class LoginController {
 			return s.toJson();
 		}
 	}
-	@RequestMapping("/registUser4App.do")
+	@RequestMapping(value="registUser4App.do",produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public String registUser(
 			@RequestParam(value = "userInfo", required = true) String userInfo,
@@ -171,6 +171,9 @@ public class LoginController {
 //					return res.toJson(); 
 //				}
 //			}
+			if(user.getName() == null||"".equals(user.getName())){
+				user.setName("车主用户");
+			}
 			user.setUserType(8);
 			String psd = encryption("123456");
 			user.setPsd(psd);
