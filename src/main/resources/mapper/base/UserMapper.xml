@@ -113,7 +113,7 @@
       <if test="sex != null" >
         sex,
       </if>
-      <if test="idCard != null" >
+      <if test="idcard != null" >
         idcard,
       </if>
       <if test="photoUrl != null" >
@@ -145,7 +145,7 @@
       <if test="sex != null" >
         #{sex,jdbcType=TINYINT},
       </if>
-      <if test="idCard != null" >
+      <if test="idcard != null" >
         #{idcard,jdbcType=VARCHAR},
       </if>
       <if test="photoUrl != null" >
@@ -182,7 +182,7 @@
       <if test="sex != null" >
         sex = #{sex,jdbcType=TINYINT},
       </if>
-      <if test="idCard != null" >
+      <if test="idcard != null" >
         idcard = #{idcard,jdbcType=VARCHAR},
       </if>
       <if test="photoUrl != null" >

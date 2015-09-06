@@ -113,7 +113,7 @@ public class UserController {
 			}
 			userService.updateById(user);
 			result = new Result<User>(null, true, false, false,
-					"调用后台方法出错");
+					"编辑成功");
 			return result.toJson();
 		}catch (Exception ex) {
 			result = new Result<User>(null, false, false, false,
