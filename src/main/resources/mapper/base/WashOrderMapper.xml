@@ -152,8 +152,8 @@
     -->
     w.id, w.order_no, w.user_id, w.auto_id, w.region_id, w.org_id, w.user_note, w.pay_id, w.order_time, 
     w.bill_time, w.washer_id, w.state, w.state_note, w.accept_time, w.begin_time, w.finish_time, w.washer_note, 
-    w.grade_washer, w.grade_user,   u.name as user_name,a.pn as auto_pn,r.name as region_name,o.name as shop_name,
-    p.pay_type as pay_type,x.name as washer_name
+    w.grade_washer, w.grade_user,   a.pn as auto_pn,r.name as region_name,o.name as shop_name,
+    p.pay_type as pay_type,u.name as washer_name
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.udianqu.wash.model.WashOrderExample" >
     <!--
@@ -791,10 +791,15 @@
   		</if>
   </select>
   
-  <select id="selectByOrderNo" resultMap="BaseResultMap" parameterType="java.lang.String" >
+  <select id="selectByOrderNo" resultMap="BaseVMResultMap" parameterType="java.lang.String" >
     select 
-    <include refid="Base_Column_List" />
-    from t_wash_order
-    where order_no = #{orderNo,jdbcType=VARCHAR}
+    <include refid="BaseVM_Column_List" />
+    from t_wash_order w
+        left join t_user u on w.washer_id = u.id
+		left join t_auto a on w.auto_id = a.id
+		left join t_org  o on w.org_id = o.id
+		left join t_region r on w.region_id = r.id
+		left join t_pay p on p.order_id = w.id
+    where w.order_no = #{orderNo,jdbcType=VARCHAR}
   </select>
 </mapper>

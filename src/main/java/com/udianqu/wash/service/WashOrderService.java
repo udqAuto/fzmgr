@@ -63,7 +63,7 @@ public class WashOrderService {
 		washOrderMapper.insert(order);
 	}
 
-	public WashOrder selectByOrderNo(String orderNo) {
+	public WashOrderVM selectByOrderNo(String orderNo) {
 		// TODO Auto-generated method stub
 		return washOrderMapper.selectByOrderNo(orderNo);
 	}
@@ -129,9 +129,12 @@ public class WashOrderService {
 		payMapper.insert(p);
 		//将计算过的各种金额总和放入OrderVM
 		//o.setSumCouponAmount(sumCouponAmount);
-		o.setSumFinalAmount(sumFinalAmount);
-		o.setSumFixedAmount(sumFixedAmount);
-		return o;
+		//o.setSumFinalAmount(sumFinalAmount);
+		//o.setSumFixedAmount(sumFixedAmount);
+		WashOrderVM order = washOrderMapper.selectByOrderNo(o.getOrderNo());
+		order.setFinalAmount(sumFinalAmount);
+		order.setFixedAmount(sumFixedAmount);
+		return order;
 	}
     /*
      * 支付完成，更改状态，消息推送
@@ -142,7 +145,7 @@ public class WashOrderService {
 		washOrderMapper.updateByOrderNo(map);
 		//消息推送
 		String orderNo = (String) map.get("orderNo");
-		WashOrder order = washOrderMapper.selectByOrderNo(orderNo);
+		WashOrderVM order = washOrderMapper.selectByOrderNo(orderNo);
 		Map<String,Object> pushMap=new HashMap<String, Object>();
 		pushMap.put("orgId", order.getOrgId().toString());
 		pushMap.put("MESSAGE", "有新订单可接收！");
@@ -169,7 +172,7 @@ public class WashOrderService {
 			Map<String,Object> map=new HashMap<String, Object>();
 			map.put("orderNo", order.getOrderNo());
 			if(state == 2){//接收订单
-				WashOrder o = washOrderMapper.selectByOrderNo(order.getOrderNo());
+				WashOrderVM o = washOrderMapper.selectByOrderNo(order.getOrderNo());
 				if(o.getState() == 1){
 					Date acceptTime = (Date) m.get("currentTime");
 					map.put("washerId", order.getWasherId());

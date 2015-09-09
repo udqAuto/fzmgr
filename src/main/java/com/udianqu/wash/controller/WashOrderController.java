@@ -187,12 +187,20 @@ public class WashOrderController{
 				result = new Result<WashOrderVM>(null, false, false, false, "传入后台数据为空");
 				return result.toJson();
 			}
-			int billType = 4;
-			Map<String,Object> map=GeneralUtil.getSerialNoPars(billType);
-			String orderNo =  billSerialNoService.getNextBillSerialNo(map);
-			order.setOrderNo(orderNo);
-			WashOrderVM wovm = orderService.save(order);
-			billSerialNoService.updateBillSerialNo(map);
+			WashOrderVM wovm = new WashOrderVM();
+			//orderNo为空则是新提交的订单，需要生成orderNo，将信息保存到数据库；
+			//若orderNo不空则是未支付的订单再次支付，上一次已经保存了信息到数据库，此时不用再保存。
+			if(order.getOrderNo() == null||order.getOrderNo() == ""){
+				Map<String,Object> map=GeneralUtil.getSerialNoPars(4);//billType = 4
+				String orderNo =  billSerialNoService.getNextBillSerialNo(map);
+				order.setOrderNo(orderNo);
+				wovm = orderService.save(order);
+				billSerialNoService.updateBillSerialNo(map);
+			}else{
+				wovm = orderService.selectByOrderNo(order.getOrderNo());
+				wovm.setFinalAmount(order.getFinalAmount());
+			}
+			
 			try{
 				Charge charge = chargeCreate(order,ip);
 				wovm.setCharge(charge);
@@ -233,7 +241,12 @@ public class WashOrderController{
 	}
 	
 	public Charge chargeCreate(WashOrderVM order,String ip) throws AuthenticationException, InvalidRequestException, APIConnectionException, APIException, ChannelException, UnsupportedEncodingException{
-		BigDecimal amount = countAmount(order);
+		BigDecimal amount =null;
+		if(order.getFinalAmount()!=null){
+			amount = order.getFinalAmount();
+		}else{
+			amount = countAmount(order);
+		}
 		BigDecimal t = new BigDecimal(100);
 		//System.out.println(amount);
 		Pingpp.apiKey = "sk_live_EURSbiebpWWpatTR2mQflnRh";
@@ -246,8 +259,8 @@ public class WashOrderController{
 	    chargeParams.put("channel",order.getChannel());
 	    chargeParams.put("currency","cny");
 	    chargeParams.put("client_ip",ip);
-	    chargeParams.put("subject","点取车生活");
-	    chargeParams.put("body","点取车生活");
+	    chargeParams.put("subject","点趣车生活");
+	    chargeParams.put("body","点趣车生活");
 //	    Map<String, String> extra = new HashMap<String, String>();
 //	    String openId = WxpubOAuth.getOpenId("app_5CWvTSPubXHSeLyH","5543cfeff66382f4c2e503f596ee976f",WxpubOAuth.createOauthUrlForCode("app_5CWvTSPubXHSeLyH","5543cfeff66382f4c2e503f596ee976f",false));
 //	    extra.put("open_id", openId);

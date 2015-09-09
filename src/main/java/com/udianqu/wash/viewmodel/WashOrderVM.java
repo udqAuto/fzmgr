@@ -9,6 +9,7 @@ public class WashOrderVM extends WashOrder{
 	private String customerName; 
 	private String autoPN;
 	private String customerMobile;
+	private String shopName;
 	private String regionName;
 	private String washerName;
 	private String washTypeName;
@@ -35,6 +36,12 @@ public class WashOrderVM extends WashOrder{
 	private String channel;
 	
 	
+	public String getShopName() {
+		return shopName;
+	}
+	public void setShopName(String shopName) {
+		this.shopName = shopName;
+	}
 	public String getPayType() {
 		return payType;
 	}

@@ -106,7 +106,7 @@ public interface WashOrderMapper {
 
 	WashOrderVM loadOrderObjById(@Param(value="id") Integer id);
 
-	WashOrder selectByOrderNo(String orderNo);
+	WashOrderVM selectByOrderNo(String orderNo);
 
 	void updateByOrderNo(Map<String, Object> map);
 
