@@ -7,7 +7,7 @@ var m_index_iconStyles = {};
 
 $(function() {  
 	m_index_user = getCurrentUser();
-	m_index_orgId = m_index_user.orgId
+	m_index_orgId = m_index_user.orgId;
 	$('#treeMenu').tree({
 		checkbox : false, 
 		onClick : onTreeMenuDblClick
@@ -54,7 +54,7 @@ function onTreeMenuDblClick(row) {
 		src = "view/order/orderListInfo.jsp?orderState=1,2,3&orgId="+m_index_orgId;
 		break;
 	case "已完成订单":
-		src = "view/order/orderListInfo.jsp?orderState=4&orgId="+m_index_orgId;
+		src = "view/order/orderListInfo.jsp?orderState=4,5&orgId="+m_index_orgId;
 		break;
 	case "已取消订单":
 		src = "view/order/orderListInfo.jsp?orderState=10,11&orgId="+m_index_orgId;

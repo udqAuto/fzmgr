@@ -602,7 +602,8 @@
   <select id="loadWashOrderCount"   parameterType="java.util.Map"  resultType="java.lang.Integer" >
 	select  count(*)
 	from t_wash_order o 
-	where o.org_id = #{orgId,jdbcType=INTEGER}
+	     left join t_org  org on o.org_id = org.id
+	where org.path like CONCAT(#{orgPath,jdbcType=VARCHAR},'%' )
 		<if test="stateIds != null ">
 			and o.state in
   			<foreach item="item" index="index" collection="stateIds" open="(" separator="," close=")">  
@@ -654,7 +655,7 @@
 	<if test="id != null">
 		and  o.id = #{id,jdbcType=INTEGER}
 	</if>
-	group by o.order_no;
+	group by o.order_no order by o.bill_time desc;
   </select>
   <select id="getOrderByMap"   parameterType="java.util.Map"  resultMap="BaseVMResultMap"  >
 	select  o.id                as id,	 
@@ -772,7 +773,7 @@
 		left join t_user u on o.user_id = u.id and u.user_type = 8
 		left join t_auto a on o.auto_id = a.id
 		left join t_org  org on o.org_id = org.id
-	where o.org_id = #{orgId,jdbcType=INTEGER} or org.path like CONCAT(#{orgPath,jdbcType=VARCHAR},'%' )
+	where org.path like CONCAT(#{orgPath,jdbcType=VARCHAR},'%' )
 		<if test="stateIds != null ">
 			and o.state in
   			<foreach item="item" index="index" collection="stateIds" open="(" separator="," close=")">  

@@ -84,6 +84,7 @@ public class WashOrderController{
 		List<Integer> ids = new ArrayList<Integer>();
 		if (orderType == 1) {
 			ids.add(4);
+			ids.add(5);
 		} else if (orderType == 2) {
 			if (orderState > 0) {
 				ids.add(orderState);

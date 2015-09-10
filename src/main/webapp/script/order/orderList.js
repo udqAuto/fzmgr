@@ -8,7 +8,7 @@ $(function() {
 	var obj = getUrlArgs();
 	m_orderType =  obj.orderState;
 	m_order_orgId = obj.orgId;
-	if(m_orderType == 4||m_orderType == "4"){
+	if(m_orderType == "4,5"){
 		$("#sp_UnComplete").hide();
 		$("#sp_Canceled").hide();
 		m_zType = 1;

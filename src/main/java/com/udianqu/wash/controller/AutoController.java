@@ -86,8 +86,8 @@ public class AutoController {
 				auto.setIsUsed(true);
 				autoService.insert(auto);
 			}
-		    Auto auto2 = autoService.selectByPn(pn);
-			Result<Auto> s = new Result<Auto>(auto2, true, false, false, "保存成功");
+		    //Auto auto2 = autoService.selectByPn(pn);
+			Result<Auto> s = new Result<Auto>(auto, true, false, false, "保存成功");
 			return s.toJson();
 		} catch (Exception ex) {
 			Result<AutoVM> s = new Result<AutoVM>(null, false, false,

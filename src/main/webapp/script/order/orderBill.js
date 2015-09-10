@@ -39,9 +39,11 @@ var OrderManage = {
 				 orderState = "正在洗车";
 			 }else if(data.state==4){
 				 orderState = "洗车完毕";
+			 }else if(data.state==5){
+				 orderState = "已评价";
 			 }else if(data.state==10){
 				 orderState = "门店取消订单";
-			 }else if(data.state==2){
+			 }else if(data.state==11){
 				 orderState = "客户取消订单";
 			 }
 			 $("#txtOrderState").text(orderState);
