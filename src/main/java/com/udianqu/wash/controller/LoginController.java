@@ -252,8 +252,8 @@ public class LoginController {
 			HashMap hMap = null;
 			// CCPRestSDK restAPI = new CCPRestSDK();
 			CCPRestSmsSDK restAPI = new CCPRestSmsSDK();
-			//restAPI.init("app.cloopen.com", "8883"); 
-			restAPI.init("sandboxapp.cloopen.com", "8883"); 
+			restAPI.init("app.cloopen.com", "8883"); 
+			//restAPI.init("sandboxapp.cloopen.com", "8883"); 
 
 			// 初始化服务器地址和端口，沙盒环境配置成sandboxapp.cloopen.com，生产环境配置成app.cloopen.com，端口都是8883. 
 			restAPI.setAccount("aaf98f894dd77eab014ddb6a41de0252","fc045501549c41bb8b44a8580865ef97"); 
