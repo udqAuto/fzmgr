@@ -45,7 +45,7 @@ var OrganManage = {
 				title : '新增组织机构',
 				content : "<iframe scrolling='yes' frameborder='0' src='view/organ/organBill.jsp?type=0&parentId="
 					+parentId+"&parentName="
-					+parentName+"&orgId=0' style='width:310px;height:350px;overflow:hidden'/>",
+					+parentName+"&orgId=0' style='width:350px;height:350px;overflow:hidden'/>",
 				lock : true,
 				initFn : function() {
 				}
@@ -80,7 +80,7 @@ var OrganManage = {
 				id : 'dlgEditOrgan',
 				title : '编辑组织机构',
 				content : "<iframe scrolling='yes' frameborder='0' src='view/organ/organBill.jsp?type=1&parentId=0&parentName="
-					+parentName+"&orgId="+orgId+"' style='width:310px;height:350px;overflow:hidden'/>",
+					+parentName+"&orgId="+orgId+"' style='width:350px;height:350px;overflow:hidden'/>",
 				lock : true,
 				initFn : function() {
 				}
