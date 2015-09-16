@@ -40,6 +40,7 @@ public class WashOrder {
     private Byte gradeWasher;
 
     private Byte gradeUser;
+    private String gradeUserNote;
     private String photoUrl1;
     private String photoUrl2;
     private String photoUrl3;
@@ -65,7 +66,15 @@ public class WashOrder {
         return orderNo;
     }
 
-    public String getPhotoUrl1() {
+    public String getGradeUserNote() {
+		return gradeUserNote;
+	}
+
+	public void setGradeUserNote(String gradeUserNote) {
+		this.gradeUserNote = gradeUserNote;
+	}
+
+	public String getPhotoUrl1() {
 		return photoUrl1;
 	}
 

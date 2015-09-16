@@ -26,6 +26,7 @@
     <result column="washer_note" property="washerNote" jdbcType="VARCHAR" />
     <result column="grade_washer" property="gradeWasher" jdbcType="TINYINT" />
     <result column="grade_user" property="gradeUser" jdbcType="TINYINT" />
+    <result column="grade_user_note" property="gradeUserNote" jdbcType="VARCHAR" />
     <result column="photo_url_1" property="photoUrl1" jdbcType="VARCHAR" />
     <result column="photo_url_2" property="photoUrl2" jdbcType="VARCHAR" />
     <result column="photo_url_3" property="photoUrl3" jdbcType="VARCHAR" />
@@ -55,6 +56,7 @@
     <result column="washer_note" property="washerNote" jdbcType="VARCHAR" />
     <result column="grade_washer" property="gradeWasher" jdbcType="TINYINT" />
     <result column="grade_user" property="gradeUser" jdbcType="TINYINT" />
+    <result column="grade_user_note" property="gradeUserNote" jdbcType="VARCHAR" />
     <result column="photo_url_1" property="photoUrl1" jdbcType="VARCHAR" />
     <result column="photo_url_2" property="photoUrl2" jdbcType="VARCHAR" />
     <result column="photo_url_3" property="photoUrl3" jdbcType="VARCHAR" />
@@ -142,7 +144,7 @@
     -->
     id, order_no, user_id, auto_id, region_id, org_id, user_note, pay_id, order_time, 
     bill_time, washer_id, state, state_note, accept_time, begin_time, finish_time, washer_note, 
-    grade_washer, grade_user
+    grade_washer, grade_user, grade_user_note
   </sql>
   <sql id="BaseVM_Column_List" >
     <!--
@@ -152,7 +154,7 @@
     -->
     w.id, w.order_no, w.user_id, w.auto_id, w.region_id, w.org_id, w.user_note, w.pay_id, w.order_time, 
     w.bill_time, w.washer_id, w.state, w.state_note, w.accept_time, w.begin_time, w.finish_time, w.washer_note, 
-    w.grade_washer, w.grade_user,   a.pn as auto_pn,r.name as region_name,o.name as shop_name,
+    w.grade_washer, w.grade_user,w.grade_user_note,   a.pn as auto_pn,r.name as region_name,o.name as shop_name,
     p.pay_type as pay_type,u.name as washer_name
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.udianqu.wash.model.WashOrderExample" >
@@ -586,6 +588,9 @@
       <if test="gradeUser != null" >
         grade_user = #{gradeUser,jdbcType=TINYINT},
       </if>
+      <if test="gradeUserNote != null" >
+        grade_user_note = #{gradeUserNote,jdbcType=VARCHAR},
+      </if>
       <if test="photoUrl1 != null" >
         photo_url_1 = #{photoUrl1,jdbcType=VARCHAR},
       </if>
@@ -640,6 +645,7 @@
             (select sum(wi.final_amount) from t_wash_order_item wi where wi.order_id = o.id) as finalAmount, 	 
 			o.grade_washer		as washerGrade,		 
 			o.grade_user		as customerGrade,
+			o.grade_user_note   as gradeUserNote,
 			p.pay_type          as PayType		 
 	from t_wash_order o 
 		left join t_user u on o.user_id = u.id and u.user_type = 8
@@ -681,6 +687,7 @@
             (select sum(wi.final_amount) from t_wash_order_item wi where wi.order_id = o.id) as finalAmount,
 			o.grade_washer		as washerGrade,		 
 			o.grade_user		as customerGrade,
+			o.grade_user_note   as gradeUserNote,
 			o.photo_url_1       as photoUrl1,		 
 			o.photo_url_2       as photoUrl2,		 
 			o.photo_url_3       as photoUrl3,
@@ -736,6 +743,7 @@
             (select sum(wi.final_amount) from t_wash_order_item wi where wi.order_id = o.id) as finalAmount,
 			o.grade_washer		as washerGrade,		 
 			o.grade_user		as customerGrade,
+			o.grade_user_note   as gradeUserNote,
 			o.photo_url_1       as photoUrl1,		 
 			o.photo_url_2       as photoUrl2,		 
 			o.photo_url_3       as photoUrl3,

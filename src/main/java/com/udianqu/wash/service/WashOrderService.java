@@ -200,6 +200,7 @@ public class WashOrderService {
 			}
 			if(state == 5){//评价
 				map.put("gradeUser", order.getGradeUser());
+				map.put("gradeUserNote", order.getGradeUserNote());
 				map.put("state", state);
 			}
 			if(state == 10||state == 11){//取消订单

@@ -94,7 +94,7 @@ public class UserController {
 			}
 		} catch (Exception ex) {
 			Result<UserVM> s = new Result<UserVM>(null, false, false, false,
-					"调用后台方法出错");
+					ex.getMessage());
 			return s.toJson();
 		}
 	}
