@@ -140,9 +140,10 @@ public class WashOrderController{
 	public @ResponseBody
 	String getOrderByUserId4App(
 			@RequestParam(value = "userId", required = true) Integer userId,
+			@RequestParam(value = "orderDate", required = true) String orderDate,
 			HttpServletRequest request){
 		try{
-			ListResult<WashOrderVM> result = orderService.getOrderByUserId(userId);
+			ListResult<WashOrderVM> result = orderService.getOrderByUserId(userId,orderDate);
 			return result.toJson();
 		}catch(Exception ex){
 			ListResult<WashOrderVM> result = new ListResult<WashOrderVM>(null,false,"获取订单信息失败");

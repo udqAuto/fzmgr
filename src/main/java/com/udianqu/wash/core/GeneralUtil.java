@@ -56,9 +56,15 @@ public class GeneralUtil {
 		calendar.add(Calendar.MINUTE,-7);
 		String d2=fmt.format(calendar.getTime());
 		Date time2 = fmt.parse(d2);
+		
+		calendar.add(Calendar.MONTH, -1);
+		String d3=fmt.format(calendar.getTime());
+		Date time3 = fmt.parse(d3);
+		
 		Map<String,Object> map=new HashMap<String,Object>();
 		map.put("currentTime", time);
 		map.put("beginTime", time2);
+		map.put("monthAgo", time3);
 		return map;
 	}
 	public static Map<String,Object> getCurrentDate() throws ParseException{

@@ -112,5 +112,5 @@ public interface WashOrderMapper {
 
 	List<WashOrderVM> getOrderByMap(Map<String, Object> map);
 
-	List<WashOrderVM> getOrderByUserId(@Param(value="userId") Integer userId);
+	List<WashOrderVM> getOrderByUserId(Map<String, Object> map);
 }

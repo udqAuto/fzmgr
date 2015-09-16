@@ -220,8 +220,21 @@ public class WashOrderService {
 		
 	}
 
-	public ListResult<WashOrderVM> getOrderByUserId(Integer userId) {
-		List<WashOrderVM> ls=washOrderMapper.getOrderByUserId(userId);
+	public ListResult<WashOrderVM> getOrderByUserId(Integer userId, String orderDate) throws ParseException {
+		Map<String,Object> m = GeneralUtil.getCurrentTime();
+		Date currentDate = (Date) m.get("currentTime");
+		Date monthAgo = (Date) m.get("monthAgo");
+		Map<String,Object> map=new HashMap<String, Object>();
+		map.put("userId", userId);
+		if("recently".equals(orderDate)){
+			map.put("startDate", monthAgo);
+			map.put("endDate", currentDate);
+		}
+		if("history".equals(orderDate)){
+			map.put("startDate", "2015-01-01 00:00:00");
+			map.put("endDate", monthAgo);
+		}
+		List<WashOrderVM> ls=washOrderMapper.getOrderByUserId(map);
 		ListResult<WashOrderVM> result=new ListResult<WashOrderVM>(ls);
 		return result;
 	}
