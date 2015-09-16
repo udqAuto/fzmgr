@@ -11,6 +11,7 @@ import com.udianqu.wash.dao.UserMapper;
 import com.udianqu.wash.model.User; 
 import com.udianqu.wash.viewmodel.DirectorVM;
 import com.udianqu.wash.viewmodel.UserVM;
+import com.udianqu.wash.viewmodel.WashOrderVM;
 
 @Service
 public class UserService {
@@ -66,9 +67,11 @@ public class UserService {
 		return userMapper.selectByMobile(mobile);
 	}
 
-	public DirectorVM selectDirectorById(Integer customerId) {
+	public ListResult<DirectorVM> selectDirectorById(Integer customerId) {
 		// TODO Auto-generated method stub
-		return userMapper.selectDirectorById(customerId);
+		List<DirectorVM> ls=userMapper.selectDirectorById(customerId);
+		ListResult<DirectorVM> result=new ListResult<DirectorVM>(ls);
+		return result;
 	}
 
 	public User selectById(Integer id) {

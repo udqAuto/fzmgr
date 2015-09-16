@@ -7,7 +7,15 @@ public class DirectorVM{
 	private String photoUrl;
 	private String regionName;
 	private String shopName;
+	private String autoPN;
 	
+	
+	public String getAutoPN() {
+		return autoPN;
+	}
+	public void setAutoPN(String autoPN) {
+		this.autoPN = autoPN;
+	}
 	public String getDirectorName() {
 		return directorName;
 	}

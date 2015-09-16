@@ -35,6 +35,6 @@ public interface UserMapper {
 
 	List<User> loadadminUserlist();
 
-	DirectorVM selectDirectorById(Integer id);
+	List<DirectorVM> selectDirectorById(Integer id);
 
 }

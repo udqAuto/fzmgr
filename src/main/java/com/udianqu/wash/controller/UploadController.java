@@ -71,7 +71,7 @@ public class UploadController {
     		return result.toJson(); 
         } catch (Exception ex) {  
         	Result<WashOrder> result = new Result<WashOrder>(null, false, false, false,
-    				"上传失败！");
+        			ex.getMessage());
     		return result.toJson();  
         }  
     }  

@@ -117,7 +117,7 @@ public class UserController {
 			return result.toJson();
 		}catch (Exception ex) {
 			result = new Result<User>(null, false, false, false,
-					"调用后台方法出错");
+					ex.getMessage());
 			return result.toJson();
 		}
 	}
@@ -183,13 +183,11 @@ public class UserController {
 	String getPhotoUrlById4App(@RequestParam(value = "id", required = true) Integer customerId,
 			HttpServletRequest request) {
 		try {
-			DirectorVM director = userService.selectDirectorById(customerId);
-			Result<DirectorVM> result = new Result<DirectorVM>(director, true, false,
-					false, "查询数据成功");
+			ListResult<DirectorVM> result = userService.selectDirectorById(customerId);
+			//DirectorVM director = userService.selectDirectorById(customerId);
 			return result.toJson();
 		} catch (Exception ex) {
-			Result<DirectorVM> result = new Result<DirectorVM>(null, false, false, false,
-					"查询失败");
+			ListResult<DirectorVM> result = new ListResult<DirectorVM>(null,false,"获取信息失败");
 			return result.toJson();
 		}
 		
