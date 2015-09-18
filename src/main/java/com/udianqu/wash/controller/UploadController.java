@@ -37,7 +37,9 @@ public class UploadController {
 		//MultipartHttpServletRequest   multipartRequest = (MultipartHttpServletRequest) request;
         //MultipartFile washPhoto = multipartRequest.getFile("washPhoto");
         try { 
-        	String path = request.getSession().getServletContext().getRealPath("washPhoto"); 
+        	//String path = request.getSession().getServletContext().getRealPath("washPhoto"); 
+        	String path = getClass().getResource("/").getFile().toString();
+			path = path.substring(0, (path.length() - 16))+"washPhoto";
         	String fileName1 = washPhoto.getOriginalFilename();//接收到的Name是没有格式的
         	String fileName = fileName1+".jpg";                //加上jpg格式
         	String orderNo[] = fileName1.split("_");           //分割出订单号作文件夹名

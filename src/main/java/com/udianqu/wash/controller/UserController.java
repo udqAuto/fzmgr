@@ -59,7 +59,10 @@ public class UserController {
 						"页面过期，请重新登录");
 				return s.toJson();
 			} else {
-				String path = request.getSession().getServletContext().getRealPath("washerPhoto"); 
+				String path = getClass().getResource("/").getFile()
+						.toString();
+				path = path.substring(0, (path.length() - 16))+"washerPhoto";
+				//String paths = request.getSession().getServletContext().getRealPath("washerPhoto"); 
 				//以当前日期+时间来命名照片名
 				Map<String, Object> m = GeneralUtil.getCurrentDate();
 				String date = (String) m.get("currentTime");
@@ -89,7 +92,7 @@ public class UserController {
 					userService.insert(user);
 				}
 				Result<UserVM> s = new Result<UserVM>(null, true, false, false,
-						"保存成功");
+						path);
 				return s.toJson();
 			}
 		} catch (Exception ex) {

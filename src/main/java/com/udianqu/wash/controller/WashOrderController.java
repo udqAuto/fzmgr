@@ -254,7 +254,7 @@ public class WashOrderController{
 		Pingpp.apiKey = "sk_live_EURSbiebpWWpatTR2mQflnRh";
 		Map<String, Object> chargeParams = new HashMap<String, Object>();
 	    chargeParams.put("order_no", order.getOrderNo());
-	    chargeParams.put("amount",1);//amount.multiply(t).intValue()
+	    chargeParams.put("amount",amount.multiply(t).intValue());//amount.multiply(t).intValue()
 	    Map<String, String> app = new HashMap<String, String>();
 	    app.put("id", "app_5CWvTSPubXHSeLyH");
 	    chargeParams.put("app",app);

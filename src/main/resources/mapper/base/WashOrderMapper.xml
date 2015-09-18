@@ -758,7 +758,7 @@
 		left join t_coupon c on w.coupon_id = c.id
 		left join t_coupon_type ct on c.coupon_type_id = ct.id
 		left join t_pay p on p.order_id = o.id
-	where 1=1 and o.bill_time between #{startDate,jdbcType=TIMESTAMP} and #{endDate,jdbcType=TIMESTAMP}
+	where o.state != 0 and o.bill_time between #{startDate,jdbcType=TIMESTAMP} and #{endDate,jdbcType=TIMESTAMP}
 	<if test="userId != null">
 		and o.user_id = #{userId,jdbcType=INTEGER}
 	</if>

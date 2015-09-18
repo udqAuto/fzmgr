@@ -11,7 +11,7 @@
     <result column="order_type" property="orderType" jdbcType="INTEGER" />
     <result column="order_id" property="orderId" jdbcType="INTEGER" />
     <result column="pay_type" property="payType" jdbcType="INTEGER" />
-    <result column="amount" property="amount" jdbcType="INTEGER" />
+    <result column="amount" property="amount" jdbcType="DECIMAL" />
     <result column="user_id" property="userId" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Example_Where_Clause" >
@@ -150,7 +150,7 @@
       pay_type, amount, user_id
       )
     values (#{id,jdbcType=INTEGER}, #{orderType,jdbcType=INTEGER}, #{orderId,jdbcType=INTEGER}, 
-      #{payType,jdbcType=INTEGER}, #{amount,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}
+      #{payType,jdbcType=INTEGER}, #{amount,jdbcType=DECIMAL}, #{userId,jdbcType=INTEGER}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.udianqu.wash.model.Pay" >
@@ -194,7 +194,7 @@
         #{payType,jdbcType=INTEGER},
       </if>
       <if test="amount != null" >
-        #{amount,jdbcType=INTEGER},
+        #{amount,jdbcType=DECIMAL},
       </if>
       <if test="userId != null" >
         #{userId,jdbcType=INTEGER},
@@ -233,7 +233,7 @@
         pay_type = #{record.payType,jdbcType=INTEGER},
       </if>
       <if test="record.amount != null" >
-        amount = #{record.amount,jdbcType=INTEGER},
+        amount = #{record.amount,jdbcType=DECIMAL},
       </if>
       <if test="record.userId != null" >
         user_id = #{record.userId,jdbcType=INTEGER},
@@ -254,7 +254,7 @@
       order_type = #{record.orderType,jdbcType=INTEGER},
       order_id = #{record.orderId,jdbcType=INTEGER},
       pay_type = #{record.payType,jdbcType=INTEGER},
-      amount = #{record.amount,jdbcType=INTEGER},
+      amount = #{record.amount,jdbcType=DECIMAL},
       user_id = #{record.userId,jdbcType=INTEGER}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -278,7 +278,7 @@
         pay_type = #{payType,jdbcType=INTEGER},
       </if>
       <if test="amount != null" >
-        amount = #{amount,jdbcType=INTEGER},
+        amount = #{amount,jdbcType=DECIMAL},
       </if>
       <if test="userId != null" >
         user_id = #{userId,jdbcType=INTEGER},
@@ -296,7 +296,7 @@
     set order_type = #{orderType,jdbcType=INTEGER},
       order_id = #{orderId,jdbcType=INTEGER},
       pay_type = #{payType,jdbcType=INTEGER},
-      amount = #{amount,jdbcType=INTEGER},
+      amount = #{amount,jdbcType=DECIMAL},
       user_id = #{userId,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>

@@ -119,13 +119,12 @@ public class WashOrderService {
 			
 		}
 		int payType = TransPayType.transToInt(o.getChannel());
-		Integer amount = sumFinalAmount.intValue(); 
 		//订单金额支付对象构造；
 		p.setOrderType(1);
 		p.setPayType(payType);
 		p.setOrderId(wo.getId());
 		p.setUserId(o.getUserId());
-		p.setAmount(amount);
+		p.setAmount(sumFinalAmount);
 		payMapper.insert(p);
 		//将计算过的各种金额总和放入OrderVM
 		//o.setSumCouponAmount(sumCouponAmount);
