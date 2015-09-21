@@ -37,4 +37,6 @@ public interface UserMapper {
 
 	List<DirectorVM> selectDirectorById(Integer id);
 
+	void updateBalance(UserVM user);
+
 }

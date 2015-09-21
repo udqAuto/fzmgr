@@ -193,7 +193,7 @@ public class WashOrderController{
 			//orderNo为空则是新提交的订单，需要生成orderNo，将信息保存到数据库；
 			//若orderNo不空则是未支付的订单再次支付，上一次已经保存了信息到数据库，此时不用再保存。
 			if(order.getOrderNo() == null||order.getOrderNo() == ""){
-				Map<String,Object> map=GeneralUtil.getSerialNoPars(4);//billType = 4
+				Map<String,Object> map=GeneralUtil.getSerialNoPars(1);//billType = 1
 				String orderNo =  billSerialNoService.getNextBillSerialNo(map);
 				order.setOrderNo(orderNo);
 				wovm = orderService.save(order);

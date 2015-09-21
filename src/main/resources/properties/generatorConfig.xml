@@ -43,6 +43,11 @@
 	       enableDeleteByExample="false"
 	       enableCountByExample="false"
 	       enableUpdateByExample="false"/>
+	       <table tableName="t_user_balance" domainObjectName="UserBalance"
+           enableSelectByExample="false"
+	       enableDeleteByExample="false"
+	       enableCountByExample="false"
+	       enableUpdateByExample="false"/>
 	       <table tableName="t_auto" domainObjectName="Auto"/>  
 	       <table tableName="t_bill_serial" domainObjectName="BillSerial"/>  
 	       <table tableName="t_bill_type" domainObjectName="BillType"/>  

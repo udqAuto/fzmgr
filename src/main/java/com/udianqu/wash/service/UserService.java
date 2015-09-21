@@ -79,4 +79,9 @@ public class UserService {
 		return userMapper.selectByPrimaryKey(id);
 	}
 
+	public void updateBalance(UserVM user) {
+		// TODO Auto-generated method stub
+		userMapper.updateBalance(user);
+	}
+
 }
