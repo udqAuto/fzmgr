@@ -16,6 +16,8 @@ public class Auto {
 
     private Integer defaultRegionId;
     
+    private String position;
+    
     private Boolean isUsed;
 
     public Integer getId() {
@@ -28,6 +30,14 @@ public class Auto {
 
 	public void setIsUsed(Boolean isUsed) {
 		this.isUsed = isUsed;
+	}
+
+	public String getPosition() {
+		return position;
+	}
+
+	public void setPosition(String position) {
+		this.position = position;
 	}
 
 	/**
