@@ -3,39 +3,36 @@ package com.udianqu.wash.service;
 import java.io.File;
 import java.math.BigDecimal;
 import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import net.sf.json.JSONObject;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import cn.jpush.api.JPushClient;
 import cn.jpush.api.common.resp.APIConnectionException;
 import cn.jpush.api.common.resp.APIRequestException;
-import cn.jpush.api.push.PushResult;
-import cn.jpush.api.push.model.Message;
-import cn.jpush.api.push.model.Platform;
-import cn.jpush.api.push.model.PushPayload;
-import cn.jpush.api.push.model.audience.Audience;
 
 import com.udianqu.wash.core.Constants;
 import com.udianqu.wash.core.GeneralUtil;
+import com.udianqu.wash.core.ListResult;
 import com.udianqu.wash.core.Result;
 import com.udianqu.wash.core.TransPayType;
-import com.udianqu.wash.core.ListResult;
+import com.udianqu.wash.dao.AutoMapper;
 import com.udianqu.wash.dao.PayMapper;
 import com.udianqu.wash.dao.RegionMapper;
+import com.udianqu.wash.dao.UserBalanceMapper;
+import com.udianqu.wash.dao.UserMapper;
 import com.udianqu.wash.dao.WashOrderItemMapper;
 import com.udianqu.wash.dao.WashOrderMapper;
+import com.udianqu.wash.model.Auto;
 import com.udianqu.wash.model.Pay;
+import com.udianqu.wash.model.UserBalance;
 import com.udianqu.wash.model.WashOrder;
 import com.udianqu.wash.model.WashOrderItem;
 import com.udianqu.wash.util.NotificationUtil;
+import com.udianqu.wash.viewmodel.UserVM;
 import com.udianqu.wash.viewmodel.WashOrderVM;
 
 @Service
@@ -44,6 +41,9 @@ public class WashOrderService {
 	@Autowired WashOrderItemMapper washOrderItemMapper;
 	@Autowired PayMapper payMapper;
 	@Autowired RegionMapper regionMapper;
+	@Autowired AutoMapper autoMapper;
+	@Autowired UserBalanceMapper userBalanceMapper;
+	@Autowired UserMapper userMapper;
 
 	public ListResult<WashOrderVM> loadOrderlist(Map<String, Object> map) {
 		// TODO Auto-generated method stub
@@ -71,11 +71,16 @@ public class WashOrderService {
 	public WashOrderVM save(WashOrderVM o) throws ParseException {
 		// TODO Auto-generated method stub
 		WashOrder wo = new WashOrder();
+		int payType = TransPayType.transToInt(o.getChannel());
 		int orgId = regionMapper.selectOrgIdByRegionId(o.getRegionId());
 		Map<String,Object> map = GeneralUtil.getCurrentTime();
 		Date time = (Date) map.get("currentTime");
-		//订单主体对象构造；
-		wo.setState(0);
+		/*订单主体对象构造；*/
+		if(payType==100){//余额支付
+			wo.setState(1);
+		}else{
+			wo.setState(0);
+		}
 		wo.setStateNote("客户已下单");
 		wo.setPayId(1);
 		wo.setOrderNo(o.getOrderNo());
@@ -118,7 +123,6 @@ public class WashOrderService {
 			
 			
 		}
-		int payType = TransPayType.transToInt(o.getChannel());
 		//订单金额支付对象构造；
 		p.setOrderType(1);
 		p.setPayType(payType);
@@ -130,6 +134,31 @@ public class WashOrderService {
 		//o.setSumCouponAmount(sumCouponAmount);
 		//o.setSumFinalAmount(sumFinalAmount);
 		//o.setSumFixedAmount(sumFixedAmount);
+		/*更新车位*/
+		Auto auto =new Auto();
+		auto.setId(o.getAutoId());
+		auto.setPosition(o.getAutoPosition());
+		autoMapper.updateByPrimaryKeySelective(auto);
+		/*余额支付*/
+		if(payType==100){
+			BigDecimal t = new BigDecimal(-1);
+			BigDecimal amount = sumFinalAmount.multiply(t);
+			/*保存消费记录*/
+			UserBalance ub = new UserBalance();
+			ub.setAmount(amount);
+			ub.setOrderNo(o.getOrderNo());
+			ub.setRecordTime(time);
+			ub.setUserId(o.getUserId());
+			ub.setType(1);//手机端=1；后台=2
+			ub.setState(1);
+			userBalanceMapper.insert(ub);
+			/*更新用户余额*/
+			UserVM user =new UserVM();
+			user.setId(o.getUserId());
+			user.setAmount(amount);
+			userMapper.updateBalance(user);
+		}
+		
 		WashOrderVM order = washOrderMapper.selectByOrderNo(o.getOrderNo());
 		order.setFinalAmount(sumFinalAmount);
 		order.setFixedAmount(sumFixedAmount);

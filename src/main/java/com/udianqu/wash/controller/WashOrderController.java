@@ -202,15 +202,17 @@ public class WashOrderController{
 				wovm = orderService.selectByOrderNo(order.getOrderNo());
 				wovm.setFinalAmount(order.getFinalAmount());
 			}
-			
-			try{
-				Charge charge = chargeCreate(order,ip);
-				wovm.setCharge(charge);
-			}catch(Exception ex){
-				result = new Result<WashOrderVM>(null, false, false, false,
-						ex.getCause().getMessage());
-				return result.toJson(); 
+			if(!"udq".equals(order.getChannel())){
+				try{
+					Charge charge = chargeCreate(order,ip);
+					wovm.setCharge(charge);
+				}catch(Exception ex){
+					result = new Result<WashOrderVM>(null, false, false, false,
+							ex.getCause().getMessage());
+					return result.toJson(); 
+				}
 			}
+			
 			result = new Result<WashOrderVM>(wovm, true, false, false, "保存成功");
 			return result.toJson();
 		} catch (Exception ex) {

@@ -155,7 +155,8 @@
     w.id, w.order_no, w.user_id, w.auto_id, w.region_id, w.org_id, w.user_note, w.pay_id, w.order_time, 
     w.bill_time, w.washer_id, w.state, w.state_note, w.accept_time, w.begin_time, w.finish_time, w.washer_note, 
     w.grade_washer, w.grade_user,w.grade_user_note,   a.pn as auto_pn,r.name as region_name,o.name as shop_name,
-    p.pay_type as pay_type,u.name as washer_name
+    p.pay_type as pay_type,u.name as washer_name,
+    (select group_concat(wtp.name) from t_wash_type wtp, t_wash_order_item wi where wi.order_id = w.id and wtp.id = wi.wash_type_id) as washTypeName
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.udianqu.wash.model.WashOrderExample" >
     <!--
@@ -674,6 +675,8 @@
 			r.name 				as regionName,		 
 			o.user_note 		as userNote, 		 
 			a.pn 				as autoPN,
+			a.brand             as autoBrand,
+			a.model             as autoModel,
 			a.position			as position, 
 			o.order_time 		as orderTime,		 
 			o.bill_time 		as billTime, 		 

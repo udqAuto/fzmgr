@@ -8,6 +8,9 @@ import com.udianqu.wash.model.WashOrder;
 public class WashOrderVM extends WashOrder{
 	private String customerName; 
 	private String autoPN;
+	private String autoBrand;
+	private String autoModel;
+	private String autoPosition;
 	private String customerMobile;
 	private String shopName;
 	private String regionName;
@@ -36,6 +39,25 @@ public class WashOrderVM extends WashOrder{
 	private String channel;
 	
 	
+	
+	public String getAutoBrand() {
+		return autoBrand;
+	}
+	public void setAutoBrand(String autoBrand) {
+		this.autoBrand = autoBrand;
+	}
+	public String getAutoModel() {
+		return autoModel;
+	}
+	public void setAutoModel(String autoModel) {
+		this.autoModel = autoModel;
+	}
+	public String getAutoPosition() {
+		return autoPosition;
+	}
+	public void setAutoPosition(String autoPosition) {
+		this.autoPosition = autoPosition;
+	}
 	public String getShopName() {
 		return shopName;
 	}

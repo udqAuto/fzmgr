@@ -34,13 +34,24 @@ public class UserBalanceService {
 		ub.setOrderNo(balance.getOrderNo());
 		ub.setRecordTime(time);
 		ub.setUserId(balance.getUserId());
-		ub.setType(1);//手机端=1；后台=2
+		ub.setType(1);//充值=1；消费=2
+		ub.setState(0);//未支付=0；支付成功=1
 		userBalanceMapper.insert(ub);
 		/*更新余额*/
-		UserVM user =new UserVM();
-		user.setId(balance.getUserId());
-		user.setAmount(balance.getAmount());
-		userService.updateBalance(user);
+//		UserVM user =new UserVM();
+//		user.setId(balance.getUserId());
+//		user.setAmount(balance.getAmount());
+//		userService.updateBalance(user);
+	}
+
+	public void updateByOrderNo(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		userBalanceMapper.updateByOrderNo(map);
+	}
+
+	public UserBalance selectByOrderNo(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return userBalanceMapper.selectByOrderNo(map);
 	}
 
 }

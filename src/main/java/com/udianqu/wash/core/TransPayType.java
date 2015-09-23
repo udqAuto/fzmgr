@@ -13,6 +13,9 @@ public class TransPayType {
 		if("upacp".equals(channel)){
 			payType = 3;
 		}
+		if("udq".equals(channel)){
+			payType = 100;
+		}
 		return payType;
 	}
 	

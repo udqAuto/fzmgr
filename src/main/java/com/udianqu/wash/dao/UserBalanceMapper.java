@@ -1,5 +1,7 @@
 package com.udianqu.wash.dao;
 
+import java.util.Map;
+
 import com.udianqu.wash.core.MyBatisRepository;
 import com.udianqu.wash.model.UserBalance;
 
@@ -52,4 +54,8 @@ public interface UserBalanceMapper {
      * @mbggenerated Sat Sep 19 17:39:11 CST 2015
      */
     int updateByPrimaryKey(UserBalance record);
+
+	void updateByOrderNo(Map<String, Object> map);
+
+	UserBalance selectByOrderNo(Map<String, Object> map);
 }
