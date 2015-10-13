@@ -1,6 +1,7 @@
 package com.udianqu.wash.controller;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Date;
@@ -174,7 +175,13 @@ public class LoginController {
 			if(user.getName() == null||"".equals(user.getName())){
 				user.setName("车主用户");
 			}
+			BigDecimal balance = new BigDecimal(9.9);//注册就送九块九
+			user.setBalance(balance);
 			user.setUserType(8);
+			//取注册时间
+			Map<String,Object> m = GeneralUtil.getCurrentTime();
+			Date time = (Date) m.get("currentTime");
+			user.setRegisterTime(time);
 			String psd = encryption("123456");
 			user.setPsd(psd);
 			User user2 = userService.insert(user);

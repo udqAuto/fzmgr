@@ -608,6 +608,7 @@
   <select id="loadWashOrderCount"   parameterType="java.util.Map"  resultType="java.lang.Integer" >
 	select  count(*)
 	from t_wash_order o 
+	     left join t_user u on o.user_id = u.id and u.user_type = 8
 	     left join t_org  org on o.org_id = org.id
 	where org.path like CONCAT(#{orgPath,jdbcType=VARCHAR},'%' )
 		<if test="stateIds != null ">
@@ -615,6 +616,12 @@
   			<foreach item="item" index="index" collection="stateIds" open="(" separator="," close=")">  
 					#{item}
 			</foreach>
+		</if>
+		<if test="customerMobile != null ">
+			and u.mobile =#{customerMobile,jdbcType=VARCHAR}
+		</if>
+		<if test="autoId != null ">
+			and o.auto_id =#{autoId,jdbcType=INTEGER}
 		</if>
 		<if test="startTime != null ">
 			and o.order_time  &gt;=#{startTime,jdbcType=TIMESTAMP}
@@ -780,17 +787,25 @@
 			o.bill_time 		as billTime, 
 			o.accept_time 		as acceptTime,
 			o.begin_time 		as beginTime,
-			o.finish_time 		as finishTime 
+			o.finish_time 		as finishTime,
+			p.amount            as finalAmount
 	from t_wash_order o 
 		left join t_user u on o.user_id = u.id and u.user_type = 8
 		left join t_auto a on o.auto_id = a.id
 		left join t_org  org on o.org_id = org.id
+		left join t_pay p on p.order_id = o.id
 	where org.path like CONCAT(#{orgPath,jdbcType=VARCHAR},'%' )
 		<if test="stateIds != null ">
 			and o.state in
   			<foreach item="item" index="index" collection="stateIds" open="(" separator="," close=")">  
 					#{item}
 			</foreach>
+		</if>
+		<if test="customerMobile != null ">
+			and u.mobile =#{customerMobile,jdbcType=VARCHAR}
+		</if>
+		<if test="autoId != null ">
+			and o.auto_id =#{autoId,jdbcType=INTEGER}
 		</if>
 		<if test="startTime != null ">
 			and o.order_time  &gt;=#{startTime,jdbcType=TIMESTAMP}

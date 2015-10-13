@@ -14,6 +14,7 @@ var RegionManage = {
 				fitColumns : true,
 		        idField: 'id',
 		        treeField: 'name',
+		        onDblClickRow : RegionManage.editRegion,
 		        toolbar:'#regionTb',
 		        columns: [[
 		               { title: 'id', field: 'id', align: 'left', width: 200,hidden:true } ,

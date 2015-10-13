@@ -2,12 +2,14 @@ $(function() {
 	getCurrentUser();
 	var obj = getUrlArgs();
 	m_userType = obj.userType;
+	m_user_query.orgId = 1;
 	if(m_userType == 8||m_userType =="8"){
 		$("#userTb a[doc='systemUser']").attr("style","display:none");
 	} 
 	else{
 		$("#userTb a[doc='autoUser']").attr("style","display:none");
 	}
+	UserManage.initOrgan();
 	UserManage.loadUserList();
 	$("#addUser").bind("click", UserManage.addUser);
 	$("#editUser").bind("click", UserManage.editUser);
@@ -16,10 +18,16 @@ $(function() {
 	$("#lockUser").bind("click", UserManage.lockUser);
 	$("#showUser").bind("click", UserManage.showUser);
 });
+var m_user_query={};
 var m_userType;
 var m_userInfo_dlg = null;
 var m_userInfo_Object = {};
 var UserManage = {
+		initOrgan:function(){
+			$("#txtcmbOrgan").combotree({
+				url:'organ/getOrganList.do?parentid=0',
+			});
+		},
 	packageObject : function(row) {
 		m_userInfo_Object.id = row.id;
 		m_userInfo_Object.name = row.name;
@@ -30,10 +38,16 @@ var UserManage = {
 		m_userInfo_Object.userType = row.userType;
 		m_userInfo_Object.idcard = row.idcard;
 		m_userInfo_Object.photoUrl = row.photoUrl;
+		m_userInfo_Object.washCount = row.washCount;
+		m_userInfo_Object.totalAmount = row.totalAmount;
+		m_userInfo_Object.balance = row.balance;
 	},
 	loadUserList : function() {
 		$('#userListGrid').datagrid({
-			url : 'user/getUserList.do?userType=' + m_userType,
+			url : 'user/getUserList.do?userType='+m_userType,
+			queryParams : {
+				'userInfo' : JSON.stringify(m_user_query)
+			},
 			fitColumns : true,
 			rownumbers : true,
 			pagination : true,
@@ -97,21 +111,26 @@ var UserManage = {
 					}
 				}
 			}, {
+				title : '注册时间',
+				field : 'registerTime',
+				align : 'center',
+				width : 150
+			}, {
 				title : '身份证',
 				field : 'idcard',
 				align : 'center',
-				width : 150
+				width : 100
 			}, {
 				title : '电话',
 				field : 'mobile',
 				align : 'center',
-				width : 150
+				width : 100
 			}, {
 				title : '邮箱',
 				field : 'email',
 				align : 'center',
-				width : 150
-			} ] ]
+				width : 100
+			}] ]
 		});
 	},
 	addUser : function() {
@@ -130,6 +149,21 @@ var UserManage = {
 		} catch (ex) {
 			$.messager.alert("操作提示", ex.message, "error");
 		}
+	},
+	doSearch:function(){
+//		if($("#txtcmbOrgan").combotree("getValue") ==""|| $("#txtcmbOrgan").combotree("getValue")==undefined){
+//			m_user_query.orgId = 1;
+//		}else{
+//			m_user_query.orgId = $("#txtcmbOrgan").combotree("getValue");
+//		}
+		m_user_query.name = $('#sch_name').val();
+		m_user_query.mobile = $('#sch_mobile').val();
+		$('#userListGrid').datagrid("reload",{'userInfo' : JSON.stringify(m_user_query)});
+	},
+	doClean:function(){
+		$('#sch_name').val("");
+		$('#sch_mobile').val("");
+		$("#txtcmbOrgan").combotree("setValue","");
 	},
 	showUser : function(){	
 		try {
@@ -160,7 +194,7 @@ var UserManage = {
 								+ userId
 								+ "&userType="
 								+ m_userType
-								+ "' style='width:710px;height:270px;overflow:hidden'/>",
+								+ "' style='width:710px;height:350px;overflow:hidden'/>",
 						lock : true,
 						initFn : function() {
 						}

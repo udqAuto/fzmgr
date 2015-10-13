@@ -15,6 +15,7 @@ var OrganManage = {
 				fitColumns : true,
 		        idField: 'id',
 		        treeField: 'name',
+		        onDblClickRow : OrganManage.editOrganization,
 		        toolbar:'#OrganizationTb',
 		        columns: [[
 		               { title: 'id', field: 'id', align: 'left', width: 200,hidden:true } ,

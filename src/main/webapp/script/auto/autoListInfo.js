@@ -1,11 +1,23 @@
+var m_order_orgId;
+var m_auto_dlg = null;
+var m_auto_obj = {};
+var m_auto_query={};
 $(function() {
 	getCurrentUser();
+	var obj = getUrlArgs();
+	m_order_orgId = obj.orgId;
+	m_auto_query.defaultRegionId = 1;
+	AutoManage.initRegion();
 	AutoManage.loadAutoList();
 	$("#showAuto").bind("click", AutoManage.showAuto);
 });
-var m_auto_dlg = null;
-var m_auto_obj = {};
+
 var AutoManage = {
+		initRegion:function(){
+			$("#txtcmbRegion").combotree({
+				url:'region/getRegionList.do?parentid=0',
+			});
+		},
 		packageObject : function(row) {
 			m_auto_obj.id = row.id;
 			m_auto_obj.userId = row.userId;
@@ -16,10 +28,15 @@ var AutoManage = {
 			m_auto_obj.color = row.color;
 			m_auto_obj.regionId = row.defaultRegionId;
 			m_auto_obj.regionName = row.regionName;
+			m_auto_obj.position = row.position;
+			m_auto_obj.orgId = m_order_orgId;//为查询订单准备
 		},	
 		loadAutoList : function() {
 			$('#autoListGrid').datagrid({
 				url : 'auto/getAutoList.do',
+				queryParams : {
+					'autoInfo' : JSON.stringify(m_auto_query)
+				},
 				fitColumns : true,
 				rownumbers : true,
 				pagination : true,
@@ -28,7 +45,7 @@ var AutoManage = {
 				nowrap : false,
 				idField : 'id',
 				singleSelect : true,
-				//onDblClickRow : ,
+				onDblClickRow : AutoManage.showAuto,
 				toolbar : "#autoTb",
 				columns : [ [ {
 					title : 'id',
@@ -64,8 +81,36 @@ var AutoManage = {
 					field : 'regionName',
 					align : 'center',
 					width : 100
+				}, {
+					title : '车位',
+					field : 'position',
+					align : 'center',
+					width : 100
+				}, {
+					title : '洗车次数',
+					field : 'washCount',
+					align : 'center',
+					width : 100
+				}, {
+					title : '消费金额',
+					field : 'totalAmount',
+					align : 'center',
+					width : 100
 				} ] ]
 			});
+		},
+		doSearch:function(){
+			if($("#txtcmbRegion").combotree("getValue") ==""|| $("#txtcmbRegion").combotree("getValue")==undefined){
+				m_auto_query.defaultRegionId = 1;
+			}else{
+				m_auto_query.defaultRegionId = $("#txtcmbRegion").combotree("getValue");
+			}
+			m_auto_query.pn = $("#sch_autoPN").val();
+			$('#autoListGrid').datagrid("reload",{'autoInfo' : JSON.stringify(m_auto_query)});
+		},
+		doClean:function(){
+			$("#txtcmbRegion").combotree("setValue","");
+			$("#sch_autoPN").val("");
 		},
 		showAuto : function(){
 			try {
@@ -84,7 +129,7 @@ var AutoManage = {
 						.dialog({
 							id : 'dlgShowAuto',
 							title : '查看车辆信息',
-							content : "<iframe scrolling='yes' frameborder='0' src='view/auto/autoBill.jsp' style='width:310px;height:350px;overflow:hidden'/>",
+							content : "<iframe scrolling='yes' frameborder='0' src='view/auto/autoBill.jsp' style='width:550px;height:450px;overflow:hidden'/>",
 							lock : true,
 							initFn : function() {
 							}

@@ -8,16 +8,14 @@ $(function() {
 	var obj = getUrlArgs();
 	m_orderType =  obj.orderState;
 	m_order_orgId = obj.orgId;
-	if(m_orderType == "4,5"){
-		$("#sp_UnComplete").hide();
-		$("#sp_Canceled").hide();
+	if(m_orderType == "1"){
 		m_zType = 1;
-	}else if(m_orderType == "10,11"){
-		$("#sp_UnComplete").hide();
-		m_zType = 3; 
-	}else {
-		$("#sp_Canceled").hide();
+	}else if(m_orderType == "2,3"){
 		m_zType = 2; 
+	}else if(m_orderType == "4"){
+		m_zType = 4; 
+	}else if(m_orderType == "5"){
+		m_zType = 5;
 	}
 	OrderManage.initControl();
 	OrderManage.packageQuery();
@@ -28,7 +26,7 @@ var order_obj = {};
 var OrderManage = {
 		initControl:function(){
 			$("#txtcmbOrgan").combotree({
-				url:'organ/getOrganList.do?parentid='+m_order_orgId,
+				url:'organ/getOrganList.do?parentid=0',
 			});
 		},
 		packageQuery : function(){
@@ -38,16 +36,12 @@ var OrderManage = {
 				m_order_query.orgId = $("#txtcmbOrgan").combotree("getValue");
 			}
 			m_order_query.orderType = m_zType;
-			if( $("#txtOrderState").combobox("getValue") ==""|| $("#txtOrderState").combobox("getValue")==undefined){
-				m_order_query.orderState = 0;
-			}else{
-				m_order_query.orderState = $("#txtOrderState").combobox("getValue");
-			}
-			if( $("#txtCancelType").combobox("getValue") ==""|| $("#txtCancelType").combobox("getValue")==undefined){
-				m_order_query.cancelType = 0;
-			}else{
-				m_order_query.cancelType = $("#txtCancelType").combobox("getValue");
-			} 
+//			if( $("#txtCancelType").combobox("getValue") ==""|| $("#txtCancelType").combobox("getValue")==undefined){
+//				m_order_query.cancelType = 0;
+//			}else{
+//				m_order_query.cancelType = $("#txtCancelType").combobox("getValue");
+//			}
+			m_order_query.customerMobile = $("#sch_user").val();
 			m_order_query.startTime = $("#sch_startTime").datebox("getValue");
 			m_order_query.endTime = $("#sch_endTime").datebox("getValue");
 		}, 
@@ -65,6 +59,7 @@ var OrderManage = {
 				nowrap : false,
 				idField : 'id',
 				singleSelect : true, 
+				onDblClickRow : OrderManage.showOrder,
 				toolbar : "#orderTb",
 				columns : [ [ {
 					title : 'id',
@@ -74,27 +69,27 @@ var OrderManage = {
 					title : '状态',
 					field : 'state',
 					align : 'center',
-					width : 100
+					width : 40
 				},{
 					title : '订单号',
 					field : 'orderNo',
 					align : 'center',
-					width : 100
+					width : 80
 				}, {
 					title : '订单用户',
 					field : 'customerName',
 					align : 'center',
-					width : 100,
+					width : 50,
 				}, {
 					title : '订单备注',
 					field : 'userNote',
 					align : 'center',
-					width : 100
+					width : 200
 				}, {
 					title : '车牌号',
 					field : 'autoPN',
 					align : 'center',
-					width : 100
+					width : 80
 				},{ 
 					title : '预约时间',
 					field : 'orderTime',
@@ -129,8 +124,9 @@ var OrderManage = {
 		},
 		doClean:function(){
 			$("#txtcmbOrgan").combotree("setValue","");
-			$("#txtOrderState").combobox("setValue",0);
-			$("#txtCancelType").combobox("setValue",0);
+			//$("#txtOrderState").combobox("setValue",0);
+			//$("#txtCancelType").combobox("setValue",0);
+			$("#sch_user").val("");
 			$("#sch_startTime").datebox("setValue","");
 			$("#sch_endTime").combotree("setValue",""); 
 		},

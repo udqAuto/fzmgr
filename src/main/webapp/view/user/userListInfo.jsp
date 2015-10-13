@@ -32,6 +32,17 @@
                 <a id="lockUser" name="lockUser" doc="systemUser"
                     href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-udq-lock"
                     plain="true">锁定</a>
+                <!-- <span style="padding-left:25px">
+					<label>组织机构:</label><input id="txtcmbOrgan" class="easyui-combotree" style="width:150px" />
+            	</span> -->
+            	<span>
+				     <label>用户名称:</label><input id="sch_name" class="easyui-validatebox" style="width:120px" data-options="editable:false" />
+				</span>
+				<span>
+				     <label>电话号码:</label><input id="sch_mobile" class="easyui-validatebox" style="width:120px" data-options="editable:false" />
+				</span>
+            	<a id="btnSearch" href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-search" plain="true" onclick="UserManage.doSearch();">查询</a>
+            	<a id="btnclearUp" href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-udq-clear" plain="true" onclick="UserManage.doClean();">清空</a>
             </p>  
         </div>
     </div>

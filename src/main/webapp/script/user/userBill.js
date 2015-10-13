@@ -18,6 +18,10 @@ $(function() {
 		$("#txtUserOrgName").combotree('setValue', score.orgId);
 		$("#txtUserEmail").val(score.email);
 		$("#txtUserPhoto").attr("src",score.photoUrl);
+		$("#txtWashCount").val(score.washCount);
+		$("#txtTotalAmount").val(score.totalAmount);
+		$("#txtUserBalance").val(score.balance);
+		$("#div_userInfo p[name='p_total']").hide();
 //		var pho = document.getElementById("txtUserPhoto");
 //		pho.src = score.photoUrl;
 		$("#div_userInfo p[name='p_pwd']").hide();
@@ -26,6 +30,7 @@ $(function() {
 			$("#txtUserSex").combobox('disable');
 			$("#txtUserOrgName").combotree('disable');
 			$("#txtUserName").attr("readonly","readonly");
+			$("#txtUserIdcard").attr("readonly","readonly");
 			$("#txtUserMobile").attr("readonly","readonly");
 			$("#txtUserEmail").attr("readonly","readonly");
 			$("#userAutoInfo").removeClass("displaynone");
@@ -33,12 +38,15 @@ $(function() {
 			$("#btnSaveUserInfo").attr("style","display:none");
 			$("#div_userInfo p[name='p_img']").hide();
 			$("#div_userInfo p[name='p_upload']").hide();
+			$("#div_userInfo p[name='p_total']").show();
 			UserManage.loadAutoByUserId(m_userId);
 		}else{
 			$("#txtUserType").combobox('setValue', score.userType);
 		}
 	}else{
+		$("#div_userInfo p[name='p_pwd']").hide();//不需要密码
 		$("#div_userInfo p[name='p_img']").hide();
+		$("#div_userInfo p[name='p_total']").hide();
 	}
 	
 	
@@ -65,15 +73,15 @@ var UserManage = {
 				idField : 'id',  
 				title :"拥有车辆",
 				columns : [ [ {
-					title : '品牌',
-					field : 'brand',
-					align : 'center',
-					width : 100
-				}, {
 					title : '车牌号码',
 					field : 'pn',
 					align : 'center',
 					width : 100,
+				},{
+					title : '品牌',
+					field : 'brand',
+					align : 'center',
+					width : 100
 				}, {
 					title : '型号',
 					field : 'model',
@@ -100,22 +108,22 @@ var UserManage = {
 				$.messager.alert("操作提示", "用户姓名必须填写！", "error");
 				return;
 			}
-			if(m_type==0||m_type=="0"){
-				var password = $.trim($("#txtUserPwd").val());
-				var password2 = $.trim($("#txtUserPwdAgain").val());
-				if (password == "" || password == undefined) {
-					$.messager.alert("操作提示", "登录密码必须填写！", "error");
-					return;
-				}
-				if (password2 == "" || password2 == undefined) {
-					$.messager.alert("操作提示", "请再次输入密码！", "error");
-					return;
-				}
-				if(password2 != password){
-					$.messager.alert("操作提示", "两次输入的密码不同！", "error");
-					return;
-				}
-			}
+//			if(m_type==0||m_type=="0"){
+//				var password = $.trim($("#txtUserPwd").val());
+//				var password2 = $.trim($("#txtUserPwdAgain").val());
+//				if (password == "" || password == undefined) {
+//					$.messager.alert("操作提示", "登录密码必须填写！", "error");
+//					return;
+//				}
+//				if (password2 == "" || password2 == undefined) {
+//					$.messager.alert("操作提示", "请再次输入密码！", "error");
+//					return;
+//				}
+//				if(password2 != password){
+//					$.messager.alert("操作提示", "两次输入的密码不同！", "error");
+//					return;
+//				}
+//			}
 			if ($("#txtUserSex").combobox("getValue") == ""
 				|| $("#txtUserSex").combobox("getValue") == undefined) {
 			    u_obj.sex = 0;
@@ -137,9 +145,14 @@ var UserManage = {
 		    } else {
 			    u_obj.userType = $("#txtUserType").combobox("getValue");
 		    }
+			if ($("#txtUserMobile").val() == ""
+				|| $("#txtUserMobile").val() == undefined) {
+				$.messager.alert("操作提示", "请填写电话号码！", "error");
+		    } else {
+		    	u_obj.mobile = $.trim($("#txtUserMobile").val());
+		    }
 			u_obj.name = username;
-			u_obj.psd = password;
-			u_obj.mobile = $.trim($("#txtUserMobile").val());
+			//u_obj.psd = password;
 			u_obj.idcard = $.trim($("#txtUserIdcard").val());
 			u_obj.email = $.trim($("#txtUserEmail").val());
 			

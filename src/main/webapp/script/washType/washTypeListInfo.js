@@ -24,7 +24,7 @@ var WashTypeManage = {
 				nowrap : false,
 				idField : 'id',
 				singleSelect : true,
-				//onDblClickRow : ,
+				onDblClickRow : WashTypeManage.editWashType,
 				toolbar : "#washTypeTb",
 				columns : [ [ {
 					title : 'id',

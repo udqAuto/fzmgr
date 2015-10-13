@@ -4,6 +4,7 @@ import java.io.File;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,9 +27,11 @@ import org.springframework.web.multipart.MultipartRequest;
 import com.udianqu.wash.core.GeneralUtil;
 import com.udianqu.wash.core.ListResult;
 import com.udianqu.wash.core.Result;
+import com.udianqu.wash.model.Organization;
 import com.udianqu.wash.model.User; 
 import com.udianqu.wash.model.WashOrder;
 import com.udianqu.wash.service.LoginService;
+import com.udianqu.wash.service.OrganService;
 import com.udianqu.wash.service.UserService;
 import com.udianqu.wash.viewmodel.DirectorVM;
 import com.udianqu.wash.viewmodel.UserVM;
@@ -47,6 +50,8 @@ public class UserController {
 	UserService userService;
 	@Autowired
 	LoginService loginService;
+	@Autowired
+	OrganService organService;
 
 	@RequestMapping(value = "saveUserObj.do")
 	public @ResponseBody String saveUserObj(UserVM user,
@@ -54,8 +59,10 @@ public class UserController {
 		try {
 			HttpSession session = request.getSession();
 			UserVM u = (UserVM) session.getAttribute("user");
+			User us = userService.selectByMobile(user.getMobile());
+			
 			if (u == null) {
-				Result<UserVM> s = new Result<UserVM>(null, true, false, false,
+				Result<UserVM> s = new Result<UserVM>(null, false, false, false,
 						"页面过期，请重新登录");
 				return s.toJson();
 			} else {
@@ -79,7 +86,7 @@ public class UserController {
 				}
 				//如果上传了图片就放到user中，没有上传则新增时就为空，编辑时还是原来的图片
 				String fileName = file.getOriginalFilename();
-				if(fileName!=null||fileName != ""){
+				if(fileName!=null&&fileName != ""){
 					user.setPhotoUrl(photoUrl);
 				}
 			
@@ -87,8 +94,16 @@ public class UserController {
 					user.setPsd(u.getPsd());
 					userService.updateByPrimaryKey(user);
 				} else {
-					String psd = encryption(user.getPsd());
+					if(us !=null){
+						Result<UserVM> result = new Result<UserVM>(null,false,
+								"The mobile already exists!");
+						return result.toJson();
+					}
+					Map<String,Object> map = GeneralUtil.getCurrentTime();
+					Date time = (Date) map.get("currentTime");
+					String psd = encryption("123456");
 					user.setPsd(psd);
+					user.setRegisterTime(time);
 					userService.insert(user);
 				}
 				Result<UserVM> s = new Result<UserVM>(null, true, false, false,
@@ -134,12 +149,29 @@ public class UserController {
 			@RequestParam(value = "page", required = false) Integer page,
 			@RequestParam(value = "rows", required = false) Integer rows,
 			@RequestParam(value = "userType", required = false) String userType,
+			@RequestParam(value = "userInfo", required = false) String userInfo,
 			HttpServletRequest request) throws Exception {
 		try {
+			JSONObject jObj = JSONObject.fromObject(userInfo);
+			User user = (User) JSONObject.toBean(jObj,User.class);
+			int orgId = user.getOrgId();
+			String name = user.getName();
+			String mobile = user.getMobile();
+			//Organization o = organService.selectByPrimaryKey(orgId);
+			
 			Map<String, Object> map = new HashMap<String, Object>();
 			page = page == 0 ? 1 : page;
 			map.put("pageStart", (page - 1) * rows);
 			map.put("pageSize", rows);
+			map.put("orgId", orgId);
+			//map.put("orgPath", o.getPath() == null ? (orgId+"") : o.getPath());
+			
+			if(!"".equals(name)){
+				map.put("name", name);
+			}
+			if(!"".equals(mobile)){
+				map.put("mobile", mobile);
+			}
 			List<Integer> ids = new ArrayList<Integer>();
 			String[] str = userType.split(",");
 			for (String s : str) {
@@ -155,7 +187,7 @@ public class UserController {
 	}
 
 	/*
-	 * 
+	 * 下拉选择管理员类型。
 	 */
 	@RequestMapping(value = "getAllUserList.do", produces = "application/json;charset=UTF-8")
 	public @ResponseBody

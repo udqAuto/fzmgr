@@ -111,6 +111,11 @@
   <sql id="BaseVM_Column_List" >
     a.id, a.user_id, a.pn, a.brand, a.model, a.color, a.default_region_id,a.position, a.is_used, u.name as user_name, r.name as region_name
   </sql>
+  <sql id="BaseVM_Column_List2" >
+    a.id, a.user_id, a.pn, a.brand, a.model, a.color, a.default_region_id,a.position, a.is_used, u.name as user_name, r.name as region_name,
+    (select count(*) from t_wash_order wo where wo.auto_id = a.id and wo.state != 0) as washCount,
+    (select sum(p.amount) from t_wash_order wo, t_pay p where wo.auto_id = a.id and p.order_id = wo.id and wo.state != 0)  as totalAmount 
+  </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.udianqu.wash.model.AutoExample" >
     <!--
       WARNING - @mbggenerated
@@ -361,27 +366,44 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="countByMap" resultType="java.lang.Integer"   parameterType="java.util.Map" >
-  		select count(*) from t_auto 
-  		where 1=1 
+  		select count(*) from t_auto a
+  		left join t_user u on a.user_id = u.id
+  		left join t_region r on a.default_region_id = r.id
+  		where 1=1
+  		<if test="regionPath != null">
+  			and r.path like CONCAT(#{regionPath,jdbcType=VARCHAR},'%' )
+  		</if>
+  		<if test="pn != null">
+  			and a.pn = #{pn,jdbcType=VARCHAR} 
+  		</if> 
   		<if test="userId!=null">
-  			and user_id = #{userId,jdbcType=INTEGER}
+  			and a.user_id = #{userId,jdbcType=INTEGER}
   		</if>
   		<if test="isUsed != null">
-  			and is_used = #{isUsed,jdbcType=BIT}
+  			and a.is_used = #{isUsed,jdbcType=BIT}
   		</if>
   </select>
   <select id="loadAutolistWithPage"   parameterType="java.util.Map"  resultMap="BaseVMResultMap"  >
-  		select <include refid="BaseVM_Column_List" /> 
+  		select <include refid="BaseVM_Column_List2" /> 
   		from t_auto a 
   		left join t_user u on a.user_id = u.id
   		left join t_region r on a.default_region_id = r.id
+  		left join t_wash_order wo on wo.auto_id = a.id and wo.state != 0
+  		left join t_pay p on p.order_id = wo.id
   		where 1=1 
+  		<if test="regionPath != null">
+  			and r.path like CONCAT(#{regionPath,jdbcType=VARCHAR},'%' )
+  		</if>
+  		<if test="pn != null">
+  			and a.pn = #{pn,jdbcType=VARCHAR} 
+  		</if>
   		<if test="userId != null">
   			and a.user_id = #{userId,jdbcType=INTEGER} 
   		</if>
   		<if test="isUsed != null">
-  			and is_used = #{isUsed,jdbcType=BIT}
+  			and a.is_used = #{isUsed,jdbcType=BIT}
   		</if>
+  		group by a.id
   		<if test="pageStart !=null">
   		limit #{pageStart,jdbcType=INTEGER}, #{pageSize,jdbcType=INTEGER}
   		</if>

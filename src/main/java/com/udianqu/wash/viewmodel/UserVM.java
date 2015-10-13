@@ -8,8 +8,22 @@ public class UserVM extends User{
 private String orgName;
 private String username;
 private BigDecimal amount;//充值或消费的金额
+private BigDecimal totalAmount;
+private Integer washCount;
 	
     
+	public BigDecimal getTotalAmount() {
+	return totalAmount;
+}
+public void setTotalAmount(BigDecimal totalAmount) {
+	this.totalAmount = totalAmount;
+}
+public Integer getWashCount() {
+	return washCount;
+}
+public void setWashCount(Integer washCount) {
+	this.washCount = washCount;
+}
 	public BigDecimal getAmount() {
 	return amount;
 }

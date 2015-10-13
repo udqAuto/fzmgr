@@ -23,6 +23,14 @@
 			<p>
 				<a id="showAuto" name="showAuto" href="javascript:void(0);" 
 					class="easyui-linkbutton" iconcls="icon-udq-show" plain="true">查看</a> 
+				<span>
+				     <label>车牌号码:</label><input id="sch_autoPN" class="easyui-validatebox" style="width:120px" data-options="editable:false" />
+				</span>
+				<span style="padding-left:25px">
+					<label>区域:</label><input id="txtcmbRegion" class="easyui-combotree" style="width:150px" />
+            	</span>
+				<a id="btnSearch" href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-search" plain="true" onclick="AutoManage.doSearch();">查询</a>
+            	<a id="btnclearUp" href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-udq-clear" plain="true" onclick="AutoManage.doClean();">清空</a>
 			</p>
 		</div>
 	</div>

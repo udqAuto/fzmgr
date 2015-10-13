@@ -16,30 +16,49 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.udianqu.wash.core.ListResult;
 import com.udianqu.wash.core.Result;
 import com.udianqu.wash.model.Auto;
+import com.udianqu.wash.model.Region;
 import com.udianqu.wash.service.AutoService;
+import com.udianqu.wash.service.RegionService;
 import com.udianqu.wash.viewmodel.AutoVM;
+import com.udianqu.wash.viewmodel.WashOrderVM;
 
 @Controller 
 @RequestMapping("/auto")
 public class AutoController { 
 	
 	@Autowired AutoService autoService;
+	@Autowired RegionService regionService;
 	
 	@RequestMapping(value = "getAutoList.do", produces = "application/json;charset=UTF-8")
 	public @ResponseBody
 	String getAutoList( 
+			@RequestParam(value = "autoInfo", required = false) String autoInfo,
 			@RequestParam(value = "page", required = false) Integer page,
 			@RequestParam(value = "rows", required = false) Integer rows,
-			HttpServletRequest request) throws Exception {
-
-		Map<String, Object> map = new HashMap<String, Object>();   
-		page = page == 0 ? 1 : page;
-		map.put("pageStart", (page - 1) * rows);
-		map.put("pageSize", rows);  
-		map.put("isUsed", true);
-		ListResult<AutoVM> rs = autoService.loadAutolist(map);
-		
-		return rs.toJson();
+			HttpServletRequest request) {
+        try{
+        	JSONObject jObj = JSONObject.fromObject(autoInfo);
+			Auto auto = (Auto) JSONObject.toBean(jObj,Auto.class);
+			String autoPN = auto.getPn(); 
+        	Map<String, Object> map = new HashMap<String, Object>();   
+    		page = page == 0 ? 1 : page;
+    		map.put("pageStart", (page - 1) * rows);
+    		map.put("pageSize", rows);  
+    		map.put("isUsed", true);
+    		int regionId = auto.getDefaultRegionId();
+			Region r = regionService.selectByPrimaryKey(regionId);
+			map.put("regionPath", r.getPath() == null ? (regionId+"") : r.getPath());
+    		if(!"".equals(autoPN)){
+    			map.put("pn", autoPN);
+    		}
+    		ListResult<AutoVM> rs = autoService.loadAutolist(map);
+    		
+    		return rs.toJson();
+        }catch(Exception ex){
+        	Result<AutoVM> s = new Result<AutoVM>(null, false, false,
+					false, ex.getMessage());
+			return s.toJson();
+        }
 	}
 	@RequestMapping(value = "getAutoListByUserId.do", produces = "application/json;charset=UTF-8")
 	public @ResponseBody
@@ -83,6 +102,7 @@ public class AutoController {
 //		    		Result<AutoVM> s = new Result<AutoVM>(null, false,
 //							false, false, "你所修改的车牌号码已存在");
 //					return s.toJson();
+		    	auto.setIsUsed(true);
 		    	autoService.updateByPrimaryKey(auto);
 			} else {//add
 				auto.setIsUsed(true);

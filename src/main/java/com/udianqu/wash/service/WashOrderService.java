@@ -157,6 +157,19 @@ public class WashOrderService {
 			user.setId(o.getUserId());
 			user.setAmount(amount);
 			userMapper.updateBalance(user);
+			//消息推送
+			Map<String,Object> pushMap=new HashMap<String, Object>();
+			pushMap.put("orgId", String.valueOf(orgId));
+			pushMap.put("MESSAGE", "有新订单可接收！");
+			try {
+				NotificationUtil.SendPush(pushMap,Constants.PUSH_TYPE_WASHER);
+			} catch (APIConnectionException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (APIRequestException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		
 		WashOrderVM order = washOrderMapper.selectByOrderNo(o.getOrderNo());
@@ -208,6 +221,10 @@ public class WashOrderService {
 					map.put("acceptTime", acceptTime);
 					map.put("state", state);
 					map.put("stateNote", "门店已接受预约");
+					//消息推送
+					pushMap.put("customerId", order.getUserId().toString());
+					pushMap.put("MESSAGE", "您好，您的"+order.getAutoPN()+"订单已被接收！");
+					NotificationUtil.SendPush(pushMap,Constants.PUSH_TYPE_CUSTOMER);
 				}else{
 					result = new Result<WashOrder>(null, false, "此订单已被接收");
 					return result;

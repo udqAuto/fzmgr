@@ -69,8 +69,9 @@ public class WashOrderController{
 
 		String startTime = joQuery.getString("startTime");
 		String endTime = joQuery.getString("endTime");
-		int orderState = joQuery.getInt("orderState");
-		int cancelType = joQuery.getInt("cancelType");
+		String customerMobile = joQuery.getString("customerMobile");
+		//int orderState = joQuery.getInt("orderState");
+		//int cancelType = joQuery.getInt("cancelType");
 
 		if (endTime != null && endTime != " " && endTime.length() > 0) {
 			endTime += " 23:59:59";
@@ -81,28 +82,56 @@ public class WashOrderController{
 		if (!"".equals(endTime)) {
 			map.put("endTime", endTime);
 		}
+		if (!"".equals(customerMobile)) {
+			map.put("customerMobile", customerMobile);
+		}
 		List<Integer> ids = new ArrayList<Integer>();
-		if (orderType == 1) {
+		if (orderType == 1) {//新订单
+			ids.add(1);
+		} else if (orderType == 2) {//进行中
+			ids.add(2);
+			ids.add(3);
+		} else if(orderType == 4){//已完成
 			ids.add(4);
+		}else if(orderType == 5){//已评价
 			ids.add(5);
-		} else if (orderType == 2) {
-			if (orderState > 0) {
-				ids.add(orderState);
-			} else {
-				ids.add(1);
-				ids.add(2);
-				ids.add(3);
-			}
-		} else {
-			if (cancelType > 0) {
-				ids.add(cancelType);
-			} else {
-				ids.add(10);
-				ids.add(11);
-			}
 		}
 		map.put("stateIds", ids);
 
+		ListResult<WashOrderVM> rs = orderService.loadOrderlist(map); 
+		return rs.toJson();
+	}
+	/**
+	 * 在车辆查看中显示该车辆的订单
+	 * @param aId 车辆Id
+	 * @param page
+	 * @param rows
+	 * @param request
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "getOrderListByAutoId.do", produces = "application/json;charset=UTF-8")
+	public @ResponseBody
+	String getOrderListByAutoId(
+			@RequestParam(value = "order_Query", required = false) String order_Query,
+			@RequestParam(value = "page", required = false) Integer page,
+			@RequestParam(value = "rows", required = false) Integer rows,
+			HttpServletRequest request) throws Exception {
+		
+		JSONObject joQuery = JSONObject.fromObject(order_Query);
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		page = page == 0 ? 1 : page;
+		map.put("pageStart", (page - 1) * rows);
+		map.put("pageSize", rows);
+		int orgId = joQuery.getInt("orgId");
+		Organization o = organService.selectByPrimaryKey(orgId);
+		map.put("orgId", orgId);
+		map.put("orgPath", o.getPath() == null ? (orgId+"") : o.getPath());
+		
+		int autoId = joQuery.getInt("autoId");
+		map.put("autoId", autoId);
+		
 		ListResult<WashOrderVM> rs = orderService.loadOrderlist(map); 
 		return rs.toJson();
 	}
@@ -212,7 +241,6 @@ public class WashOrderController{
 					return result.toJson(); 
 				}
 			}
-			
 			result = new Result<WashOrderVM>(wovm, true, false, false, "保存成功");
 			return result.toJson();
 		} catch (Exception ex) {
