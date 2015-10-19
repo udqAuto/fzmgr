@@ -66,7 +66,6 @@ public class WashOrderController{
 		Organization o = organService.selectByPrimaryKey(orgId);
 		map.put("orgId", orgId);
 		map.put("orgPath", o.getPath() == null ? (orgId+"") : o.getPath());
-
 		String startTime = joQuery.getString("startTime");
 		String endTime = joQuery.getString("endTime");
 		String customerMobile = joQuery.getString("customerMobile");

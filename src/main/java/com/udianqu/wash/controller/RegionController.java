@@ -21,6 +21,7 @@ import com.udianqu.wash.core.ListResult;
 import com.udianqu.wash.core.Result;
 import com.udianqu.wash.model.Organization;
 import com.udianqu.wash.model.Region; 
+import com.udianqu.wash.model.WashOrder;
 import com.udianqu.wash.service.RegionService; 
 import com.udianqu.wash.viewmodel.OrganVM;
 import com.udianqu.wash.viewmodel.RegionVM;
@@ -39,8 +40,7 @@ public class RegionController {
 	
 	
 	@RequestMapping(value = "saveRegion.do", produces = "application/json;charset=UTF-8")
-	public @ResponseBody String saveRegion(
-			Region region,
+	public @ResponseBody String saveRegion(Region region,
 			HttpServletRequest request, HttpServletResponse response
 			){
 		try {
@@ -61,6 +61,12 @@ public class RegionController {
 					region.setPath(r.getPath()+"."+r.getId());
 				}else{
 					region.setPath(r.getId().toString());
+				}
+				if(r.getLevel() == 3){
+					region.setCityId(r.getPid());
+				}
+				if(r.getLevel() == 2){
+					region.setCityId(r.getId());
 				}
 				regionService.insert(region);
 			}
@@ -103,14 +109,22 @@ public class RegionController {
 	String getRegion4App( 
 			HttpServletRequest request, HttpServletResponse response
 			){
-		Integer qid = 0;  
-		List<RegionVM> ls = new ArrayList<RegionVM>();
-		List<RegionVM> list = new ArrayList<RegionVM>();
-		ls = regionService.getRegionList(qid); 
-		list = getNodes4App(ls,qid);
-		JSONArray  json = JSONArray.fromObject(list);
-		String resutl  = json.toString();
-		return resutl;
+		try{
+			Integer qid = 0;  
+			List<RegionVM> ls = new ArrayList<RegionVM>();
+			List<RegionVM> list = new ArrayList<RegionVM>();
+			ls = regionService.getRegionList(qid);
+			//ls = regionService.getCityRegionList(); 
+			list = getNodes4App(ls,qid);
+			JSONArray  json = JSONArray.fromObject(list);
+			String resutl  = json.toString();
+			return resutl;
+		}catch (Exception ex) {
+			Result<Region> result = new Result<Region>(null, false, false, false,
+					"调用后台方法出错");
+			return result.toJson();
+		}
+		
 	}
 	
 	@RequestMapping(value = "getRegionList.do", produces = "application/json;charset=UTF-8")
@@ -143,6 +157,7 @@ public class RegionController {
 				v.setId(o.getId());
 				v.setPath(o.getPath());
 				v.setPid(o.getPid()); 
+				v.setCityId(o.getCityId());
 				v.setLevel(o.getLevel());
 				v.setName(o.getName());
 				v.setText(o.getName()); 
@@ -171,6 +186,7 @@ public class RegionController {
 				RegionVM v = new RegionVM();
 				v.setId(o.getId());
 				v.setName(o.getName());
+				v.setCityId(o.getCityId());
 				List<RegionVM> l = getItemByParentId(o.getId());
 				if(l.size()>0){ 
 					v.setChildren(getNodes(l,o.getId())); 

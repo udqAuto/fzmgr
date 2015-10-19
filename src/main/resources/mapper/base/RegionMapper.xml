@@ -16,6 +16,8 @@
     <result column="address" property="address" jdbcType="VARCHAR" />
     <result column="shop_id" property="shopId" jdbcType="INTEGER" />
     <result column="sort" property="sort" jdbcType="INTEGER" />
+    <result column="city_id" property="cityId" jdbcType="INTEGER" />
+    <result column="is_city" property="isCity" jdbcType="BIT" />
   </resultMap>
     <resultMap id="BaseVMResultMap" type="com.udianqu.wash.viewmodel.RegionVM" >
     <!--
@@ -33,6 +35,8 @@
     <result column="shop_id" property="shopId" jdbcType="INTEGER" />
     <result column="shop_name" property="shopName" jdbcType="VARCHAR" />
     <result column="sort" property="sort" jdbcType="INTEGER" />
+    <result column="city_id" property="cityId" jdbcType="INTEGER" />
+    <result column="is_city" property="isCity" jdbcType="BIT" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <!--
@@ -168,11 +172,11 @@
     -->
     insert into t_region (id, name, pid, 
       level, path, is_estate, 
-      address, shop_id, sort
+      address, shop_id, sort,city_id
       )
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{pid,jdbcType=INTEGER}, 
       #{level,jdbcType=INTEGER}, #{path,jdbcType=VARCHAR}, #{isEstate,jdbcType=BIT}, 
-      #{address,jdbcType=VARCHAR}, #{shopId,jdbcType=INTEGER}, #{sort,jdbcType=INTEGER}
+      #{address,jdbcType=VARCHAR}, #{shopId,jdbcType=INTEGER}, #{sort,jdbcType=INTEGER},#{cityId,jdbcType=INTEGER}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.udianqu.wash.model.Region" >
@@ -366,9 +370,15 @@
   </update>
   <select id="getRegionList" resultMap="BaseVMResultMap" parameterType="java.lang.Integer" >
     select 
-    r.id, r.name, r.pid, r.level, r.path, r.is_estate, r.address, r.shop_id, r.sort,(select name from t_org where id = r.shop_id) as shop_name
+    r.id, r.name, r.pid, r.level, r.path, r.is_estate, r.address, r.shop_id, r.sort,r.city_id,(select name from t_org where id = r.shop_id) as shop_name
     from t_region r 
     where pid = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="getCityRegionList" resultMap="BaseVMResultMap" >
+    select 
+    r.id, r.name, r.pid, r.level, r.path, r.is_estate, r.address, r.shop_id, r.sort,(select name from t_org where id = r.shop_id) as shop_name
+    from t_region r 
+    where is_city = 1
   </select>
   <select id="selectOrgIdByRegionId" resultType="java.lang.Integer" parameterType="java.lang.Integer" >
     select 

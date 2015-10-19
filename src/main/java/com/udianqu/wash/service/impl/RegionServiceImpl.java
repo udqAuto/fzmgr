@@ -22,6 +22,10 @@ public class RegionServiceImpl implements RegionService {
 		// TODO Auto-generated method stub
 		return regionMapper.getRegionList(id);
 	}
+	public List<RegionVM> getCityRegionList() {
+		// TODO Auto-generated method stub
+		return regionMapper.getCityRegionList();
+	}
 	@Override
 	public Region selectByPrimaryKey(Integer id) {
 		// TODO Auto-generated method stub

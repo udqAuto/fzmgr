@@ -10,6 +10,7 @@ import com.udianqu.wash.viewmodel.RegionVM;
 public interface RegionService {
 
 	List<RegionVM> getRegionList(Integer qid);
+	List<RegionVM> getCityRegionList();
 
 	Region selectByPrimaryKey(Integer id);
 
