@@ -38,8 +38,9 @@ public class AutoController {
 			HttpServletRequest request) {
         try{
         	JSONObject jObj = JSONObject.fromObject(autoInfo);
-			Auto auto = (Auto) JSONObject.toBean(jObj,Auto.class);
+			AutoVM auto = (AutoVM) JSONObject.toBean(jObj,AutoVM.class);
 			String autoPN = auto.getPn(); 
+			String userName = auto.getUserName(); 
         	Map<String, Object> map = new HashMap<String, Object>();   
     		page = page == 0 ? 1 : page;
     		map.put("pageStart", (page - 1) * rows);
@@ -50,6 +51,9 @@ public class AutoController {
 			map.put("regionPath", r.getPath() == null ? (regionId+"") : r.getPath());
     		if(!"".equals(autoPN)){
     			map.put("pn", autoPN);
+    		}
+    		if(!"".equals(userName)){
+    			map.put("userName", userName);
     		}
     		ListResult<AutoVM> rs = autoService.loadAutolist(map);
     		

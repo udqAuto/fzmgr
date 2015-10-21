@@ -7,7 +7,8 @@ var m_index_iconStyles = {};
 
 $(function() {  
 	m_index_user = getCurrentUser();
-	m_index_orgId = m_index_user.orgId;
+	//m_index_orgId = m_index_user.orgId;
+	m_index_orgId = 1;
 	$('#treeMenu').tree({
 		checkbox : false, 
 		onClick : onTreeMenuDblClick

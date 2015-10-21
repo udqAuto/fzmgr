@@ -64,11 +64,16 @@ public class WashOrderController{
 		int orgId = joQuery.getInt("orgId");
 		int orderType = joQuery.getInt("orderType");
 		Organization o = organService.selectByPrimaryKey(orgId);
-		map.put("orgId", orgId);
+		if(o.getLevel()==3){
+			map.put("orgId", orgId);
+		}
 		map.put("orgPath", o.getPath() == null ? (orgId+"") : o.getPath());
 		String startTime = joQuery.getString("startTime");
 		String endTime = joQuery.getString("endTime");
 		String customerMobile = joQuery.getString("customerMobile");
+		String userName = joQuery.getString("userName");
+		String autoPN = joQuery.getString("pn");
+		String washTypeName = joQuery.getString("washtype");
 		//int orderState = joQuery.getInt("orderState");
 		//int cancelType = joQuery.getInt("cancelType");
 
@@ -83,6 +88,15 @@ public class WashOrderController{
 		}
 		if (!"".equals(customerMobile)) {
 			map.put("customerMobile", customerMobile);
+		}
+		if (!"".equals(userName)) {
+			map.put("userName", userName);
+		}
+		if (!"".equals(autoPN)) {
+			map.put("autoPN", autoPN);
+		}
+		if (!"".equals(washTypeName)) {
+			map.put("washTypeName", washTypeName);
 		}
 		List<Integer> ids = new ArrayList<Integer>();
 		if (orderType == 1) {//新订单
@@ -125,7 +139,7 @@ public class WashOrderController{
 		map.put("pageSize", rows);
 		int orgId = joQuery.getInt("orgId");
 		Organization o = organService.selectByPrimaryKey(orgId);
-		map.put("orgId", orgId);
+		//map.put("orgId", orgId);
 		map.put("orgPath", o.getPath() == null ? (orgId+"") : o.getPath());
 		
 		int autoId = joQuery.getInt("autoId");

@@ -609,6 +609,7 @@
 	select  count(*)
 	from t_wash_order o 
 	     left join t_user u on o.user_id = u.id and u.user_type = 8
+	     left join t_auto a on o.auto_id = a.id
 	     left join t_org  org on o.org_id = org.id
 	where org.path like CONCAT(#{orgPath,jdbcType=VARCHAR},'%' )
 		<if test="stateIds != null ">
@@ -617,17 +618,26 @@
 					#{item}
 			</foreach>
 		</if>
+		<if test="orgId != null ">
+			and o.org_id = #{orgId,jdbcType=INTEGER}
+		</if>
+		<if test="userName != null ">
+			and u.name like CONCAT('%',#{userName,jdbcType=VARCHAR},'%')
+		</if>
 		<if test="customerMobile != null ">
-			and u.mobile =#{customerMobile,jdbcType=VARCHAR}
+			and u.mobile like CONCAT('%',#{customerMobile,jdbcType=VARCHAR},'%')
 		</if>
 		<if test="autoId != null ">
-			and o.auto_id =#{autoId,jdbcType=INTEGER}
+			and o.auto_id =#{autoId,jdbcType=INTEGER} and o.state != 0
+		</if>
+		<if test="autoPN != null ">
+			and a.pn like CONCAT('%',#{autoPN,jdbcType=VARCHAR},'%')
 		</if>
 		<if test="startTime != null ">
-			and o.order_time  &gt;=#{startTime,jdbcType=TIMESTAMP}
+			and o.start_time  &gt;=#{startTime,jdbcType=TIMESTAMP}
 		</if>
 		<if test="endTime != null">
-			and o.order_time  &lt;=#{endTime,jdbcType=TIMESTAMP}
+			and o.end_time  &lt;=#{endTime,jdbcType=TIMESTAMP}
 		</if>
   </select>
   <select id="loadOrderObjById"   parameterType="java.lang.Integer"   resultType="com.udianqu.wash.viewmodel.WashOrderVM"   >
@@ -781,8 +791,10 @@
 			o.state_note        as stateNote,
 			o.order_no 			as orderNo, 
 			u.name 				as customerName, 
+			u.mobile 			as customerMobile, 
 			o.user_note 		as userNote, 
 			a.pn 				as autoPN,
+			(select group_concat(wtp.name) from t_wash_type wtp, t_wash_order_item wi where wi.order_id = o.id and wtp.id = wi.wash_type_id) as washTypeName,
 			o.order_time 		as orderTime,
 			o.bill_time 		as billTime, 
 			o.accept_time 		as acceptTime,
@@ -794,6 +806,8 @@
 		left join t_auto a on o.auto_id = a.id
 		left join t_org  org on o.org_id = org.id
 		left join t_pay p on p.order_id = o.id
+		left join t_wash_order_item w on o.id = w.order_id 
+		left join t_wash_type wt on w.wash_type_id = wt.id
 	where org.path like CONCAT(#{orgPath,jdbcType=VARCHAR},'%' )
 		<if test="stateIds != null ">
 			and o.state in
@@ -801,19 +815,31 @@
 					#{item}
 			</foreach>
 		</if>
+		<if test="orgId != null ">
+			and o.org_id = #{orgId,jdbcType=INTEGER}
+		</if>
+		<if test="userName != null ">
+			and u.name like CONCAT('%',#{userName,jdbcType=VARCHAR},'%')
+		</if>
 		<if test="customerMobile != null ">
-			and u.mobile =#{customerMobile,jdbcType=VARCHAR}
+			and u.mobile like CONCAT('%',#{customerMobile,jdbcType=VARCHAR},'%')
 		</if>
 		<if test="autoId != null ">
-			and o.auto_id =#{autoId,jdbcType=INTEGER}
+			and o.auto_id =#{autoId,jdbcType=INTEGER} and o.state != 0
+		</if>
+		<if test="autoPN != null ">
+			and a.pn like CONCAT('%',#{autoPN,jdbcType=VARCHAR},'%')
+		</if>
+		<if test="washTypeName != null ">
+			and wt.name like CONCAT('%',#{washTypeName,jdbcType=VARCHAR},'%')
 		</if>
 		<if test="startTime != null ">
-			and o.order_time  &gt;=#{startTime,jdbcType=TIMESTAMP}
+			and o.start_time  &gt;=#{startTime,jdbcType=TIMESTAMP}
 		</if>
 		<if test="endTime != null">
-			and o.order_time  &lt;=#{endTime,jdbcType=TIMESTAMP}
+			and o.end_time  &lt;=#{endTime,jdbcType=TIMESTAMP}
 		</if>
-		 order by o.bill_time desc
+		group by o.order_no order by o.bill_time desc
   		<if test="pageStart !=null">
   		limit #{pageStart,jdbcType=INTEGER}, #{pageSize,jdbcType=INTEGER}
   		</if>

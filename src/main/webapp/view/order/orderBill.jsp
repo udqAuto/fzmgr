@@ -19,6 +19,7 @@
   <body>
    <div id="div_orderInfo" style="text-align:left;overflow:hidden;">
 		 <p id="tb_operation" style="padding:2px;border-bottom:1px solid black;">
+		    <a id="btnSave" doc="systemUser"  href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-udq-save" plain="true">保存</a> 
 			<a id="btnCancelSave"  href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-udq-close" plain="true">关闭</a> 
 		 </p>
 		 <p><h2>订单基本信息</h2></p>
@@ -34,7 +35,7 @@
 		 			<label>订单状态：</label>
 		 		</td>
 		 		<td style="width:100px">
-					<label id="txtOrderState"></label>
+					<input id="txtOrderState" readonly="readonly" class="easyui-combobox" data-options="valueField:'id',textField:'name',data:[{id: 1,name: '已下单'},{id: 2,name: '已接收'},{id: 4,name: '已完成'},{id: 5,name: '已评价'}]"/>
 		 		</td>
 		 		<td>
 		 			<label>洗车类型：</label>
@@ -54,20 +55,16 @@
 		 	<tr>
 		 		<td><label>所属小区：</label></td>
 		 		<td><label id="txtCustomerRegion"></label></td>
-		 		<td><label>订单时间：</label></td>
+		 		<td><label>下单时间：</label></td>
 		 		<td><label id="txtBillTime"></label></td>
-		 		<td><label>预约时间：</label></td>
-		 		<td><label id="txtOrderTime"></label></td> 
+		 		<td><label>固定价格：</label></td>
+		 		<td><label id="txtOrderPrice"></label></td> 
 		 	</tr>
 		 	<tr>
-		 		<td><label>固定价格：</label></td>
-		 		<td><label id="txtOrderPrice"></label></td>
-		 		<td><label>　优惠券：</label></td>
+		 		<td><label>优惠券：</label></td>
 		 		<td><label id="txtIsCoupon"></label></td>
 		 		<td><label>优惠金额：</label></td>
 		 		<td><label id="txtCouponAmount"></label></td>
-		 	</tr>
-		 	<tr>
 		 		<td><label>结算价格：</label></td>
 		 		<td colspan="4"><label id="txtOrderAmount"></label></td>
 		 	</tr>

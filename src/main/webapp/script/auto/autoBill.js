@@ -36,7 +36,7 @@ var AutoManage = {
 					title : '订单号',
 					field : 'orderNo',
 					align : 'center',
-					width : 100
+					width : 130
 				}, {
 					title : '订单状态',
 					field : 'stateNote',
@@ -48,7 +48,7 @@ var AutoManage = {
 					align : 'center',
 					width : 100
 				}, {
-					title : '金额',
+					title : '结算金额',
 					field : 'finalAmount',
 					align : 'center',
 					width : 100

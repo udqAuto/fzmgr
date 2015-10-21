@@ -3,8 +3,10 @@ var m_orderType;
 var m_zType;
 var m_order_orgId;
 var m_order_query = {};
+var m_userType;
 $(function() {
-	getCurrentUser();
+	var user = getCurrentUser();
+	m_userType = user.userType;
 	var obj = getUrlArgs();
 	m_orderType =  obj.orderState;
 	m_order_orgId = obj.orgId;
@@ -17,10 +19,17 @@ $(function() {
 	}else if(m_orderType == "5"){
 		m_zType = 5;
 	}
+	if(m_userType == 1){
+		$("#orderTb a[doc='autoUser']").attr("style","display:none");
+	} 
+	else{
+		$("#orderTb a[doc='systemUser']").attr("style","display:none");
+	}
 	OrderManage.initControl();
 	OrderManage.packageQuery();
 	OrderManage.loadOrderList();
 	$("#showOrder").bind("click", OrderManage.showOrder);
+	$("#editOrder").bind("click", OrderManage.editOrder);
 });
 var order_obj = {};
 var OrderManage = {
@@ -41,7 +50,10 @@ var OrderManage = {
 //			}else{
 //				m_order_query.cancelType = $("#txtCancelType").combobox("getValue");
 //			}
+			m_order_query.userName = $("#sch_userName").val();
+			m_order_query.pn = $("#sch_autoPN").val();
 			m_order_query.customerMobile = $("#sch_user").val();
+			m_order_query.washtype = $("#sch_washtype").val();
 			m_order_query.startTime = $("#sch_startTime").datebox("getValue");
 			m_order_query.endTime = $("#sch_endTime").datebox("getValue");
 		}, 
@@ -80,6 +92,11 @@ var OrderManage = {
 					field : 'customerName',
 					align : 'center',
 					width : 50,
+				},{
+					title : '车主电话',
+					field : 'customerMobile',
+					align : 'center',
+					width : 100
 				}, {
 					title : '订单备注',
 					field : 'userNote',
@@ -91,23 +108,18 @@ var OrderManage = {
 					align : 'center',
 					width : 80
 				},{ 
-					title : '预约时间',
-					field : 'orderTime',
+					title : '洗车类型',
+					field : 'washTypeName',
 					align : 'center',
 					width : 100
 				},{ 
-					title : '订单时间',
+					title : '下单时间',
 					field : 'billTime',
 					align : 'center',
 					width : 100
 				},{ 
-					title : '接收时间',
+					title : '接单时间',
 					field : 'acceptTime',
-					align : 'center',
-					width : 100
-				},{ 
-					title : '开始洗车时间',
-					field : 'beginTime',
 					align : 'center',
 					width : 100
 				},{ 
@@ -127,6 +139,9 @@ var OrderManage = {
 			//$("#txtOrderState").combobox("setValue",0);
 			//$("#txtCancelType").combobox("setValue",0);
 			$("#sch_user").val("");
+			$("#sch_userName").val("");
+			$("#sch_washtype").val("");
+			$("#sch_autoPN").val("");
 			$("#sch_startTime").datebox("setValue","");
 			$("#sch_endTime").combotree("setValue",""); 
 		},
@@ -147,7 +162,11 @@ var OrderManage = {
 						.dialog({
 							id : 'dlgShowOrder',
 							title : '查看订单信息',
-							content : "<iframe scrolling='yes' frameborder='0' src='view/order/orderBill.jsp?orderId="+orderId+"' style='width:710px;height:450px;overflow:hidden'/>",
+							content : "<iframe scrolling='yes' frameborder='0' src='view/order/orderBill.jsp?orderId="
+								+orderId
+								+"&userType="
+								+m_userType
+								+"' style='width:710px;height:450px;overflow:hidden'/>",
 							lock : true,
 							initFn : function() {
 							}

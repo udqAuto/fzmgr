@@ -1,10 +1,16 @@
 
 var m_orderId ;
+var m_userType;
 $(function() { 
 	getCurrentUser();
 	var obj = getUrlArgs();
+	m_userType = obj.userType;
 	m_orderId = obj.orderId;
+	if(m_userType != 1){
+		$("#tb_operation a[doc='systemUser']").attr("style","display:none");
+	}
 	OrderManage.loadOrderInfo();
+	$("#btnSave").bind("click", OrderManage.closeWindow);
 	$("#btnCancelSave").bind("click", OrderManage.closeWindow);
 }); 
 var OrderManage = { 
@@ -30,23 +36,7 @@ var OrderManage = {
 		},
 		fillOrderBill:function(data){
 			 $("#txtOrderNo").text(data.orderNo);
-			 var orderState ="";
-			 if(data.state==1){
-				 orderState = "客户下单，门店未接受";
-			 }else if(data.state==2){
-				 orderState = "门店接受，未开始洗车";
-			 }else if(data.state==3){
-				 orderState = "正在洗车";
-			 }else if(data.state==4){
-				 orderState = "洗车完毕";
-			 }else if(data.state==5){
-				 orderState = "已评价";
-			 }else if(data.state==10){
-				 orderState = "门店取消订单";
-			 }else if(data.state==11){
-				 orderState = "客户取消订单";
-			 }
-			 $("#txtOrderState").text(orderState);
+			 $("#txtOrderState").combobox('setValue', data.state);
 			 $("#txtOrderType").text(data.washTypeName);
 			 $("#txtCustomerName").text(data.customerName);
 			 $("#txtCustomerMobile").text(data.customerMobile);

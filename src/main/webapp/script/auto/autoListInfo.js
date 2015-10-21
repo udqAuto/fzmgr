@@ -7,17 +7,17 @@ $(function() {
 	var obj = getUrlArgs();
 	m_order_orgId = obj.orgId;
 	m_auto_query.defaultRegionId = 1;
-	AutoManage.initRegion();
+	//AutoManage.initRegion();
 	AutoManage.loadAutoList();
 	$("#showAuto").bind("click", AutoManage.showAuto);
 });
 
 var AutoManage = {
-		initRegion:function(){
-			$("#txtcmbRegion").combotree({
-				url:'region/getRegionList.do?parentid=0',
-			});
-		},
+//		initRegion:function(){
+//			$("#txtcmbRegion").combotree({
+//				url:'region/getRegionList.do?parentid=0',
+//			});
+//		},
 		packageObject : function(row) {
 			m_auto_obj.id = row.id;
 			m_auto_obj.userId = row.userId;
@@ -100,17 +100,19 @@ var AutoManage = {
 			});
 		},
 		doSearch:function(){
-			if($("#txtcmbRegion").combotree("getValue") ==""|| $("#txtcmbRegion").combotree("getValue")==undefined){
-				m_auto_query.defaultRegionId = 1;
-			}else{
-				m_auto_query.defaultRegionId = $("#txtcmbRegion").combotree("getValue");
-			}
+//			if($("#txtcmbRegion").combotree("getValue") ==""|| $("#txtcmbRegion").combotree("getValue")==undefined){
+//				m_auto_query.defaultRegionId = 1;
+//			}else{
+//				m_auto_query.defaultRegionId = $("#txtcmbRegion").combotree("getValue");
+//			}
 			m_auto_query.pn = $("#sch_autoPN").val();
+			m_auto_query.userName = $("#sch_user").val();
 			$('#autoListGrid').datagrid("reload",{'autoInfo' : JSON.stringify(m_auto_query)});
 		},
 		doClean:function(){
-			$("#txtcmbRegion").combotree("setValue","");
+//			$("#txtcmbRegion").combotree("setValue","");
 			$("#sch_autoPN").val("");
+			$("#sch_user").val("");
 		},
 		showAuto : function(){
 			try {
@@ -129,7 +131,7 @@ var AutoManage = {
 						.dialog({
 							id : 'dlgShowAuto',
 							title : '查看车辆信息',
-							content : "<iframe scrolling='yes' frameborder='0' src='view/auto/autoBill.jsp' style='width:550px;height:450px;overflow:hidden'/>",
+							content : "<iframe scrolling='yes' frameborder='0' src='view/auto/autoBill.jsp' style='width:650px;height:450px;overflow:hidden'/>",
 							lock : true,
 							initFn : function() {
 							}

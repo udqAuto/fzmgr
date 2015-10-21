@@ -373,8 +373,11 @@
   		<if test="regionPath != null">
   			and r.path like CONCAT(#{regionPath,jdbcType=VARCHAR},'%' )
   		</if>
+  		<if test="userName != null">
+  			and u.name like CONCAT('%',#{userName,jdbcType=VARCHAR},'%') 
+  		</if>
   		<if test="pn != null">
-  			and a.pn = #{pn,jdbcType=VARCHAR} 
+  			and a.pn like CONCAT('%',#{pn,jdbcType=VARCHAR},'%') 
   		</if> 
   		<if test="userId!=null">
   			and a.user_id = #{userId,jdbcType=INTEGER}
@@ -394,8 +397,11 @@
   		<if test="regionPath != null">
   			and r.path like CONCAT(#{regionPath,jdbcType=VARCHAR},'%' )
   		</if>
+  		<if test="userName != null">
+  			and u.name like CONCAT('%',#{userName,jdbcType=VARCHAR},'%') 
+  		</if>
   		<if test="pn != null">
-  			and a.pn = #{pn,jdbcType=VARCHAR} 
+  			and a.pn like CONCAT('%',#{pn,jdbcType=VARCHAR},'%') 
   		</if>
   		<if test="userId != null">
   			and a.user_id = #{userId,jdbcType=INTEGER} 

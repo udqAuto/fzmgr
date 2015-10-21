@@ -14,8 +14,10 @@
 	<div id="orderTb">
 		<div>
 			<p>
-				<a id="showOrder" name="showOrder" href="javascript:void(0);"
+				<a id="showOrder" name="showOrder" doc="autoUser" href="javascript:void(0);"
 					class="easyui-linkbutton" iconcls="icon-udq-show" plain="true">查看</a> 
+				<a id="editOrder" name="editOrder" doc="systemUser" href="javascript:void(0);"
+					class="easyui-linkbutton" iconcls="icon-udq-edit" plain="true">编辑</a> 
 					
 				<span style="padding-left:25px">
 					<label>组织机构:</label><input id="txtcmbOrgan" class="easyui-combotree" style="width:150px" />
@@ -24,11 +26,20 @@
 					<label>订单状态：</label><input id="txtOrderState" type="text" class="easyui-combobox" style="width:134px" data-options="editable:false,valueField:'id',textField:'name',data:[{id: 0,name: '全部'},{id: 1,name: '未接受'},{id: 2,name: '已接受'},{id: 3,name: '进行中'}]" />
 				</span> -->
 				<span>
+				     <label>车主:</label><input id="sch_userName" class="easyui-validatebox" style="width:120px" data-options="editable:false" />
+				</span>
+				<span>
 				     <label>车主电话:</label><input id="sch_user" class="easyui-validatebox" style="width:120px" data-options="editable:false" />
 				</span>
+				<span>
+				     <label>车牌:</label><input id="sch_autoPN" class="easyui-validatebox" style="width:120px" data-options="editable:false" />
+				</span>
+				<span>
+				     <label>洗车类型:</label><input id="sch_washtype" class="easyui-validatebox" style="width:120px" data-options="editable:false" />
+				</span>
 				<span style="padding-left:25px">
-					<label>预约开始时间:</label><input id="sch_startTime" class="easyui-datebox" style="width:120px" data-options="editable:false" />
-            		<label>预约结束时间:</label><input id="sch_endTime" class="easyui-datebox" style="width:120px"  data-options="editable:false" />
+					<label>开始时间:</label><input id="sch_startTime" class="easyui-datebox" style="width:120px" data-options="editable:false" />
+            		<label>结束时间:</label><input id="sch_endTime" class="easyui-datebox" style="width:120px"  data-options="editable:false" />
             	</span>
             	<a id="btnSearch" href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-search" plain="true" onclick="OrderManage.doSearch();">查询</a>
             	<a id="btnclearUp" href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-udq-clear" plain="true" onclick="OrderManage.doClean();">清空</a>
