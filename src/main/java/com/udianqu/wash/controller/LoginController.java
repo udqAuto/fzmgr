@@ -182,7 +182,7 @@ public class LoginController {
 			Map<String,Object> m = GeneralUtil.getCurrentTime();
 			Date time = (Date) m.get("currentTime");
 			user.setRegisterTime(time);
-			String psd = encryption("123456");
+			String psd = encryption("111111");
 			user.setPsd(psd);
 			User user2 = userService.insert(user);
 			Result<User> res = new Result<User>(user2, true, false, false,
