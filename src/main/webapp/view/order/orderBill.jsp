@@ -72,6 +72,10 @@
 		 		<td><label>订单备注：</label></td>
 		 		<td colspan="4"><label id="txtOrderNotes"></label></td>
 		 	</tr> 
+		 	<tr>
+		 		<td><label>车辆位置：</label></td>
+		 		<td colspan="4"><label id="txtAutoPostion"></label></td>
+		 	</tr> 
 		 </table>   
 		 <p><h2>订单处理信息</h2></p>
 		 <table style="font-size:12px;font-family:微软雅黑;width:100%;text-align:left;">
