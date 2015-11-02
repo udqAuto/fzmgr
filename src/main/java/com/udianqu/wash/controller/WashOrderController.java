@@ -108,6 +108,8 @@ public class WashOrderController{
 			ids.add(4);
 		}else if(orderType == 5){//已评价
 			ids.add(5);
+		}else if(orderType == 11){//已取消
+			ids.add(11);
 		}
 		map.put("stateIds", ids);
 
@@ -147,6 +149,26 @@ public class WashOrderController{
 		
 		ListResult<WashOrderVM> rs = orderService.loadOrderlist(map); 
 		return rs.toJson();
+	}
+	
+	@RequestMapping(value = "cancelOrder.do", produces = "application/json;charset=UTF-8")
+	public @ResponseBody
+	String cancelOrder(
+			@RequestParam(value = "Id", required = false) Integer id,
+			HttpServletRequest request) throws Exception {
+		Result<WashOrder> result = new Result<WashOrder>();
+		try{
+			WashOrder order = new WashOrder();
+			order.setId(id);
+			order.setState(11);
+			order.setStateNote("订单已取消");
+			orderService.cancelOrderById(order);
+			result = new Result<WashOrder>(null,true,"成功取消订单！");
+			return result.toJson();
+		}catch(Exception ex){
+			result = new Result<WashOrder>(null,false,"取消订单失败！");
+			return result.toJson();
+		}
 	}
 	@RequestMapping(value = "getOrderObjById.do", produces = "application/json;charset=UTF-8")
 	public @ResponseBody

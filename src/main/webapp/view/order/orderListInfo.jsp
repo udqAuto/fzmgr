@@ -15,9 +15,9 @@
 		<div>
 			<p>
 				<a id="showOrder" name="showOrder" doc="autoUser" href="javascript:void(0);"
-					class="easyui-linkbutton" iconcls="icon-udq-show" plain="true">查看</a> 
-				<a id="editOrder" name="editOrder" doc="systemUser" href="javascript:void(0);"
-					class="easyui-linkbutton" iconcls="icon-udq-edit" plain="true">编辑</a> 
+					class="easyui-linkbutton" iconcls="icon-udq-show" plain="true" style="display:none">查看</a> 
+				<a id="cancelOrder" name="cancelOrder" doc="newOrder" href="javascript:void(0);"
+					class="easyui-linkbutton" iconcls="icon-udq-delete" plain="true" style="display:none" >取消订单</a> 
 					
 				<span style="padding-left:25px">
 					<label>组织机构:</label><input id="txtcmbOrgan" class="easyui-combotree" style="width:150px" />

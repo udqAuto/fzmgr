@@ -337,4 +337,9 @@ public class WashOrderService {
         String photoUrl = rootPath+"washPhoto/"+date+"/"+orderNo+"/"+orderNo+"_"+No+".jpg";
 		boolean success = (new File(photoUrl)).delete();
 	}
+
+	public void cancelOrderById(WashOrder order) {
+		// TODO Auto-generated method stub
+		washOrderMapper.updateByPrimaryKeySelective(order);
+	}
 }
