@@ -41,6 +41,7 @@ var OrderManage = {
 			 $("#txtCustomerName").text(data.customerName);
 			 $("#txtCustomerMobile").text(data.customerMobile);
 			 $("#txtCustomerPN").text(data.autoPN);
+			 $("#txtAutoPostion").text(data.autoPosition);
 			 $("#txtCustomerRegion").text(data.regionName);
 			 $("#txtBillTime").text(data.billTime);
 			 $("#txtOrderTime").text(data.orderTime);

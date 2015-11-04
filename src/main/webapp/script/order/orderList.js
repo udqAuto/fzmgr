@@ -107,6 +107,11 @@ var OrderManage = {
 					field : 'autoPN',
 					align : 'center',
 					width : 80
+				}, {
+					title : '车辆位置',
+					field : 'autoPosition',
+					align : 'center',
+					width : 100
 				},{ 
 					title : '洗车类型',
 					field : 'washTypeName',
