@@ -78,8 +78,14 @@ function onTreeMenuDblClick(row) {
 	case "洗车类型管理":
 		src = "view/washType/washTypeListInfo.jsp";
 		break; 
-	case "用户":
-		src = "view/test.jsp";
+	//case "用户":
+	//	src = "view/test.jsp";
+	//	break; 
+	case "余额管理": 
+		src = "view/balance/balanceList.jsp";
+		break; 
+	case "收益统计":
+		src = "view/report/reportList.jsp";
 		break;
 	}
 	$("#ifrContent").attr("src", src); 
