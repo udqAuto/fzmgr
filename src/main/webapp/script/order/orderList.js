@@ -12,24 +12,27 @@ $(function() {
 	m_order_orgId = obj.orgId;
 	if(m_orderType == "1"){
 		m_zType = 1;
+		$("#orderTb a[doc='newOrder']").attr("style","display:inline");
 	}else if(m_orderType == "2,3"){
 		m_zType = 2; 
 	}else if(m_orderType == "4"){
 		m_zType = 4; 
 	}else if(m_orderType == "5"){
 		m_zType = 5;
+	}else if(m_orderType == "11"){
+		m_zType = 11;
 	}
-	if(m_userType == 1){
-		$("#orderTb a[doc='autoUser']").attr("style","display:none");
-	} 
-	else{
-		$("#orderTb a[doc='systemUser']").attr("style","display:none");
-	}
+//	if(m_userType == 1){
+//		$("#orderTb a[doc='autoUser']").attr("style","display:none");
+//	} 
+//	else{
+//		$("#orderTb a[doc='systemUser']").attr("style","display:none");
+//	}
 	OrderManage.initControl();
 	OrderManage.packageQuery();
 	OrderManage.loadOrderList();
 	$("#showOrder").bind("click", OrderManage.showOrder);
-	$("#editOrder").bind("click", OrderManage.editOrder);
+	$("#cancelOrder").bind("click", OrderManage.cancelOrder);
 });
 var order_obj = {};
 var OrderManage = {
@@ -78,8 +81,8 @@ var OrderManage = {
 					field : 'id',
 					hidden : true
 				}, { 
-					title : '状态',
-					field : 'state',
+					title : '评分',
+					field : 'customerGrade',
 					align : 'center',
 					width : 40
 				},{
@@ -149,6 +152,46 @@ var OrderManage = {
 			$("#sch_autoPN").val("");
 			$("#sch_startTime").datebox("setValue","");
 			$("#sch_endTime").combotree("setValue",""); 
+		},
+		cancelOrder : function(){
+			try{
+				var dataRows = $('#orderListGrid').datagrid('getRows');
+				if (dataRows.length == 0) {
+					$.messager.alert('操作提示', "没有可操作数据", "warning");
+					return;
+				}
+				var target = $("#orderListGrid").datagrid("getChecked");
+				if (!target || target.length == 0) {
+					$.messager.alert('操作提示', "请选择操作项!", "warning");
+					return;
+				} 
+				var orderId = target[0].id;
+				var name = target[0].customerName;
+				if(target != null){
+					$.messager.confirm("取消确认", "确认取消用户 ["+name+"]的订单？", function(r) {
+						if (r) {
+							OrderManage.cancelOrderAction(orderId);
+						}
+					});
+				}
+			}catch (ex){
+				$.messager.alert("操作提示", ex.message, "error");
+			}
+		},
+		cancelOrderAction : function(orderId){
+			$.ajax({
+	    		url :  "order/cancelOrder.do?Id="+orderId,
+	    		type : "POST",
+	    		dataType : "json",
+	    		async : false,
+	    		success : function(req) {
+	    			if (req.isSuccess) {
+	    				$('#orderListGrid').datagrid("reload");
+	    			} else {
+	    				$.messager.alert('取消失败ʾ', req.msg, "warning");
+	    			}
+	    		}
+	    	});
 		},
 		showOrder : function(){
 			try {

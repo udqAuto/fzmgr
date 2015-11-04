@@ -126,8 +126,8 @@ var UserManage = {
 				align : 'center',
 				width : 100
 			}, {
-				title : '邮箱',
-				field : 'email',
+				title : '余额',
+				field : 'balance',
 				align : 'center',
 				width : 100
 			}] ]

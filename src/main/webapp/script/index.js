@@ -63,6 +63,9 @@ function onTreeMenuDblClick(row) {
 	case "已评价订单":
 		src = "view/order/orderListInfo.jsp?orderState=5&orgId="+m_index_orgId;
 		break;
+	case "已取消订单":
+		src = "view/order/orderListInfo.jsp?orderState=11&orgId="+m_index_orgId;
+		break;
 	case "车辆管理":
 		src = "view/auto/autoListInfo.jsp?orgId="+m_index_orgId;
 		break;

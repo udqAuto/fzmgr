@@ -224,7 +224,15 @@ public class WashOrderService {
 					//消息推送
 					pushMap.put("customerId", order.getUserId().toString());
 					pushMap.put("MESSAGE", "您好，您的"+order.getAutoPN()+"订单已被接收！");
-					NotificationUtil.SendPush(pushMap,Constants.PUSH_TYPE_CUSTOMER);
+					try {
+						NotificationUtil.SendPush(pushMap,Constants.PUSH_TYPE_CUSTOMER);
+					} catch (APIConnectionException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (APIRequestException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				}else{
 					result = new Result<WashOrder>(null, false, "此订单已被接收");
 					return result;
@@ -241,7 +249,15 @@ public class WashOrderService {
 				//消息推送
 				pushMap.put("customerId", order.getUserId().toString());
 				pushMap.put("MESSAGE", "您好，您的"+order.getAutoPN()+"洗车完成！");
-				NotificationUtil.SendPush(pushMap,Constants.PUSH_TYPE_CUSTOMER);
+				try {
+					NotificationUtil.SendPush(pushMap,Constants.PUSH_TYPE_CUSTOMER);
+				} catch (APIConnectionException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (APIRequestException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 			if(state == 5){//评价
 				map.put("gradeUser", order.getGradeUser());
@@ -254,7 +270,15 @@ public class WashOrderService {
 				//消息推送
 				pushMap.put("customerId", order.getUserId().toString());
 				pushMap.put("MESSAGE", "您好，您的"+order.getAutoPN()+"订单已取消！");
-				NotificationUtil.SendPush(pushMap,Constants.PUSH_TYPE_CUSTOMER);
+				try {
+					NotificationUtil.SendPush(pushMap,Constants.PUSH_TYPE_CUSTOMER);
+				} catch (APIConnectionException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (APIRequestException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 			washOrderMapper.updateByOrderNo(map);
 			result = new Result<WashOrder>(null, true, "操作成功");
@@ -312,5 +336,10 @@ public class WashOrderService {
         String rootPath = path.substring(0,path.lastIndexOf("WEB-INF"));
         String photoUrl = rootPath+"washPhoto/"+date+"/"+orderNo+"/"+orderNo+"_"+No+".jpg";
 		boolean success = (new File(photoUrl)).delete();
+	}
+
+	public void cancelOrderById(WashOrder order) {
+		// TODO Auto-generated method stub
+		washOrderMapper.updateByPrimaryKeySelective(order);
 	}
 }

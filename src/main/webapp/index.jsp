@@ -54,7 +54,7 @@
 							<span>已评价订单</span>
 						</li>
 						<li>
-							<span>评价管理</span>
+							<span>已取消订单</span>
 						</li> 
 					</ul> 
 			</li>
