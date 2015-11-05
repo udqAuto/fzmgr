@@ -21,6 +21,8 @@ $(function() {
 		$("#txtWashCount").val(score.washCount);
 		$("#txtTotalAmount").val(score.totalAmount);
 		$("#txtUserBalance").val(score.balance);
+		$("#txtRegisterTime").val(score.registerTime);
+		$("#txtNote").val(score.note);
 		$("#div_userInfo p[name='p_total']").hide();
 //		var pho = document.getElementById("txtUserPhoto");
 //		pho.src = score.photoUrl;
@@ -33,15 +35,18 @@ $(function() {
 			$("#txtUserIdcard").attr("readonly","readonly");
 			$("#txtUserMobile").attr("readonly","readonly");
 			$("#txtUserEmail").attr("readonly","readonly");
+			$("#txtRegisterTime").attr("readonly","readonly");
 			$("#userAutoInfo").removeClass("displaynone");
 			$("#div_userInfo").attr("style","width:45%;float:left;");
-			$("#btnSaveUserInfo").attr("style","display:none");
+			//$("#btnSaveUserInfo").attr("style","display:none");
 			$("#div_userInfo p[name='p_img']").hide();
 			$("#div_userInfo p[name='p_upload']").hide();
+			$("#div_userInfo p[name='p_info']").hide();
 			$("#div_userInfo p[name='p_total']").show();
 			UserManage.loadAutoByUserId(m_userId);
 		}else{
 			$("#txtUserType").combobox('setValue', score.userType);
+			$("#div_userInfo p[name='p_time']").hide();
 		}
 	}else{
 		$("#div_userInfo p[name='p_pwd']").hide();//不需要密码
@@ -131,23 +136,27 @@ var UserManage = {
 			    u_obj.sex = $("#txtUserSex").combobox("getValue");
 		    }
 			
-			if ($("#txtUserOrgName").combotree("getValue") == ""
-				|| $("#txtUserOrgName").combotree("getValue") == undefined) {
-				$.messager.alert("操作提示", "机构不能为空！", "error");
-				return;
-		    } else {
-			    u_obj.orgId = $("#txtUserOrgName").combotree("getValue");
-		    }
+			if(m_userType != 8){
+				if ($("#txtUserOrgName").combotree("getValue") == ""
+					|| $("#txtUserOrgName").combotree("getValue") == undefined) {
+					$.messager.alert("操作提示", "机构不能为空！", "error");
+					return;
+			    } else {
+				    u_obj.orgId = $("#txtUserOrgName").combotree("getValue");
+			    }
+				if ($("#txtUserType").combobox("getValue") == ""
+					|| $("#txtUserType").combobox("getValue") == undefined) {
+					$.messager.alert("操作提示", "请选择用户类型！", "error");
+					return;
+			    } else {
+				    u_obj.userType = $("#txtUserType").combobox("getValue");
+			    }
+			}
 
-			if ($("#txtUserType").combobox("getValue") == ""
-				|| $("#txtUserType").combobox("getValue") == undefined) {
-				$.messager.alert("操作提示", "请选择用户类型！", "error");
-		    } else {
-			    u_obj.userType = $("#txtUserType").combobox("getValue");
-		    }
 			if ($("#txtUserMobile").val() == ""
 				|| $("#txtUserMobile").val() == undefined) {
 				$.messager.alert("操作提示", "请填写电话号码！", "error");
+				return;
 		    } else {
 		    	u_obj.mobile = $.trim($("#txtUserMobile").val());
 		    }
@@ -155,6 +164,7 @@ var UserManage = {
 			//u_obj.psd = password;
 			u_obj.idcard = $.trim($("#txtUserIdcard").val());
 			u_obj.email = $.trim($("#txtUserEmail").val());
+			u_obj.note = $.trim($("#txtNote").val());
 			
 			var f = $("#file").val();  
 			var extname = f.substring(f.lastIndexOf(".")+1,f.length);  

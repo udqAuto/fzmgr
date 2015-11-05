@@ -91,8 +91,7 @@ public class UserController {
 				}
 			
 				if (user.getId() > 0) {
-					user.setPsd(u.getPsd());
-					userService.updateByPrimaryKey(user);
+					userService.updateByPrimaryKeySelective(user);
 				} else {
 					if(us !=null){
 						Result<UserVM> result = new Result<UserVM>(null,false,
@@ -179,6 +178,51 @@ public class UserController {
 			}
 			map.put("userType", ids);
 			ListResult<UserVM> rs = userService.loadUserlist(map);
+			return rs.toJson();
+		} catch (Exception ex) {
+			ListResult<UserVM> rs = new ListResult<UserVM>(0, null);
+			return rs.toJson();
+		}
+	}
+	/*
+	 * 获取车主列表，以列表形式呈现；
+	 */
+	@RequestMapping(value = "getCustomerList.do", produces = "application/json;charset=UTF-8")
+	public @ResponseBody
+	String getCustomerList(
+			@RequestParam(value = "page", required = false) Integer page,
+			@RequestParam(value = "rows", required = false) Integer rows,
+			@RequestParam(value = "userType", required = false) String userType,
+			@RequestParam(value = "userInfo", required = false) String userInfo,
+			HttpServletRequest request) throws Exception {
+		try {
+			JSONObject jObj = JSONObject.fromObject(userInfo);
+			User user = (User) JSONObject.toBean(jObj,User.class);
+			int orgId = user.getOrgId();
+			String name = user.getName();
+			String mobile = user.getMobile();
+			//Organization o = organService.selectByPrimaryKey(orgId);
+			
+			Map<String, Object> map = new HashMap<String, Object>();
+			page = page == 0 ? 1 : page;
+			map.put("pageStart", (page - 1) * rows);
+			map.put("pageSize", rows);
+			map.put("orgId", orgId);
+			//map.put("orgPath", o.getPath() == null ? (orgId+"") : o.getPath());
+			
+			if(!"".equals(name)){
+				map.put("name", name);
+			}
+			if(!"".equals(mobile)){
+				map.put("mobile", mobile);
+			}
+			List<Integer> ids = new ArrayList<Integer>();
+			String[] str = userType.split(",");
+			for (String s : str) {
+				ids.add(Integer.parseInt(s));
+			}
+			map.put("userType", ids);
+			ListResult<UserVM> rs = userService.loadCustomerlist(map);
 			return rs.toJson();
 		} catch (Exception ex) {
 			ListResult<UserVM> rs = new ListResult<UserVM>(0, null);

@@ -22,6 +22,7 @@ var AutoManage = {
 			m_auto_obj.id = row.id;
 			m_auto_obj.userId = row.userId;
 			m_auto_obj.userName = row.userName;
+			m_auto_obj.userMobile = row.userMobile;
 			m_auto_obj.pn = row.pn;
 			m_auto_obj.brand = row.brand;
 			m_auto_obj.model = row.model;
@@ -29,6 +30,7 @@ var AutoManage = {
 			m_auto_obj.regionId = row.defaultRegionId;
 			m_auto_obj.regionName = row.regionName;
 			m_auto_obj.position = row.position;
+			m_auto_obj.registerTime = row.registerTime;
 			m_auto_obj.orgId = m_order_orgId;//为查询订单准备
 		},	
 		loadAutoList : function() {
@@ -57,6 +59,11 @@ var AutoManage = {
 					align : 'center',
 					width : 100
 				}, {
+					title : '车主电话',
+					field : 'userMobile',
+					align : 'center',
+					width : 100
+				}, {
 					title : '车牌号码',
 					field : 'pn',
 					align : 'center',
@@ -64,11 +71,6 @@ var AutoManage = {
 				}, {
 					title : '品牌',
 					field : 'brand',
-					align : 'center',
-					width : 100
-				}, {
-					title : '型号',
-					field : 'model',
 					align : 'center',
 					width : 100
 				}, {
@@ -80,12 +82,17 @@ var AutoManage = {
 					title : '区域',
 					field : 'regionName',
 					align : 'center',
-					width : 100
+					width : 150
 				}, {
 					title : '车位',
 					field : 'position',
 					align : 'center',
 					width : 100
+				},{
+					title : '注册时间',
+					field : 'registerTime',
+					align : 'center',
+					width : 150
 				}, {
 					title : '洗车次数',
 					field : 'washCount',
@@ -131,7 +138,7 @@ var AutoManage = {
 						.dialog({
 							id : 'dlgShowAuto',
 							title : '查看车辆信息',
-							content : "<iframe scrolling='yes' frameborder='0' src='view/auto/autoBill.jsp' style='width:650px;height:450px;overflow:hidden'/>",
+							content : "<iframe scrolling='yes' frameborder='0' src='view/auto/autoBill.jsp' style='width:650px;height:550px;overflow:hidden'/>",
 							lock : true,
 							initFn : function() {
 							}

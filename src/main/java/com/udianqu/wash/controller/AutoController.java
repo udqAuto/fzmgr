@@ -1,5 +1,6 @@
 package com.udianqu.wash.controller;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.udianqu.wash.core.GeneralUtil;
 import com.udianqu.wash.core.ListResult;
 import com.udianqu.wash.core.Result;
 import com.udianqu.wash.model.Auto;
@@ -109,7 +111,10 @@ public class AutoController {
 		    	auto.setIsUsed(true);
 		    	autoService.updateByPrimaryKey(auto);
 			} else {//add
+				Map<String,Object> map = GeneralUtil.getCurrentTime();
+				Date time = (Date) map.get("currentTime");
 				auto.setIsUsed(true);
+				auto.setRegisterTime(time);
 				autoService.insert(auto);
 			}
 		    //Auto auto2 = autoService.selectByPn(pn);

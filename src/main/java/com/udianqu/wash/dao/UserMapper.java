@@ -39,4 +39,8 @@ public interface UserMapper {
 
 	void updateBalance(UserVM user);
 
+	int countCustomerByMap(Map<String, Object> map);
+
+	List<UserVM> loadCustomerlistWithPage(Map<String, Object> map);
+
 }

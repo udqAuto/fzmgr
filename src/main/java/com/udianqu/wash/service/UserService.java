@@ -22,18 +22,26 @@ public class UserService {
 		return userMapper.loadUserByNameAndPwd(map);
 	}
 	
-	public ListResult<UserVM> loadUserlist(Map<String, Object> map) {
-		int count=userMapper.countByMap(map);
-		List<UserVM> ls=userMapper.loadUserlistWithPage(map);
+	public ListResult<UserVM> loadCustomerlist(Map<String, Object> map) {
+		int count=userMapper.countCustomerByMap(map);
+		List<UserVM> ls=userMapper.loadCustomerlistWithPage(map);
 
 		ListResult<UserVM> result=new ListResult<UserVM>(count,ls);
 
 		return result;
 	}
+	public ListResult<UserVM> loadUserlist(Map<String, Object> map) {
+		int count=userMapper.countByMap(map);
+		List<UserVM> ls=userMapper.loadUserlistWithPage(map);
+		
+		ListResult<UserVM> result=new ListResult<UserVM>(count,ls);
+		
+		return result;
+	}
 
-	public void updateByPrimaryKey(UserVM user) {
+	public void updateByPrimaryKeySelective(UserVM user) {
 		// TODO Auto-generated method stub
-		userMapper.updateByPrimaryKey(user);
+		userMapper.updateByPrimaryKeySelective(user);
 	}
 	
 	public void updateById(User user) {

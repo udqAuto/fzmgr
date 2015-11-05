@@ -1,5 +1,7 @@
 package com.udianqu.wash.model;
 
+import java.util.Date;
+
 public class Auto {
     
     private Integer id;
@@ -18,6 +20,8 @@ public class Auto {
     
     private String position;
     
+    private Date registerTime;
+    
     private Boolean isUsed;
 
     public Integer getId() {
@@ -30,6 +34,14 @@ public class Auto {
 
 	public void setIsUsed(Boolean isUsed) {
 		this.isUsed = isUsed;
+	}
+
+	public Date getRegisterTime() {
+		return registerTime;
+	}
+
+	public void setRegisterTime(Date registerTime) {
+		this.registerTime = registerTime;
 	}
 
 	public String getPosition() {

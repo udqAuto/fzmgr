@@ -5,12 +5,14 @@ $(function() {
 	m_user_query.orgId = 1;
 	if(m_userType == 8||m_userType =="8"){
 		$("#userTb a[doc='systemUser']").attr("style","display:none");
+		UserManage.loadCustomerList();
 	} 
 	else{
 		$("#userTb a[doc='autoUser']").attr("style","display:none");
+		UserManage.loadUserList();
 	}
 	UserManage.initOrgan();
-	UserManage.loadUserList();
+	
 	$("#addUser").bind("click", UserManage.addUser);
 	$("#editUser").bind("click", UserManage.editUser);
 	$("#delUser").bind("click", UserManage.delUser);
@@ -41,6 +43,8 @@ var UserManage = {
 		m_userInfo_Object.washCount = row.washCount;
 		m_userInfo_Object.totalAmount = row.totalAmount;
 		m_userInfo_Object.balance = row.balance;
+		m_userInfo_Object.registerTime = row.registerTime;
+		m_userInfo_Object.note = row.note;
 	},
 	loadUserList : function() {
 		$('#userListGrid').datagrid({
@@ -131,6 +135,74 @@ var UserManage = {
 				align : 'center',
 				width : 100
 			}] ]
+		});
+	},
+	loadCustomerList : function() {
+		$('#userListGrid').datagrid({
+			url : 'user/getCustomerList.do?userType='+m_userType,
+			queryParams : {
+				'userInfo' : JSON.stringify(m_user_query)
+			},
+			fitColumns : true,
+			rownumbers : true,
+			pagination : true,
+			pageNumber : 1,
+			pageSize : 10,
+			nowrap : false,
+			idField : 'id',
+			singleSelect : true,
+			onDblClickRow : UserManage.editUser,
+			toolbar : "#userTb",
+			columns : [ [ {
+				title : 'id',
+				field : 'id',
+				hidden : true
+			}, {
+				title : '用户名称',
+				field : 'name',
+				align : 'center',
+				width : 100
+			}, {
+				title : '电话',
+				field : 'mobile',
+				align : 'center',
+				width : 100
+			}, {
+				title : '车辆数',
+				field : 'autoCount',
+				align : 'center',
+				width : 100
+			}, {
+				title : '车辆所在小区',
+				field : 'regionName',
+				align : 'center',
+				width : 150
+			}, {
+				title : '洗车次数',
+				field : 'washCount',
+				align : 'center',
+				width : 100
+			}, {
+				title : '消费金额',
+				field : 'totalAmount',
+				align : 'center',
+				width : 100
+			}, {
+				title : '余额',
+				field : 'balance',
+				align : 'center',
+				width : 100
+			}, {
+				title : '注册时间',
+				field : 'registerTime',
+				align : 'center',
+				width : 150
+			}, {
+				title : '备注',
+				field : 'note',
+				align : 'center',
+				width : 100
+			} ] ]
 		});
 	},
 	addUser : function() {

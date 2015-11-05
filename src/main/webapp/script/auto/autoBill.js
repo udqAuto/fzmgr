@@ -10,12 +10,14 @@ $(function() {
 var AutoManage = {
 		showAutoInfo : function(){
 			$("#txtAutoName").val(score.userName);
+			$("#txtUserMobile").val(score.userMobile);
 			$("#txtAutoPN").val(score.pn);
 			$("#txtAutoBrand").val(score.brand);
 			$("#txtAutoModel").val(score.model);
 			$("#txtAutoColor").val(score.color);
 			$("#txtAutoRegion").val(score.regionName);
 			$("#txtAutoPosition").val(score.position);
+			$("#txtRegisterTime").val(score.registerTime);
 		},
 		loadOrderByAutoId:function(){
 			$('#dgOrder').datagrid({

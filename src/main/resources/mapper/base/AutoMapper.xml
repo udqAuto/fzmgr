@@ -15,6 +15,7 @@
     <result column="color" property="color" jdbcType="VARCHAR" />
     <result column="default_region_id" property="defaultRegionId" jdbcType="INTEGER" />
     <result column="position" property="position" jdbcType="VARCHAR" />
+    <result column="register_time" property="registerTime" jdbcType="TIMESTAMP" />
     <result column="is_used" property="isUsed" jdbcType="BIT" />
   </resultMap>
   
@@ -27,6 +28,7 @@
     <result column="color" property="color" jdbcType="VARCHAR" />
     <result column="default_region_id" property="defaultRegionId" jdbcType="INTEGER" />
     <result column="position" property="position" jdbcType="VARCHAR" />
+    <result column="register_time" property="registerTime" jdbcType="TIMESTAMP" />
     <result column="is_used" property="isUsed" jdbcType="BIT" />
     <result column="user_name" property="userName" jdbcType="VARCHAR" />
     <result column="region_name" property="regionName" jdbcType="VARCHAR" />
@@ -112,7 +114,7 @@
     a.id, a.user_id, a.pn, a.brand, a.model, a.color, a.default_region_id,a.position, a.is_used, u.name as user_name, r.name as region_name
   </sql>
   <sql id="BaseVM_Column_List2" >
-    a.id, a.user_id, a.pn, a.brand, a.model, a.color, a.default_region_id,a.position, a.is_used, u.name as user_name, r.name as region_name,
+    a.id, a.user_id, a.pn, a.brand, a.model, a.color, a.default_region_id,a.position,a.register_time, a.is_used, u.name as user_name,u.mobile as userMobile, r.name as region_name,
     (select count(*) from t_wash_order wo where wo.auto_id = a.id and wo.state != 0) as washCount,
     (select sum(p.amount) from t_wash_order wo, t_pay p where wo.auto_id = a.id and p.order_id = wo.id and wo.state != 0)  as totalAmount 
   </sql>
@@ -177,10 +179,11 @@
     -->
     insert into t_auto (id, user_id, pn, 
       brand, model, color, 
-      default_region_id,position, is_used)
+      default_region_id,position,register_time, is_used)
     values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{pn,jdbcType=VARCHAR}, 
       #{brand,jdbcType=VARCHAR}, #{model,jdbcType=VARCHAR}, #{color,jdbcType=VARCHAR}, 
-      #{defaultRegionId,jdbcType=INTEGER},#{position,jdbcType=VARCHAR}, #{isUsed,jdbcType=BIT})
+      #{defaultRegionId,jdbcType=INTEGER},#{position,jdbcType=VARCHAR}, #{isUsed,jdbcType=BIT},
+      #{registerTime,jdbcType=TIMESTAMP)
   </insert>
   <insert id="insertSelective" parameterType="com.udianqu.wash.model.Auto" >
     <!--
@@ -409,7 +412,7 @@
   		<if test="isUsed != null">
   			and a.is_used = #{isUsed,jdbcType=BIT}
   		</if>
-  		group by a.id
+  		group by a.id order by washCount desc
   		<if test="pageStart !=null">
   		limit #{pageStart,jdbcType=INTEGER}, #{pageSize,jdbcType=INTEGER}
   		</if>

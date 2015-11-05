@@ -7,11 +7,20 @@ import com.udianqu.wash.model.Auto;
 public class AutoVM extends Auto{
     private String userName;
     private String regionName;
+    private String userMobile;
     private BigDecimal totalAmount;
     private Integer washCount;
 
     
     
+	public String getUserMobile() {
+		return userMobile;
+	}
+
+	public void setUserMobile(String userMobile) {
+		this.userMobile = userMobile;
+	}
+
 	public BigDecimal getTotalAmount() {
 		return totalAmount;
 	}

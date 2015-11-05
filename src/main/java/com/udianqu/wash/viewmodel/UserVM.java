@@ -10,8 +10,29 @@ private String username;
 private BigDecimal amount;//充值或消费的金额
 private BigDecimal totalAmount;
 private Integer washCount;
+private Integer autoCount;
+private String directorName;
+private String regionName;
 	
     
+	public Integer getAutoCount() {
+	return autoCount;
+}
+public void setAutoCount(Integer autoCount) {
+	this.autoCount = autoCount;
+}
+	public String getRegionName() {
+	return regionName;
+}
+public void setRegionName(String regionName) {
+	this.regionName = regionName;
+}
+	public String getDirectorName() {
+	return directorName;
+}
+public void setDirectorName(String directorName) {
+	this.directorName = directorName;
+}
 	public BigDecimal getTotalAmount() {
 	return totalAmount;
 }
