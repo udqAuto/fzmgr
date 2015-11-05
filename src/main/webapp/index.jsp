@@ -59,6 +59,14 @@
 					</ul> 
 			</li>
 			<li>
+				<span>余额管理</span>
+					<ul>
+						<li>
+							<span>余额充值</span>
+						</li> 
+					</ul>
+			</li>
+			<li>
 				<span>优惠券</span>
 					<ul>
 						<li>
