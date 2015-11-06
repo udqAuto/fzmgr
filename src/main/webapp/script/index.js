@@ -66,6 +66,9 @@ function onTreeMenuDblClick(row) {
 	case "已取消订单":
 		src = "view/order/orderListInfo.jsp?orderState=11&orgId="+m_index_orgId;
 		break;
+	case "全部订单":
+		src = "view/order/orderListInfo.jsp?orderState=1,2,3,4,5,10,11&orgId="+m_index_orgId;
+		break;
 	case "车辆管理":
 		src = "view/auto/autoListInfo.jsp?orgId="+m_index_orgId;
 		break;
@@ -81,8 +84,11 @@ function onTreeMenuDblClick(row) {
 	//case "用户":
 	//	src = "view/test.jsp";
 	//	break; 
-	case "余额管理": 
+	case "消费记录": 
 		src = "view/balance/balanceList.jsp";
+		break; 
+	case "余额充值": 
+		src = "view/balance/rechargeList.jsp";
 		break; 
 	case "收益统计":
 		src = "view/report/reportList.jsp";

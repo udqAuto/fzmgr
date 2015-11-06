@@ -1,9 +1,11 @@
 package com.udianqu.wash.dao;
 
+import java.util.List;
 import java.util.Map;
 
 import com.udianqu.wash.core.MyBatisRepository;
 import com.udianqu.wash.model.UserBalance;
+import com.udianqu.wash.viewmodel.UserBalanceVM;
 
 @MyBatisRepository
 public interface UserBalanceMapper {
@@ -58,4 +60,8 @@ public interface UserBalanceMapper {
 	void updateByOrderNo(Map<String, Object> map);
 
 	UserBalance selectByOrderNo(Map<String, Object> map);
+
+	int countByMap(Map<String, Object> map);
+
+	List<UserBalanceVM> loadBalancelistWithPage(Map<String, Object> map);
 }

@@ -54,6 +54,26 @@ var AutoManage = {
 					field : 'id',
 					hidden : true
 				}, {
+					title : '车牌号码',
+					field : 'pn',
+					align : 'center',
+					width : 100,
+				}, {
+					title : '区域',
+					field : 'regionName',
+					align : 'center',
+					width : 100
+				}, {
+					title : '品牌',
+					field : 'brand',
+					align : 'center',
+					width : 100
+				}, {
+					title : '车辆注册时间',
+					field : 'registerTime',
+					align : 'center',
+					width : 100
+				}, {
 					title : '车主',
 					field : 'userName',
 					align : 'center',
@@ -63,36 +83,6 @@ var AutoManage = {
 					field : 'userMobile',
 					align : 'center',
 					width : 100
-				}, {
-					title : '车牌号码',
-					field : 'pn',
-					align : 'center',
-					width : 100,
-				}, {
-					title : '品牌',
-					field : 'brand',
-					align : 'center',
-					width : 100
-				}, {
-					title : '颜色',
-					field : 'color',
-					align : 'center',
-					width : 100
-				}, {
-					title : '区域',
-					field : 'regionName',
-					align : 'center',
-					width : 150
-				}, {
-					title : '车位',
-					field : 'position',
-					align : 'center',
-					width : 100
-				},{
-					title : '注册时间',
-					field : 'registerTime',
-					align : 'center',
-					width : 150
 				}, {
 					title : '洗车次数',
 					field : 'washCount',

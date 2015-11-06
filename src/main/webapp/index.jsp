@@ -56,11 +56,17 @@
 						<li>
 							<span>已取消订单</span>
 						</li> 
+						<li>
+							<span>全部订单</span>
+						</li> 
 					</ul> 
 			</li>
 			<li>
 				<span>余额管理</span>
 					<ul>
+						<li>
+							<span>消费记录</span>
+						</li> 
 						<li>
 							<span>余额充值</span>
 						</li> 

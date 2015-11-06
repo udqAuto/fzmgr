@@ -10,6 +10,7 @@ $(function() {
 	var obj = getUrlArgs();
 	m_orderType =  obj.orderState;
 	m_order_orgId = obj.orgId;
+	
 	if(m_orderType == "1"){
 		m_zType = 1;
 		$("#orderTb a[doc='newOrder']").attr("style","display:inline");
@@ -21,6 +22,11 @@ $(function() {
 		m_zType = 5;
 	}else if(m_orderType == "11"){
 		m_zType = 11;
+	}else if(m_orderType == "1,2,3,4,5,10,11"){
+		m_zType = 6;
+	}
+	if(m_zType != 6){
+		$("#orderTb span[name='p_state']").hide();
 	}
 //	if(m_userType == 1){
 //		$("#orderTb a[doc='autoUser']").attr("style","display:none");
@@ -48,6 +54,11 @@ var OrderManage = {
 				m_order_query.orgId = $("#txtcmbOrgan").combotree("getValue");
 			}
 			m_order_query.orderType = m_zType;
+			var orderState = $("#txtOrderState").combobox("getValue");
+			if(orderState != ""){
+				m_order_query.orderType = orderState;
+			}
+			
 //			if( $("#txtCancelType").combobox("getValue") ==""|| $("#txtCancelType").combobox("getValue")==undefined){
 //				m_order_query.cancelType = 0;
 //			}else{
@@ -120,6 +131,20 @@ var OrderManage = {
 					field : 'washTypeName',
 					align : 'center',
 					width : 100
+				},{ 
+					title : '支付方式',
+					field : 'payType',
+					align : 'center',
+					width : 100,
+					formatter : function(value, rowData, index) {
+						if (value == 1 || value == "1") {
+							return "支付宝";
+						} else if (value == 2 || value == "2") {
+							return "微信";
+						} else if(value == 100 || value == "100"){
+							return "余额支付";
+						}
+					}
 				},{ 
 					title : '下单时间',
 					field : 'billTime',

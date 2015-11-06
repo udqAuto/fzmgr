@@ -363,7 +363,7 @@
 					#{item}
 			</foreach>
   		</if>
-  		group by u.id
+  		group by u.id order by washCount desc
   		<if test="pageStart !=null">
   		limit #{pageStart,jdbcType=INTEGER}, #{pageSize,jdbcType=INTEGER}
   		</if>

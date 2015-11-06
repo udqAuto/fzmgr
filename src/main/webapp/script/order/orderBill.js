@@ -21,7 +21,17 @@ var OrderManage = {
 				dataType : "json", 
 				success : function(req) {
 					if (req.isSuccess) {
-						OrderManage.fillOrderBill(req.data);
+						var rdata = req.data;
+						if(rdata.payType == 1||rdata.payType== "1"){
+							rdata.payType = "支付宝";
+						}
+						else if(rdata.payType == 2||rdata.payType== "2"){
+							rdata.payType = "微信";
+						}
+						else if(rdata.payType == 100||rdata.payType== "100"){
+							rdata.payType = "余额支付";
+						}
+						OrderManage.fillOrderBill(rdata);
 					} else {
 						$.messager.alert("系统提示", req.msg, "error");
 					}
@@ -54,6 +64,7 @@ var OrderManage = {
 				 $("#txtCouponAmount").text(data.couponAmount);
 			 }
 			 $("#txtOrderAmount").text(data.finalAmount);
+			 $("#txtPayType").text(data.payType);
 			 $("#txtOrderNotes").text(data.userNote);
 			 $("#txtWasherName").text(data.washerName);
 			 $("#txtAcceptTime").text(data.acceptTime);

@@ -3,6 +3,7 @@ package com.udianqu.wash.dao;
 import com.udianqu.wash.core.MyBatisRepository;
 import com.udianqu.wash.model.WashOrder;
 import com.udianqu.wash.model.WashOrderExample;
+import com.udianqu.wash.viewmodel.ReportVM;
 import com.udianqu.wash.viewmodel.WashOrderVM;
 
 import java.util.List;
@@ -113,4 +114,8 @@ public interface WashOrderMapper {
 	List<WashOrderVM> getOrderByMap(Map<String, Object> map);
 
 	List<WashOrderVM> getOrderByUserId(Map<String, Object> map);
+
+	int count(Map<String, Object> map);
+
+	List<ReportVM> loadReportlist(Map<String, Object> map);
 }

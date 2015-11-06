@@ -2,15 +2,18 @@ package com.udianqu.wash.service;
 
 import java.text.ParseException;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.udianqu.wash.core.GeneralUtil;
+import com.udianqu.wash.core.ListResult;
 import com.udianqu.wash.dao.UserBalanceMapper;
 import com.udianqu.wash.model.User;
 import com.udianqu.wash.model.UserBalance;
+import com.udianqu.wash.viewmodel.AutoVM;
 import com.udianqu.wash.viewmodel.UserBalanceVM;
 import com.udianqu.wash.viewmodel.UserVM;
 
@@ -23,7 +26,11 @@ public class UserBalanceService {
 		// TODO Auto-generated method stub
 		userBalanceMapper.insert(balance);
 	}
-
+    /**
+     * app用户充值，保存充值记录
+     * @param balance
+     * @throws ParseException
+     */
 	public void save(UserBalanceVM balance) throws ParseException {
 		// TODO Auto-generated method stub
 		Map<String,Object> map = GeneralUtil.getCurrentTime();
@@ -34,7 +41,7 @@ public class UserBalanceService {
 		ub.setOrderNo(balance.getOrderNo());
 		ub.setRecordTime(time);
 		ub.setUserId(balance.getUserId());
-		ub.setType(1);//充值=1；消费=2
+		ub.setType(1);//手机端=1；后台=2
 		ub.setState(0);//未支付=0；支付成功=1
 		userBalanceMapper.insert(ub);
 		/*更新余额*/
@@ -52,6 +59,27 @@ public class UserBalanceService {
 	public UserBalance selectByOrderNo(Map<String, Object> map) {
 		// TODO Auto-generated method stub
 		return userBalanceMapper.selectByOrderNo(map);
+	}
+
+	public ListResult<UserBalanceVM> loadBalancelist(Map<String, Object> map) {
+		int count=userBalanceMapper.countByMap(map);
+		List<UserBalanceVM> ls=userBalanceMapper.loadBalancelistWithPage(map);
+		ListResult<UserBalanceVM> result=new ListResult<UserBalanceVM>(count,ls);
+		return result;
+	}
+	public void insertBalance(UserBalanceVM balance) throws ParseException {
+		// TODO Auto-generated method stub
+		Map<String,Object> map = GeneralUtil.getCurrentTime();
+		Date time = (Date) map.get("currentTime");
+	    /*保存充值记录*/
+		UserBalance ub = new UserBalance();
+		ub.setAmount(balance.getAmount());
+		ub.setOrderNo(balance.getOrderNo());
+		ub.setRecordTime(time);
+		ub.setUserId(balance.getUserId());
+		ub.setType(2);//手机端=1；后台=2
+		ub.setState(1);//未支付=0；支付成功=1
+		userBalanceMapper.insert(ub);
 	}
 
 }

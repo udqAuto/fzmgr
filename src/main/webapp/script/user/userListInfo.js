@@ -235,7 +235,7 @@ var UserManage = {
 	doClean:function(){
 		$('#sch_name').val("");
 		$('#sch_mobile').val("");
-		$("#txtcmbOrgan").combotree("setValue","");
+		//$("#txtcmbOrgan").combotree("setValue","");
 	},
 	showUser : function(){	
 		try {

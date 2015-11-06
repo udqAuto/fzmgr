@@ -803,7 +803,8 @@
 			o.accept_time 		as acceptTime,
 			o.begin_time 		as beginTime,
 			o.finish_time 		as finishTime,
-			p.amount            as finalAmount
+			p.amount            as finalAmount,
+			p.pay_type          as payType
 	from t_wash_order o 
 		left join t_user u on o.user_id = u.id and u.user_type = 8
 		left join t_auto a on o.auto_id = a.id
@@ -846,6 +847,31 @@
   		<if test="pageStart !=null">
   		limit #{pageStart,jdbcType=INTEGER}, #{pageSize,jdbcType=INTEGER}
   		</if>
+  </select>
+  
+  <select id="loadReportlist"   parameterType="java.util.Map"  resultType="com.udianqu.wash.viewmodel.ReportVM"  >
+  		select 
+  		       org.name       as orgName,
+  		       count(*)       as orderCount,
+  		       (select count(*) from t_wash_order o where o.state = 1)   as newOrder,
+  		       (select count(*) from t_wash_order o where o.state = 2)   as receivedOrder,
+  		       (select count(*) from t_wash_order o where o.state = 4)   as completedOrder,
+  		       (select count(*) from t_wash_order o where o.state = 5)   as gradedOrder,
+  		       (select count(*) from t_wash_order o where o.state = 11 and o.state = 10)   as canceledOrder,
+  		       (select count(*) from t_wash_order_item wo where wo.wash_type_id = 1)       as fastWash,
+  		       (select count(*) from t_wash_order_item wo where wo.wash_type_id = 2)       as insideWash,
+  		       (select count(*) from t_wash_order_item wo where wo.wash_type_id = 3)       as waxed,
+  		       (select sum(p.amount) from t_pay p where p.pay_type = 1)       as alipay,
+  		       (select sum(p.amount) from t_pay p where p.pay_type = 2)       as weChat,
+  		       (select sum(p.amount) from t_pay p where p.pay_type = 100)       as balancePay,
+  		       sum(p.amount)        as totalAmount
+  		 
+  		from t_wash_order o 
+  		left join t_org org on org.id = o.org_id
+  		left join t_wash_order_item wo on wo.order_id = o.id
+  		left join t_pay p on p.order_id = o.id
+  		where o.state != 0 
+  			and o.bill_time like CONCAT(#{date,jdbcType=VARCHAR},'%' )
   </select>
   
   <select id="selectByOrderNo" resultMap="BaseVMResultMap" parameterType="java.lang.String" >

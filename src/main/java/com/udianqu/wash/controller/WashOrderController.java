@@ -110,6 +110,14 @@ public class WashOrderController{
 			ids.add(5);
 		}else if(orderType == 11){//已取消
 			ids.add(11);
+		}else if(orderType == 6){//全部
+			ids.add(1);
+			ids.add(2);
+			ids.add(3);
+			ids.add(4);
+			ids.add(5);
+			ids.add(10);
+			ids.add(11);
 		}
 		map.put("stateIds", ids);
 

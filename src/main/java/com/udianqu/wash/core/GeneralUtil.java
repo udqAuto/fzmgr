@@ -45,7 +45,11 @@ public class GeneralUtil {
 		
 		return map;
 	}
-	
+	/**
+	 * 获取当前时间、当前时间7分钟前的时间、一个月前的时间。格式yyyy-MM-dd HH:mm:ss 类型Date
+	 * @return
+	 * @throws ParseException
+	 */
 	public static Map<String,Object> getCurrentTime() throws ParseException{
 		Calendar  calendar=Calendar.getInstance();
 		DateFormat fmt=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -67,6 +71,31 @@ public class GeneralUtil {
 		map.put("monthAgo", time3);
 		return map;
 	}
+	/**
+	 * 获取昨天的日期，  类型Date
+	 * @return
+	 * @throws ParseException
+	 */
+	public static Map<String,Object> getYesterday() throws ParseException{
+		Calendar  calendar=Calendar.getInstance();
+		DateFormat fmt=new SimpleDateFormat("yyyy-MM-dd");
+		String d=fmt.format(calendar.getTime());
+		Date date = fmt.parse(d);
+		
+		calendar.setTime(date);
+		calendar.add(Calendar.DATE,-1);
+		String d2=fmt.format(calendar.getTime());
+		Date ye = fmt.parse(d2);
+		
+		Map<String,Object> map=new HashMap<String,Object>();
+		map.put("yesterday", ye);
+		return map;
+	}
+	/**
+	 * 获取当前日期，和时间，类型String
+	 * @return
+	 * @throws ParseException
+	 */
 	public static Map<String,Object> getCurrentDate() throws ParseException{
 		Calendar  calendar=Calendar.getInstance();
 		DateFormat fmt=new SimpleDateFormat("yyyyMMdd");

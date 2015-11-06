@@ -19,12 +19,12 @@
 				<a id="cancelOrder" name="cancelOrder" doc="newOrder" href="javascript:void(0);"
 					class="easyui-linkbutton" iconcls="icon-udq-delete" plain="true" style="display:none" >取消订单</a> 
 					
+				<span id="sp_UnComplete" name="p_state" style="padding-left:25px">
+					<label>订单状态：</label><input id="txtOrderState" class="easyui-combobox" style="width:134px" data-options="editable:false,valueField:'id',textField:'name',data:[{id: 1,name: '新订单'},{id: 2,name: '已接收'},{id: 4,name: '已完成'},{id: 5,name: '已评价'},{id: 11,name: '已取消'}]" />
+				</span>
 				<span style="padding-left:25px">
 					<label>组织机构:</label><input id="txtcmbOrgan" class="easyui-combotree" style="width:150px" />
             	</span>
-				<!-- <span id="sp_UnComplete" style="padding-left:25px">
-					<label>订单状态：</label><input id="txtOrderState" type="text" class="easyui-combobox" style="width:134px" data-options="editable:false,valueField:'id',textField:'name',data:[{id: 0,name: '全部'},{id: 1,name: '未接受'},{id: 2,name: '已接受'},{id: 3,name: '进行中'}]" />
-				</span> -->
 				<span>
 				     <label>车主:</label><input id="sch_userName" class="easyui-validatebox" style="width:120px" data-options="editable:false" />
 				</span>

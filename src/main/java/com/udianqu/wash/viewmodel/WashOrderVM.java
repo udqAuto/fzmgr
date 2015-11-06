@@ -39,7 +39,6 @@ public class WashOrderVM extends WashOrder{
 	private String channel;
 	
 	
-	
 	public String getAutoBrand() {
 		return autoBrand;
 	}

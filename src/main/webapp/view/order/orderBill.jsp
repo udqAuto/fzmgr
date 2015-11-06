@@ -74,7 +74,9 @@
 		 	</tr> 
 		 	<tr>
 		 		<td><label>车辆位置：</label></td>
-		 		<td colspan="4"><label id="txtAutoPostion"></label></td>
+		 		<td><label id="txtAutoPostion"></label></td>
+		 		<td><label>支付方式：</label></td>
+		 		<td><label id="txtPayType"></label></td>
 		 	</tr> 
 		 </table>   
 		 <p><h2>订单处理信息</h2></p>

@@ -1,7 +1,9 @@
 package com.udianqu.wash.controller;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,10 +24,14 @@ import com.pingplusplus.exception.ChannelException;
 import com.pingplusplus.exception.InvalidRequestException;
 import com.pingplusplus.model.Charge;
 import com.udianqu.wash.core.GeneralUtil;
+import com.udianqu.wash.core.ListResult;
 import com.udianqu.wash.core.Result;
+import com.udianqu.wash.model.User;
 import com.udianqu.wash.service.BillSerialNoService;
 import com.udianqu.wash.service.UserBalanceService;
+import com.udianqu.wash.service.UserService;
 import com.udianqu.wash.viewmodel.UserBalanceVM;
+import com.udianqu.wash.viewmodel.UserVM;
 
 @Controller
 @RequestMapping("/userBalance")
@@ -33,7 +39,65 @@ public class UserBalanceController {
 	@Autowired
 	BillSerialNoService billSerialNoService;
 	@Autowired UserBalanceService userBalanceService;
+	@Autowired UserService userService;
 	
+	@RequestMapping(value = "getBalanceList.do", produces = "application/json;charset=UTF-8")
+	public @ResponseBody
+	String getBalanceList(
+			@RequestParam(value = "page", required = false) Integer page,
+			@RequestParam(value = "rows", required = false) Integer rows,
+			@RequestParam(value = "balanceInfo", required = false) String balanceInfo,
+			HttpServletRequest request) throws Exception {
+		try {
+			JSONObject jObj = JSONObject.fromObject(balanceInfo);
+			UserBalanceVM balance = (UserBalanceVM) JSONObject.toBean(jObj,UserBalanceVM.class);
+			String userName = balance.getUserName();
+			String userMobile = balance.getUserMobile();
+			String orderNo = balance.getOrderNo();
+			//Organization o = organService.selectByPrimaryKey(orgId);
+			
+			Map<String, Object> map = new HashMap<String, Object>();
+			page = page == 0 ? 1 : page;
+			map.put("pageStart", (page - 1) * rows);
+			map.put("pageSize", rows);
+			//map.put("orgPath", o.getPath() == null ? (orgId+"") : o.getPath());
+			
+			if(!"".equals(userName)){
+				map.put("userName", userName);
+			}
+			if(!"".equals(userMobile)){
+				map.put("userMobile", userMobile);
+			}
+			ListResult<UserBalanceVM> rs = userBalanceService.loadBalancelist(map);
+			return rs.toJson();
+		} catch (Exception ex) {
+			ListResult<UserBalanceVM> rs = new ListResult<UserBalanceVM>(0, null);
+			return rs.toJson();
+		}
+	}
+	@RequestMapping(value = "recharge.do",produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String recharge(UserBalanceVM balance,
+			HttpServletRequest request) {
+		Result<UserBalanceVM> result = new Result<UserBalanceVM>();
+		try {
+			Map<String,Object> map=GeneralUtil.getSerialNoPars(2);//billType = 2
+			String orderNo =  billSerialNoService.getNextBillSerialNo(map);
+			balance.setOrderNo(orderNo);
+			userBalanceService.insertBalance(balance);
+			/*更新用户余额*/
+        	UserVM user =new UserVM();
+    		user.setId(balance.getUserId());
+    		user.setAmount(balance.getAmount());
+			userService.updateBalance(user);
+			billSerialNoService.updateBillSerialNo(map);
+			return result.toJson();
+		} catch (Exception ex) {
+			result = new Result<UserBalanceVM>(null, false, false, false,
+					ex.getCause().getMessage());
+			return result.toJson();
+		}
+	}
 	@RequestMapping(value = "recharge4App.do",produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public String recharge4App(

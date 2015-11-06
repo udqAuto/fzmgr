@@ -32,6 +32,7 @@ import com.udianqu.wash.model.UserBalance;
 import com.udianqu.wash.model.WashOrder;
 import com.udianqu.wash.model.WashOrderItem;
 import com.udianqu.wash.util.NotificationUtil;
+import com.udianqu.wash.viewmodel.ReportVM;
 import com.udianqu.wash.viewmodel.UserVM;
 import com.udianqu.wash.viewmodel.WashOrderVM;
 
@@ -76,6 +77,7 @@ public class WashOrderService {
 		Map<String,Object> map = GeneralUtil.getCurrentTime();
 		Date time = (Date) map.get("currentTime");
 		/*订单主体对象构造；*/
+		/*提交订单时，若不是余额支付，状态设为0，在webhooks收到支付成功通知时再将状态改为1*/
 		if(payType==100){//余额支付
 			wo.setState(1);
 		}else{
@@ -341,5 +343,12 @@ public class WashOrderService {
 	public void cancelOrderById(WashOrder order) {
 		// TODO Auto-generated method stub
 		washOrderMapper.updateByPrimaryKeySelective(order);
+	}
+
+	public ListResult<ReportVM> loadReportlist(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		List<ReportVM> list = washOrderMapper.loadReportlist(map);
+		ListResult<ReportVM> result = new ListResult<ReportVM>(list);
+		return result;
 	}
 }
