@@ -871,11 +871,12 @@
 		left join t_pay as p on wo.id = p.order_id
 		where 1=1 
 		<if test="startTime != null ">
-			and wo.bill_time between {#startTime,jdbcType=TIMESPAN} and {#endTime,jdbcType=TIMESPAN}
+			and wo.bill_time between #{startTime,jdbcType=VARCHAR} and #{endTime,jdbcType=VARCHAR}
 		</if> 
 		<if test="date != null ">
-			and wo.bill_time like CONCAT(#{date,jdbcType=TIMESPAN},'%' )
+			and wo.bill_time like CONCAT(#{date,jdbcType=VARCHAR},'%' )
 		</if> 
+		group by orderId
 	)as xd where xd.orderStatus = 1 GROUP BY xd.shopName
 	union
 	select 1 as category,shopName ,'已接单' as displayName ,count(jd.orderId) as qty,0 as Amount  from  (
@@ -898,11 +899,12 @@
 		where
 			 1=1  
 		<if test="startTime != null ">
-			and wo.bill_time between {#startTime,jdbcType=TIMESPAN} and {#endTime,jdbcType=TIMESPAN}
+			and wo.bill_time between #{startTime,jdbcType=VARCHAR} and #{endTime,jdbcType=VARCHAR}
 		</if> 
 		<if test="date != null ">
-			and wo.bill_time like CONCAT(#{date,jdbcType=TIMESPAN},'%' )
+			and wo.bill_time like CONCAT(#{date,jdbcType=VARCHAR},'%' )
 		</if> 
+		group by orderId
 	) as jd  where jd.orderStatus in(2,3) GROUP BY jd.shopName
 	union 
 	select 2 as category,shopName ,'已完成' as displayName ,count(wc.orderId) as qty,0 as Amount  from  (
@@ -925,11 +927,12 @@
 		where
 			 1=1  
 		<if test="startTime != null ">
-			and wo.bill_time between {#startTime,jdbcType=TIMESPAN} and {#endTime,jdbcType=TIMESPAN}
+			and wo.bill_time between #{startTime,jdbcType=VARCHAR} and #{endTime,jdbcType=VARCHAR}
 		</if> 
 		<if test="date != null ">
-			and wo.bill_time like CONCAT(#{date,jdbcType=TIMESPAN},'%' )
+			and wo.bill_time like CONCAT(#{date,jdbcType=VARCHAR},'%' )
 		</if> 
+		group by orderId
 	) as wc  where wc.orderStatus = 4 GROUP BY wc.shopName
 	union
 	select 3 as category,shopName ,'已评价' as displayName ,count(pj.orderId) as qty,0 as Amount  from  (
@@ -952,11 +955,12 @@
 		where
 			 1=1  
 		<if test="startTime != null ">
-			and wo.bill_time between {#startTime,jdbcType=TIMESPAN} and {#endTime,jdbcType=TIMESPAN}
+			and wo.bill_time between #{startTime,jdbcType=VARCHAR} and #{endTime,jdbcType=VARCHAR}
 		</if> 
 		<if test="date != null ">
-			and wo.bill_time like CONCAT(#{date,jdbcType=TIMESPAN},'%' )
+			and wo.bill_time like CONCAT(#{date,jdbcType=VARCHAR},'%' )
 		</if> 
+		group by orderId
 	) as pj where pj.orderStatus = 5 GROUP BY pj.shopName
 	union 
 	select 4 as category,shopName ,'总数' as displayName ,count(tt.orderId) as qty ,0 as Amount from  (
@@ -979,11 +983,12 @@
 		where
 			 1=1  
 		<if test="startTime != null ">
-			and wo.bill_time between {#startTime,jdbcType=TIMESPAN} and {#endTime,jdbcType=TIMESPAN}
+			and wo.bill_time between #{startTime,jdbcType=VARCHAR} and #{endTime,jdbcType=VARCHAR}
 		</if> 
 		<if test="date != null ">
-			and wo.bill_time like CONCAT(#{date,jdbcType=TIMESPAN},'%' )
+			and wo.bill_time like CONCAT(#{date,jdbcType=VARCHAR},'%' )
 		</if> 
+		group by orderId
 	) tt where tt.orderStatus != 0 GROUP BY tt.shopName
 	union
 	select 5 as category,shopName ,'快洗' as displayName ,count(kx.orderId) as qty,0 as Amount  from  (
@@ -1006,11 +1011,12 @@
 		where
 			 1=1  
 		<if test="startTime != null ">
-			and wo.bill_time between {#startTime,jdbcType=TIMESPAN} and {#endTime,jdbcType=TIMESPAN}
+			and wo.bill_time between #{startTime,jdbcType=VARCHAR} and #{endTime,jdbcType=VARCHAR}
 		</if> 
 		<if test="date != null ">
-			and wo.bill_time like CONCAT(#{date,jdbcType=TIMESPAN},'%' )
+			and wo.bill_time like CONCAT(#{date,jdbcType=VARCHAR},'%' )
 		</if> 
+		group by orderId
 	) kx where kx.washType = '快洗' GROUP BY kx.shopName
 	union
 	select 6 as category,shopName ,'内堂' as displayName ,count(nt.orderId) as qty,0 as Amount  from  (
@@ -1033,11 +1039,12 @@
 		where
 			 1=1  
 		<if test="startTime != null ">
-			and wo.bill_time between {#startTime,jdbcType=TIMESPAN} and {#endTime,jdbcType=TIMESPAN}
+			and wo.bill_time between #{startTime,jdbcType=VARCHAR} and #{endTime,jdbcType=VARCHAR}
 		</if> 
 		<if test="date != null ">
-			and wo.bill_time like CONCAT(#{date,jdbcType=TIMESPAN},'%' )
+			and wo.bill_time like CONCAT(#{date,jdbcType=VARCHAR},'%' )
 		</if> 
+		group by orderId
 	) nt where nt.washType = '内堂' GROUP BY nt.shopName
 	union 
 	select 7 as category,shopName ,'打蜡' as displayName ,count(dl.orderId) as qty ,0 as Amount from  (
@@ -1060,11 +1067,12 @@
 		where
 			 1=1  
 		<if test="startTime != null ">
-			and wo.bill_time between {#startTime,jdbcType=TIMESPAN} and {#endTime,jdbcType=TIMESPAN}
+			and wo.bill_time between #{startTime,jdbcType=VARCHAR} and #{endTime,jdbcType=VARCHAR}
 		</if> 
 		<if test="date != null ">
-			and wo.bill_time like CONCAT(#{date,jdbcType=TIMESPAN},'%' )
+			and wo.bill_time like CONCAT(#{date,jdbcType=VARCHAR},'%' )
 		</if> 
+		group by orderId
 	) as dl where dl.washType = '打蜡' GROUP BY dl.shopName
 	union
 	select 8 as category,shopName ,'支付宝' as displayName ,count(zfb.orderId) as qty ,0 as Amount from  (
@@ -1087,11 +1095,12 @@
 		where
 			 1=1  
 		<if test="startTime != null ">
-			and wo.bill_time between {#startTime,jdbcType=TIMESPAN} and {#endTime,jdbcType=TIMESPAN}
+			and wo.bill_time between #{startTime,jdbcType=VARCHAR} and #{endTime,jdbcType=VARCHAR}
 		</if> 
 		<if test="date != null ">
-			and wo.bill_time like CONCAT(#{date,jdbcType=TIMESPAN},'%' )
+			and wo.bill_time like CONCAT(#{date,jdbcType=VARCHAR},'%' )
 		</if> 
+		group by orderId
 	) as zfb where zfb.payType = '支付宝'  GROUP BY zfb.shopName
 	union
 	select 9 as category,shopName ,'微信' as displayName ,count(wx.orderId) as qty ,0 as Amount from  (
@@ -1114,11 +1123,12 @@
 		where
 			 1=1  
 		<if test="startTime != null ">
-			and wo.bill_time between {#startTime,jdbcType=TIMESPAN} and {#endTime,jdbcType=TIMESPAN}
+			and wo.bill_time between #{startTime,jdbcType=VARCHAR} and #{endTime,jdbcType=VARCHAR}
 		</if> 
 		<if test="date != null ">
-			and wo.bill_time like CONCAT(#{date,jdbcType=TIMESPAN},'%' )
+			and wo.bill_time like CONCAT(#{date,jdbcType=VARCHAR},'%' )
 		</if> 
+		group by orderId
 	) as wx where wx.payType = '微信' GROUP BY wx.shopName
 	union
 	select 10 as category,shopName ,'余额支付' as displayName ,count(ye.orderId) as qty,0 as Amount from  (
@@ -1141,11 +1151,12 @@
 		where
 			 1=1  
 		<if test="startTime != null ">
-			and wo.bill_time between {#startTime,jdbcType=TIMESPAN} and {#endTime,jdbcType=TIMESPAN}
+			and wo.bill_time between #{startTime,jdbcType=VARCHAR} and #{endTime,jdbcType=VARCHAR}
 		</if> 
 		<if test="date != null ">
-			and wo.bill_time like CONCAT(#{date,jdbcType=TIMESPAN},'%' )
+			and wo.bill_time like CONCAT(#{date,jdbcType=VARCHAR},'%' )
 		</if> 
+		group by orderId
 	) as ye where ye.payType = '余额支付' GROUP BY ye.shopName
 	union
 	select 11 as category,shopName ,'总金额' as displayName , 0 as qty,sum(tm.washAmount) as Amount from  (
@@ -1168,11 +1179,12 @@
 		where
 			 1=1  
 		<if test="startTime != null ">
-			and wo.bill_time between {#startTime,jdbcType=TIMESPAN} and {#endTime,jdbcType=TIMESPAN}
+			and wo.bill_time between #{startTime,jdbcType=VARCHAR} and #{endTime,jdbcType=VARCHAR}
 		</if> 
 		<if test="date != null ">
-			and wo.bill_time like CONCAT(#{date,jdbcType=TIMESPAN},'%' )
+			and wo.bill_time like CONCAT(#{date,jdbcType=VARCHAR},'%' )
 		</if> 
+		group by orderId
 	) as tm where tm.orderStatus != 0 GROUP BY tm.shopName
 
   </select>

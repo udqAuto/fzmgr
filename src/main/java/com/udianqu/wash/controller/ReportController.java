@@ -1,6 +1,5 @@
 package com.udianqu.wash.controller;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,14 +13,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.udianqu.wash.core.GeneralUtil;
 import com.udianqu.wash.core.ListResult;
 import com.udianqu.wash.core.Result;
-import com.udianqu.wash.model.Region;
 import com.udianqu.wash.service.WashOrderService;
-import com.udianqu.wash.viewmodel.AutoVM;
 import com.udianqu.wash.viewmodel.ReportShowVM;
-import com.udianqu.wash.viewmodel.ReportVM;
 
 @Controller 
 @RequestMapping("/report")
