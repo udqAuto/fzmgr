@@ -838,7 +838,7 @@
 			and wt.name like CONCAT('%',#{washTypeName,jdbcType=VARCHAR},'%')
 		</if>
 		<if test="startTime != null ">
-			and o.start_time  &gt;=#{startTime,jdbcType=TIMESTAMP}
+			and o.bill_time  &gt;=#{startTime,jdbcType=TIMESTAMP}
 		</if>
 		<if test="endTime != null">
 			and o.end_time  &lt;=#{endTime,jdbcType=TIMESTAMP}
@@ -850,28 +850,331 @@
   </select>
   
   <select id="loadReportlist"   parameterType="java.util.Map"  resultType="com.udianqu.wash.viewmodel.ReportVM"  >
-  		select 
-  		       org.name       as orgName,
-  		       count(*)       as orderCount,
-  		       (select count(*) from t_wash_order o where o.state = 1)   as newOrder,
-  		       (select count(*) from t_wash_order o where o.state = 2)   as receivedOrder,
-  		       (select count(*) from t_wash_order o where o.state = 4)   as completedOrder,
-  		       (select count(*) from t_wash_order o where o.state = 5)   as gradedOrder,
-  		       (select count(*) from t_wash_order o where o.state = 11 and o.state = 10)   as canceledOrder,
-  		       (select count(*) from t_wash_order_item wo where wo.wash_type_id = 1)       as fastWash,
-  		       (select count(*) from t_wash_order_item wo where wo.wash_type_id = 2)       as insideWash,
-  		       (select count(*) from t_wash_order_item wo where wo.wash_type_id = 3)       as waxed,
-  		       (select sum(p.amount) from t_pay p where p.pay_type = 1)       as alipay,
-  		       (select sum(p.amount) from t_pay p where p.pay_type = 2)       as weChat,
-  		       (select sum(p.amount) from t_pay p where p.pay_type = 100)       as balancePay,
-  		       sum(p.amount)        as totalAmount
-  		 
-  		from t_wash_order o 
-  		left join t_org org on org.id = o.org_id
-  		left join t_wash_order_item wo on wo.order_id = o.id
-  		left join t_pay p on p.order_id = o.id
-  		where o.state != 0 
-  			and o.bill_time like CONCAT(#{date,jdbcType=VARCHAR},'%' )
+  		  
+
+	select 0 as category,shopName ,'已下单' as displayName ,count(xd.orderId) as qty,0 as Amount  from  (
+		select
+			wo.id					as orderId,
+			o.name				as shopName,
+			wo.state 			as orderStatus,
+			CASE p.pay_type	
+						when 1 THEN '支付宝' 
+						when 2 THEN '微信'  
+						when 100 THEN '余额支付'	END as payType,
+			wt.`name` 		as washType,
+			p.amount			as washAmount
+		from 
+			t_wash_order as wo
+		left join t_org as o  on  wo.org_id =o.id
+		left join t_wash_order_item as woi on wo.id = woi.order_id
+		left join t_wash_type as wt on woi.wash_type_id = wt.id
+		left join t_pay as p on wo.id = p.order_id
+		where 1=1 
+		<if test="startTime != null ">
+			and wo.bill_time between {#startTime,jdbcType=TIMESPAN} and {#endTime,jdbcType=TIMESPAN}
+		</if> 
+		<if test="date != null ">
+			and wo.bill_time like CONCAT(#{date,jdbcType=TIMESPAN},'%' )
+		</if> 
+	)as xd where xd.orderStatus = 1 GROUP BY xd.shopName
+	union
+	select 1 as category,shopName ,'已接单' as displayName ,count(jd.orderId) as qty,0 as Amount  from  (
+		select
+			wo.id					as orderId,
+			o.name				as shopName,
+			wo.state 			as orderStatus,
+			CASE p.pay_type	
+						when 1 THEN '支付宝' 
+						when 2 THEN '微信'  
+						when 100 THEN '余额支付'	END as payType,
+			wt.`name` 		as washType,
+			p.amount			as washAmount
+		from 
+			t_wash_order as wo
+		left join t_org as o  on  wo.org_id =o.id
+		left join t_wash_order_item as woi on wo.id = woi.order_id
+		left join t_wash_type as wt on woi.wash_type_id = wt.id
+		left join t_pay as p on wo.id = p.order_id
+		where
+			 1=1  
+		<if test="startTime != null ">
+			and wo.bill_time between {#startTime,jdbcType=TIMESPAN} and {#endTime,jdbcType=TIMESPAN}
+		</if> 
+		<if test="date != null ">
+			and wo.bill_time like CONCAT(#{date,jdbcType=TIMESPAN},'%' )
+		</if> 
+	) as jd  where jd.orderStatus in(2,3) GROUP BY jd.shopName
+	union 
+	select 2 as category,shopName ,'已完成' as displayName ,count(wc.orderId) as qty,0 as Amount  from  (
+		select
+			wo.id					as orderId,
+			o.name				as shopName,
+			wo.state 			as orderStatus,
+			CASE p.pay_type	
+						when 1 THEN '支付宝' 
+						when 2 THEN '微信'  
+						when 100 THEN '余额支付'	END as payType,
+			wt.`name` 		as washType,
+			p.amount			as washAmount
+		from 
+			t_wash_order as wo
+		left join t_org as o  on  wo.org_id =o.id
+		left join t_wash_order_item as woi on wo.id = woi.order_id
+		left join t_wash_type as wt on woi.wash_type_id = wt.id
+		left join t_pay as p on wo.id = p.order_id
+		where
+			 1=1  
+		<if test="startTime != null ">
+			and wo.bill_time between {#startTime,jdbcType=TIMESPAN} and {#endTime,jdbcType=TIMESPAN}
+		</if> 
+		<if test="date != null ">
+			and wo.bill_time like CONCAT(#{date,jdbcType=TIMESPAN},'%' )
+		</if> 
+	) as wc  where wc.orderStatus = 4 GROUP BY wc.shopName
+	union
+	select 3 as category,shopName ,'已评价' as displayName ,count(pj.orderId) as qty,0 as Amount  from  (
+		select
+			wo.id					as orderId,
+			o.name				as shopName,
+			wo.state 			as orderStatus,
+			CASE p.pay_type	
+						when 1 THEN '支付宝' 
+						when 2 THEN '微信'  
+						when 100 THEN '余额支付'	END as payType,
+			wt.`name` 		as washType,
+			p.amount			as washAmount
+		from 
+			t_wash_order as wo
+		left join t_org as o  on  wo.org_id =o.id
+		left join t_wash_order_item as woi on wo.id = woi.order_id
+		left join t_wash_type as wt on woi.wash_type_id = wt.id
+		left join t_pay as p on wo.id = p.order_id
+		where
+			 1=1  
+		<if test="startTime != null ">
+			and wo.bill_time between {#startTime,jdbcType=TIMESPAN} and {#endTime,jdbcType=TIMESPAN}
+		</if> 
+		<if test="date != null ">
+			and wo.bill_time like CONCAT(#{date,jdbcType=TIMESPAN},'%' )
+		</if> 
+	) as pj where pj.orderStatus = 5 GROUP BY pj.shopName
+	union 
+	select 4 as category,shopName ,'总数' as displayName ,count(tt.orderId) as qty ,0 as Amount from  (
+		select
+			wo.id					as orderId,
+			o.name				as shopName,
+			wo.state 			as orderStatus,
+			CASE p.pay_type	
+						when 1 THEN '支付宝' 
+						when 2 THEN '微信'  
+						when 100 THEN '余额支付'	END as payType,
+			wt.`name` 		as washType,
+			p.amount			as washAmount
+		from 
+			t_wash_order as wo
+		left join t_org as o  on  wo.org_id =o.id
+		left join t_wash_order_item as woi on wo.id = woi.order_id
+		left join t_wash_type as wt on woi.wash_type_id = wt.id
+		left join t_pay as p on wo.id = p.order_id
+		where
+			 1=1  
+		<if test="startTime != null ">
+			and wo.bill_time between {#startTime,jdbcType=TIMESPAN} and {#endTime,jdbcType=TIMESPAN}
+		</if> 
+		<if test="date != null ">
+			and wo.bill_time like CONCAT(#{date,jdbcType=TIMESPAN},'%' )
+		</if> 
+	) tt where tt.orderStatus != 0 GROUP BY tt.shopName
+	union
+	select 5 as category,shopName ,'快洗' as displayName ,count(kx.orderId) as qty,0 as Amount  from  (
+		select
+			wo.id					as orderId,
+			o.name				as shopName,
+			wo.state 			as orderStatus,
+			CASE p.pay_type	
+						when 1 THEN '支付宝' 
+						when 2 THEN '微信'  
+						when 100 THEN '余额支付'	END as payType,
+			wt.`name` 		as washType,
+			p.amount			as washAmount
+		from 
+			t_wash_order as wo
+		left join t_org as o  on  wo.org_id =o.id
+		left join t_wash_order_item as woi on wo.id = woi.order_id
+		left join t_wash_type as wt on woi.wash_type_id = wt.id
+		left join t_pay as p on wo.id = p.order_id
+		where
+			 1=1  
+		<if test="startTime != null ">
+			and wo.bill_time between {#startTime,jdbcType=TIMESPAN} and {#endTime,jdbcType=TIMESPAN}
+		</if> 
+		<if test="date != null ">
+			and wo.bill_time like CONCAT(#{date,jdbcType=TIMESPAN},'%' )
+		</if> 
+	) kx where kx.washType = '快洗' GROUP BY kx.shopName
+	union
+	select 6 as category,shopName ,'内堂' as displayName ,count(nt.orderId) as qty,0 as Amount  from  (
+		select
+			wo.id					as orderId,
+			o.name				as shopName,
+			wo.state 			as orderStatus,
+			CASE p.pay_type	
+						when 1 THEN '支付宝' 
+						when 2 THEN '微信'  
+						when 100 THEN '余额支付'	END as payType,
+			wt.`name` 		as washType,
+			p.amount			as washAmount
+		from 
+			t_wash_order as wo
+		left join t_org as o  on  wo.org_id =o.id
+		left join t_wash_order_item as woi on wo.id = woi.order_id
+		left join t_wash_type as wt on woi.wash_type_id = wt.id
+		left join t_pay as p on wo.id = p.order_id
+		where
+			 1=1  
+		<if test="startTime != null ">
+			and wo.bill_time between {#startTime,jdbcType=TIMESPAN} and {#endTime,jdbcType=TIMESPAN}
+		</if> 
+		<if test="date != null ">
+			and wo.bill_time like CONCAT(#{date,jdbcType=TIMESPAN},'%' )
+		</if> 
+	) nt where nt.washType = '内堂' GROUP BY nt.shopName
+	union 
+	select 7 as category,shopName ,'打蜡' as displayName ,count(dl.orderId) as qty ,0 as Amount from  (
+		select
+			wo.id					as orderId,
+			o.name				as shopName,
+			wo.state 			as orderStatus,
+			CASE p.pay_type	
+						when 1 THEN '支付宝' 
+						when 2 THEN '微信'  
+						when 100 THEN '余额支付'	END as payType,
+			wt.`name` 		as washType,
+			p.amount			as washAmount
+		from 
+			t_wash_order as wo
+		left join t_org as o  on  wo.org_id =o.id
+		left join t_wash_order_item as woi on wo.id = woi.order_id
+		left join t_wash_type as wt on woi.wash_type_id = wt.id
+		left join t_pay as p on wo.id = p.order_id
+		where
+			 1=1  
+		<if test="startTime != null ">
+			and wo.bill_time between {#startTime,jdbcType=TIMESPAN} and {#endTime,jdbcType=TIMESPAN}
+		</if> 
+		<if test="date != null ">
+			and wo.bill_time like CONCAT(#{date,jdbcType=TIMESPAN},'%' )
+		</if> 
+	) as dl where dl.washType = '打蜡' GROUP BY dl.shopName
+	union
+	select 8 as category,shopName ,'支付宝' as displayName ,count(zfb.orderId) as qty ,0 as Amount from  (
+		select
+			wo.id					as orderId,
+			o.name				as shopName,
+			wo.state 			as orderStatus,
+			CASE p.pay_type	
+						when 1 THEN '支付宝' 
+						when 2 THEN '微信'  
+						when 100 THEN '余额支付'	END as payType,
+			wt.`name` 		as washType,
+			p.amount			as washAmount
+		from 
+			t_wash_order as wo
+		left join t_org as o  on  wo.org_id =o.id
+		left join t_wash_order_item as woi on wo.id = woi.order_id
+		left join t_wash_type as wt on woi.wash_type_id = wt.id
+		left join t_pay as p on wo.id = p.order_id
+		where
+			 1=1  
+		<if test="startTime != null ">
+			and wo.bill_time between {#startTime,jdbcType=TIMESPAN} and {#endTime,jdbcType=TIMESPAN}
+		</if> 
+		<if test="date != null ">
+			and wo.bill_time like CONCAT(#{date,jdbcType=TIMESPAN},'%' )
+		</if> 
+	) as zfb where zfb.payType = '支付宝'  GROUP BY zfb.shopName
+	union
+	select 9 as category,shopName ,'微信' as displayName ,count(wx.orderId) as qty ,0 as Amount from  (
+		select
+			wo.id					as orderId,
+			o.name				as shopName,
+			wo.state 			as orderStatus,
+			CASE p.pay_type	
+						when 1 THEN '支付宝' 
+						when 2 THEN '微信'  
+						when 100 THEN '余额支付'	END as payType,
+			wt.`name` 		as washType,
+			p.amount			as washAmount
+		from 
+			t_wash_order as wo
+		left join t_org as o  on  wo.org_id =o.id
+		left join t_wash_order_item as woi on wo.id = woi.order_id
+		left join t_wash_type as wt on woi.wash_type_id = wt.id
+		left join t_pay as p on wo.id = p.order_id
+		where
+			 1=1  
+		<if test="startTime != null ">
+			and wo.bill_time between {#startTime,jdbcType=TIMESPAN} and {#endTime,jdbcType=TIMESPAN}
+		</if> 
+		<if test="date != null ">
+			and wo.bill_time like CONCAT(#{date,jdbcType=TIMESPAN},'%' )
+		</if> 
+	) as wx where wx.payType = '微信' GROUP BY wx.shopName
+	union
+	select 10 as category,shopName ,'余额支付' as displayName ,count(ye.orderId) as qty,0 as Amount from  (
+		select
+			wo.id					as orderId,
+			o.name				as shopName,
+			wo.state 			as orderStatus,
+			CASE p.pay_type	
+						when 1 THEN '支付宝' 
+						when 2 THEN '微信'  
+						when 100 THEN '余额支付'	END as payType,
+			wt.`name` 		as washType,
+			p.amount			as washAmount
+		from 
+			t_wash_order as wo
+		left join t_org as o  on  wo.org_id =o.id
+		left join t_wash_order_item as woi on wo.id = woi.order_id
+		left join t_wash_type as wt on woi.wash_type_id = wt.id
+		left join t_pay as p on wo.id = p.order_id
+		where
+			 1=1  
+		<if test="startTime != null ">
+			and wo.bill_time between {#startTime,jdbcType=TIMESPAN} and {#endTime,jdbcType=TIMESPAN}
+		</if> 
+		<if test="date != null ">
+			and wo.bill_time like CONCAT(#{date,jdbcType=TIMESPAN},'%' )
+		</if> 
+	) as ye where ye.payType = '余额支付' GROUP BY ye.shopName
+	union
+	select 11 as category,shopName ,'总金额' as displayName , 0 as qty,sum(tm.washAmount) as Amount from  (
+		select
+			wo.id					as orderId,
+			o.name				as shopName,
+			wo.state 			as orderStatus,
+			CASE p.pay_type	
+						when 1 THEN '支付宝' 
+						when 2 THEN '微信'  
+						when 100 THEN '余额支付'	END as payType,
+			wt.`name` 		as washType,
+			p.amount			as washAmount
+		from 
+			t_wash_order as wo
+		left join t_org as o  on  wo.org_id =o.id
+		left join t_wash_order_item as woi on wo.id = woi.order_id
+		left join t_wash_type as wt on woi.wash_type_id = wt.id
+		left join t_pay as p on wo.id = p.order_id
+		where
+			 1=1  
+		<if test="startTime != null ">
+			and wo.bill_time between {#startTime,jdbcType=TIMESPAN} and {#endTime,jdbcType=TIMESPAN}
+		</if> 
+		<if test="date != null ">
+			and wo.bill_time like CONCAT(#{date,jdbcType=TIMESPAN},'%' )
+		</if> 
+	) as tm where tm.orderStatus != 0 GROUP BY tm.shopName
+
   </select>
   
   <select id="selectByOrderNo" resultMap="BaseVMResultMap" parameterType="java.lang.String" >

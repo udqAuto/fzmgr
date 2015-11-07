@@ -1,6 +1,6 @@
 var m_report_query = {};
 $(function() {
-	m_report_query.date;
+	ReportManage.packageQuery();
 	ReportManage.loadReportList();
 	//$("#showReport").bind("click", ReportManage.showReport);
 });
@@ -26,7 +26,7 @@ var ReportManage = {
 					hidden : true
 				}, {
 					title : '洗车店',
-					field : 'orgName',
+					field : 'shopName',
 					align : 'center',
 					width : 100,
 				}, {
@@ -52,11 +52,6 @@ var ReportManage = {
 				}, {
 					title : '已评价',
 					field : 'gradedOrder',
-					align : 'center',
-					width : 100
-				}, {
-					title : '已取消',
-					field : 'cancelOrder',
 					align : 'center',
 					width : 100
 				}, {
@@ -97,14 +92,19 @@ var ReportManage = {
 				} ] ]
 			});
 		},
+		packageQuery : function(){
+			m_report_query.startTime = $("#sch_startTime").datebox("getValue");
+			m_report_query.endTime = $("#sch_endTime").datebox("getValue");
+			m_report_query.date = $("#sch_date").datebox("getValue");
+		},
 		doSearch:function(){
-//			m_auto_query.pn = $("#sch_autoPN").val();
-//			m_auto_query.userName = $("#sch_user").val();
-//			$('#autoListGrid').datagrid("reload",{'autoInfo' : JSON.stringify(m_auto_query)});
+			ReportManage.packageQuery();
+			$('#reportListGrid').datagrid("reload",{'reportInfo' : JSON.stringify(m_report_query)});
 		},
 		doClean:function(){
-//			$("#sch_autoPN").val("");
-//			$("#sch_user").val("");
+			m_report_query.startTime = $("#sch_startTime").datebox("setValue","");
+			m_report_query.endTime = $("#sch_endTime").datebox("setValue","");
+			m_report_query.date = $("#sch_date").datebox("setValue","");
 		}
 		
 };

@@ -21,6 +21,11 @@
 	<div id="reportTb">
 		<div>
 			<p>
+			    <span style="padding-left:25px">
+					<label>开始时间:</label><input id="sch_startTime" class="easyui-datebox" style="width:120px" data-options="editable:false" />
+            		<label>结束时间:</label><input id="sch_endTime" class="easyui-datebox" style="width:120px"  data-options="editable:false" />
+            		<label>按天查询:</label><input id="sch_date" class="easyui-datebox" style="width:120px"  data-options="editable:false" />
+            	</span>
 				<a id="btnSearch" href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-search" plain="true" onclick="ReportManage.doSearch();">查询</a>
             	<a id="btnclearUp" href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-udq-clear" plain="true" onclick="ReportManage.doClean();">清空</a>
 			</p>

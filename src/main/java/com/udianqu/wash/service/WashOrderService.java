@@ -3,6 +3,7 @@ package com.udianqu.wash.service;
 import java.io.File;
 import java.math.BigDecimal;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -32,6 +33,7 @@ import com.udianqu.wash.model.UserBalance;
 import com.udianqu.wash.model.WashOrder;
 import com.udianqu.wash.model.WashOrderItem;
 import com.udianqu.wash.util.NotificationUtil;
+import com.udianqu.wash.viewmodel.ReportShowVM;
 import com.udianqu.wash.viewmodel.ReportVM;
 import com.udianqu.wash.viewmodel.UserVM;
 import com.udianqu.wash.viewmodel.WashOrderVM;
@@ -345,10 +347,69 @@ public class WashOrderService {
 		washOrderMapper.updateByPrimaryKeySelective(order);
 	}
 
-	public ListResult<ReportVM> loadReportlist(Map<String, Object> map) {
+	public ListResult<ReportShowVM> loadReportlist(Map<String, Object> map) {
 		// TODO Auto-generated method stub
 		List<ReportVM> list = washOrderMapper.loadReportlist(map);
-		ListResult<ReportVM> result = new ListResult<ReportVM>(list);
+		List<ReportShowVM> rlist = new ArrayList<ReportShowVM>();
+		List<String> shop = new ArrayList<String>();
+		for(int a=0;a<list.size();a++){
+			ReportVM re = list.get(a);
+			String shopName = re.getShopName();
+			String displayName = re.getDisplayName();
+			if("总金额".equals(displayName)){
+				shop.add(shopName);
+			}
+		}
+		for(int i=0;i<shop.size();i++){
+			String shopname = shop.get(i);
+			ReportShowVM rs = new ReportShowVM();
+			rs.setShopName(shopname);
+			for(int a=0;a<list.size();a++){
+				ReportVM re = list.get(a);
+				String shopName = re.getShopName();
+				String displayName = re.getDisplayName();
+				int count = re.getQty();
+				BigDecimal amount = re.getAmount();
+				if("已下单".equals(displayName)&&shopname.equals(shopName)){
+					rs.setNewOrder(count);
+				}
+				if("已接单".equals(displayName)&&shopname.equals(shopName)){
+					rs.setReceivedOrder(count);
+				}
+				if("已完成".equals(displayName)&&shopname.equals(shopName)){
+					rs.setCompletedOrder(count);
+				}
+				if("已评价".equals(displayName)&&shopname.equals(shopName)){
+					rs.setGradedOrder(count);
+				}
+				if("总数".equals(displayName)&&shopname.equals(shopName)){
+					rs.setOrderCount(count);
+				}
+				if("快洗".equals(displayName)&&shopname.equals(shopName)){
+					rs.setFastWash(count);
+				}
+				if("内堂".equals(displayName)&&shopname.equals(shopName)){
+					rs.setInsideWash(count);
+				}
+				if("打蜡".equals(displayName)&&shopname.equals(shopName)){
+					rs.setWaxed(count);
+				}
+				if("支付宝".equals(displayName)&&shopname.equals(shopName)){
+					rs.setAlipay(count);
+				}
+				if("微信".equals(displayName)&&shopname.equals(shopName)){
+					rs.setWeChat(count);
+				}
+				if("余额支付".equals(displayName)&&shopname.equals(shopName)){
+					rs.setBalancePay(count);
+				}
+				if("总金额".equals(displayName)&&shopname.equals(shopName)){
+					rs.setTotalAmount(amount);
+				}
+			}
+			rlist.add(rs);
+		}
+		ListResult<ReportShowVM> result = new ListResult<ReportShowVM>(rlist);
 		return result;
 	}
 }
