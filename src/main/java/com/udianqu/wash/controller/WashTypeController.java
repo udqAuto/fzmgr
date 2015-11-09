@@ -88,7 +88,7 @@ public class WashTypeController {
 			@RequestParam(value = "Id", required = true) Integer id,
 			HttpServletRequest request){
 		try{
-			washTypeService.deleteWashType(id);
+			washTypeService.updateIsUsedById(id);
 			Result<WashType> s = new Result<WashType>(null, true, false,
 					false, "调用后台方法出错");
 			return s.toJson();

@@ -221,7 +221,7 @@
   </select>
   <select id="countByMap" parameterType="java.util.Map" resultType="java.lang.Integer" >
     select count(*) from t_wash_type
-    where 1=1
+    where is_used = 1
   </select>
   <update id="updateByExampleSelective" parameterType="map" >
     <!--
@@ -319,11 +319,17 @@
       is_used = #{isUsed,jdbcType=BIT}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <update id="updateIsUsedById" parameterType="java.lang.Integer" >
+    update t_wash_type
+    set 
+      is_used = 0
+    where id = #{id,jdbcType=INTEGER}
+  </update>
   <select id="loadWashTypeListWithPage" resultMap="BaseResultMap" parameterType="java.util.Map" >
     select 
     <include refid="Base_Column_List" />
     from t_wash_type
-    where 1=1
+    where is_used = 1
     <if test="pageStart !=null">
   		limit #{pageStart,jdbcType=INTEGER}, #{pageSize,jdbcType=INTEGER}
   		</if>

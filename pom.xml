@@ -1,29 +1,30 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>fzapp</groupId>
-  <artifactId>fzmgr</artifactId>
-  <packaging>war</packaging>
-  <version>0.0.1-SNAPSHOT</version>
-  <name>fzmgr Maven Webapp</name>
-  <url>http://maven.apache.org</url>
-  
-  <repositories>
-	<repository>
-		<snapshots>
-			<enabled>false</enabled>
-        </snapshots>
-        <id>central</id>
-        <name>bintray</name>
-        <url>http://jcenter.bintray.com</url>
-    </repository>
-  </repositories>
-   <properties>
-  	<org.springframework.version>4.2.0.RELEASE</org.springframework.version>
-  	<org.apache.mina.version>2.0.9</org.apache.mina.version>
-  </properties>
-  
-  <dependencies>
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>fzapp</groupId>
+	<artifactId>fzmgr</artifactId>
+	<packaging>war</packaging>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>fzmgr Maven Webapp</name>
+	<url>http://maven.apache.org</url>
+
+	<repositories>
+		<repository>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+			<id>central</id>
+			<name>bintray</name>
+			<url>http://jcenter.bintray.com</url>
+		</repository>
+	</repositories>
+	<properties>
+		<org.springframework.version>4.2.0.RELEASE</org.springframework.version>
+		<org.apache.mina.version>2.0.9</org.apache.mina.version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+
+	<dependencies>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
@@ -60,8 +61,8 @@
 		</dependency>
 		<dependency>
 			<groupId>net.sourceforge.jexcelapi</groupId>
- 			<artifactId>jxl</artifactId>
- 			<version>2.6</version> 
+			<artifactId>jxl</artifactId>
+			<version>2.6</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
@@ -86,21 +87,21 @@
 			<groupId>dom4j</groupId>
 			<artifactId>dom4j</artifactId>
 			<version>1.6.1</version>
-		</dependency> 
-       <dependency>
-           <groupId>org.apache.httpcomponents</groupId>
-           <artifactId>httpclient</artifactId>
-           <version>4.1.2</version>
-       </dependency> 
-       <dependency>
-           <groupId>org.apache.httpcomponents</groupId>
-           <artifactId>httpcore</artifactId>
-           <version>4.1.2</version>
-       </dependency> 
+		</dependency>
 		<dependency>
-		  <groupId>jaxen</groupId>
-		  <artifactId>jaxen</artifactId>
-		  <version>1.1.4</version>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient</artifactId>
+			<version>4.1.2</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpcore</artifactId>
+			<version>4.1.2</version>
+		</dependency>
+		<dependency>
+			<groupId>jaxen</groupId>
+			<artifactId>jaxen</artifactId>
+			<version>1.1.4</version>
 		</dependency><!-- Spring依赖包 -->
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -142,19 +143,19 @@
 			<artifactId>spring-web</artifactId>
 			<version>${org.springframework.version}</version>
 		</dependency>
-		 
+
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-webmvc</artifactId>
 			<version>${org.springframework.version}</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.apache.axis2</groupId>
 			<artifactId>axis2</artifactId>
 			<version>1.6.2</version>
 		</dependency>
-		
+
 		<!-- Spring动态代理 -->
 		<dependency>
 			<groupId>cglib</groupId>
@@ -166,13 +167,13 @@
 			<artifactId>mysql-connector-java</artifactId>
 			<version>5.1.20</version>
 		</dependency>
-		
+
 		<dependency>
-		  <groupId>c3p0</groupId>
-		  <artifactId>c3p0</artifactId>
-		  <version>0.9.1.2</version>
+			<groupId>c3p0</groupId>
+			<artifactId>c3p0</artifactId>
+			<version>0.9.1.2</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.javassist</groupId>
 			<artifactId>javassist</artifactId>
@@ -212,9 +213,9 @@
 		</dependency>
 		<!-- JSON依赖包 -->
 		<dependency>
-		  <groupId>com.github.jknack</groupId>
-		  <artifactId>handlebars-jackson2</artifactId>
-		  <version>0.12.0</version>
+			<groupId>com.github.jknack</groupId>
+			<artifactId>handlebars-jackson2</artifactId>
+			<version>0.12.0</version>
 		</dependency>
 		<!-- freemarker包。 用于动态SQL -->
 		<dependency>
@@ -234,7 +235,7 @@
 			<version>2.4</version>
 		</dependency>
 		<!-- Excel操作 -->
-		
+
 		<!-- CXF -->
 		<dependency>
 			<groupId>org.apache.cxf</groupId>
@@ -245,95 +246,107 @@
 			<groupId>org.apache.cxf</groupId>
 			<artifactId>cxf-rt-transports-http</artifactId>
 			<version>2.7.2</version>
-		</dependency> 
-		 
-		
-		<dependency>
-		  <groupId>org.mybatis</groupId>
-		  <artifactId>mybatis</artifactId>
-		  <version>3.1.1</version>
 		</dependency>
-		
+
+
 		<dependency>
-		  <groupId>org.mybatis</groupId>
-		  <artifactId>mybatis-spring</artifactId>
-		  <version>1.1.1</version>
+			<groupId>org.mybatis</groupId>
+			<artifactId>mybatis</artifactId>
+			<version>3.1.1</version>
 		</dependency>
-		 
-		
+
 		<dependency>
-		  <groupId>org.mybatis.generator</groupId>
-		  <artifactId>mybatis-generator-maven-plugin</artifactId>
-		  <version>1.3.2</version>
+			<groupId>org.mybatis</groupId>
+			<artifactId>mybatis-spring</artifactId>
+			<version>1.1.1</version>
 		</dependency>
-		
+
+
+		<dependency>
+			<groupId>org.mybatis.generator</groupId>
+			<artifactId>mybatis-generator-maven-plugin</artifactId>
+			<version>1.3.2</version>
+		</dependency>
+
 		<dependency>
 			<groupId>checkstyle</groupId>
 			<artifactId>checkstyle</artifactId>
 			<version>5.0</version>
 		</dependency>
-		 
-		
+
+
 		<dependency>
-		  <groupId>org.apache.commons</groupId>
-		  <artifactId>commons-email</artifactId>
-		  <version>1.3.3</version>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-email</artifactId>
+			<version>1.3.3</version>
 		</dependency>
-	
+
 		<dependency>
 			<groupId>net.sf.json-lib</groupId>
 			<artifactId>json-lib</artifactId>
 			<version>2.3</version>
 			<classifier>jdk15</classifier>
-		</dependency> 
-		
-		<dependency><groupId>org.apache.poi</groupId>
- 			<artifactId>poi-ooxml</artifactId>
- 			<version>3.5-FINAL</version>
 		</dependency>
-		
-		<dependency>
-	        <groupId>Pingplusplus</groupId>
-	        <artifactId>pingpp-java</artifactId>
-	        <version>2.0.9</version>
-	        <type>jar</type>
-    	</dependency>
-    	<!-- 极光推送 -->
-    	<dependency>
-             <groupId>cn.jpush.api</groupId>
-             <artifactId>jpush-client</artifactId>
-             <version>3.2.3</version>
-        </dependency>
-        <dependency>
-            <groupId>com.google.code.gson</groupId>
-            <artifactId>gson</artifactId>
-            <version>2.2.4</version>
-        </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-            <version>1.7.5</version>
-        </dependency>
-        <dependency>
-            <groupId>log4j</groupId>
-            <artifactId>log4j</artifactId>
-            <version>1.2.16</version>
-        </dependency>
-        <dependency>
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
-            <version>17.0</version>
-        </dependency>
-        <dependency>
-            <groupId>com.squareup.okhttp</groupId>
-            <artifactId>mockwebserver</artifactId>
-            <version>1.5.4</version>
-            <scope>test</scope>
-        </dependency>
-  </dependencies>
-  <build>
-  	<defaultGoal>compile</defaultGoal>
-    <finalName>fzmgr</finalName>
 
-  </build>
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-ooxml</artifactId>
+			<version>3.5-FINAL</version>
+		</dependency>
+
+		<dependency>
+			<groupId>Pingplusplus</groupId>
+			<artifactId>pingpp-java</artifactId>
+			<version>2.0.9</version>
+			<type>jar</type>
+		</dependency>
+		<!-- 极光推送 -->
+		<dependency>
+			<groupId>cn.jpush.api</groupId>
+			<artifactId>jpush-client</artifactId>
+			<version>3.2.3</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>2.2.4</version>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>1.7.5</version>
+		</dependency>
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.16</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>17.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.squareup.okhttp</groupId>
+			<artifactId>mockwebserver</artifactId>
+			<version>1.5.4</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+	<build>
+		<defaultGoal>compile</defaultGoal>
+		<finalName>fzmgr</finalName>
+		<plugins>
+			<plugin>
+
+				<artifactId>maven-compiler-plugin</artifactId>
+
+				<configuration>
+					<source>1.6</source>
+					<target>1.6</target>
+					<encoding>UTF-8</encoding>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 </project>

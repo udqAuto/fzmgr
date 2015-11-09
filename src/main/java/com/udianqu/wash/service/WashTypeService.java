@@ -40,9 +40,9 @@ public class WashTypeService {
 		washTypeMapper.insert(washType);
 	}
 
-	public void deleteWashType(Integer id) {
+	public void updateIsUsedById(Integer id) {
 		// TODO Auto-generated method stub
-		washTypeMapper.deleteByPrimaryKey(id);
+		washTypeMapper.updateIsUsedById(id);
 	}
 	
 }

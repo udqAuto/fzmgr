@@ -101,4 +101,6 @@ public interface WashTypeMapper {
 	List<WashType> loadWashTypeListWithPage(Map<String, Object> map);
 
 	int countByMap(Map<String, Object> map);
+
+	void updateIsUsedById(Integer id);
 }

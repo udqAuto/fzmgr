@@ -14,7 +14,7 @@ var ReportManage = {
 				},
 				fitColumns : true,
 				rownumbers : true,
-				pagination : true,
+				//pagination : true,
 				nowrap : false,
 				idField : 'id',
 				singleSelect : true,
