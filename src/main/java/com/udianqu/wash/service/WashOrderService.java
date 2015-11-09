@@ -352,6 +352,7 @@ public class WashOrderService {
 		List<ReportVM> list = washOrderMapper.loadReportlist(map);
 		List<ReportShowVM> rlist = new ArrayList<ReportShowVM>();
 		List<String> shop = new ArrayList<String>();
+		/**取出门店 */
 		for(int a=0;a<list.size();a++){
 			ReportVM re = list.get(a);
 			String shopName = re.getShopName();
@@ -360,6 +361,21 @@ public class WashOrderService {
 				shop.add(shopName);
 			}
 		}
+		/*为了存放【 合计】 一栏*/
+		ReportShowVM total = new ReportShowVM();
+		int orderCount = 0;
+		int newOrder = 0;
+		int receivedOrder = 0;
+		int completedOrder = 0;
+		int gradedOrder = 0;
+		int fastWash = 0;
+		int insideWash = 0;
+		int waxed = 0;
+		int alipay = 0;
+		int weChat = 0;
+		int balancePay = 0;
+		BigDecimal totalAmount = new BigDecimal(0);
+		
 		for(int i=0;i<shop.size();i++){
 			String shopname = shop.get(i);
 			ReportShowVM rs = new ReportShowVM();
@@ -372,43 +388,76 @@ public class WashOrderService {
 				BigDecimal amount = re.getAmount();
 				if("已下单".equals(displayName)&&shopname.equals(shopName)){
 					rs.setNewOrder(count);
+					newOrder += count; 
 				}
 				if("已接单".equals(displayName)&&shopname.equals(shopName)){
 					rs.setReceivedOrder(count);
+					receivedOrder += count;
 				}
 				if("已完成".equals(displayName)&&shopname.equals(shopName)){
 					rs.setCompletedOrder(count);
+					completedOrder += count;
 				}
 				if("已评价".equals(displayName)&&shopname.equals(shopName)){
 					rs.setGradedOrder(count);
+					gradedOrder += count;
 				}
 				if("总数".equals(displayName)&&shopname.equals(shopName)){
 					rs.setOrderCount(count);
+					orderCount += count;
 				}
 				if("快洗".equals(displayName)&&shopname.equals(shopName)){
 					rs.setFastWash(count);
+					fastWash += count;
 				}
 				if("内堂".equals(displayName)&&shopname.equals(shopName)){
 					rs.setInsideWash(count);
+					insideWash += count;
 				}
 				if("打蜡".equals(displayName)&&shopname.equals(shopName)){
 					rs.setWaxed(count);
+					waxed += count;
 				}
 				if("支付宝".equals(displayName)&&shopname.equals(shopName)){
 					rs.setAlipay(count);
+					alipay += count;
 				}
 				if("微信".equals(displayName)&&shopname.equals(shopName)){
 					rs.setWeChat(count);
+					weChat += count;
 				}
 				if("余额支付".equals(displayName)&&shopname.equals(shopName)){
 					rs.setBalancePay(count);
+					balancePay += count;
 				}
 				if("总金额".equals(displayName)&&shopname.equals(shopName)){
+//					java.text.DecimalFormat myformat=new java.text.DecimalFormat("0.00");
+//					String str = myformat.format(amount);
+//					BigDecimal Amount = new BigDecimal(str);
 					rs.setTotalAmount(amount);
+					
+					totalAmount = totalAmount.add(amount);
 				}
 			}
 			rlist.add(rs);
 		}
+		total.setShopName("合计");
+		total.setOrderCount(orderCount);
+		total.setNewOrder(newOrder);
+		total.setReceivedOrder(receivedOrder);
+		total.setCompletedOrder(completedOrder);
+		total.setGradedOrder(gradedOrder);
+		total.setFastWash(fastWash);
+		total.setInsideWash(insideWash);
+		total.setWaxed(waxed);
+		total.setAlipay(alipay);
+		total.setWeChat(weChat);
+		total.setBalancePay(balancePay);
+//		java.text.DecimalFormat myformat=new java.text.DecimalFormat("0.00");
+//		String str2 = myformat.format(totalAmount);
+//		BigDecimal tAmount = new BigDecimal(str2);
+		total.setTotalAmount(totalAmount);
+		rlist.add(total);
 		ListResult<ReportShowVM> result = new ListResult<ReportShowVM>(rlist);
 		return result;
 	}
