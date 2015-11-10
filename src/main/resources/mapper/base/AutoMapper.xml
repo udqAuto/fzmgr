@@ -179,11 +179,11 @@
     -->
     insert into t_auto (id, user_id, pn, 
       brand, model, color, 
-      default_region_id,position,register_time, is_used)
+      default_region_id,position, is_used)
     values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{pn,jdbcType=VARCHAR}, 
       #{brand,jdbcType=VARCHAR}, #{model,jdbcType=VARCHAR}, #{color,jdbcType=VARCHAR}, 
-      #{defaultRegionId,jdbcType=INTEGER},#{position,jdbcType=VARCHAR}, #{isUsed,jdbcType=BIT},
-      #{registerTime,jdbcType=TIMESTAMP)
+      #{defaultRegionId,jdbcType=INTEGER},#{position,jdbcType=VARCHAR}, #{isUsed,jdbcType=BIT}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.udianqu.wash.model.Auto" >
     <!--
