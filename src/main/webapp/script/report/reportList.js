@@ -14,6 +14,7 @@ var ReportManage = {
 				},
 				fitColumns : true,
 				rownumbers : true,
+				showFooter:true,
 				//pagination : true,
 				nowrap : false,
 				idField : 'id',
@@ -26,76 +27,93 @@ var ReportManage = {
 					hidden : true
 				}, {
 					title : '洗车店',
-					field : 'shopName',
+					field : 'name',
 					align : 'center',
 					width : 100,
 				}, {
+					title : '所有用户',
+					field : 'all_total',
+					align : 'center',
+					width : 100,
+				},{
+					title : '新注册用户',
+					field : 'reg_total',
+					align : 'center',
+					width : 100,
+				},{
 					title : '订单总数',
-					field : 'orderCount',
+					field : 's0',
 					align : 'center',
 					width : 100
 				}, {
 					title : '已下单',
-					field : 'newOrder',
+					field : 's1',
 					align : 'center',
 					width : 100
 				}, {
 					title : '已接单',
-					field : 'receivedOrder',
+					field : 's2',
 					align : 'center',
 					width : 100
 				}, {
 					title : '已完成',
-					field : 'completedOrder',
+					field : 's4',
 					align : 'center',
 					width : 100
 				}, {
 					title : '已评价',
-					field : 'gradedOrder',
+					field : 's5',
+					align : 'center',
+					width : 100
+				}, {
+					title : '已取消',
+					field : 's11',
 					align : 'center',
 					width : 100
 				}, {
 					title : '快洗',
-					field : 'fastWash',
+					field : 't1',
 					align : 'center',
 					width : 100
 				}, {
 					title : '内堂',
-					field : 'insideWash',
+					field : 't2',
 					align : 'center',
 					width : 100
 				}, {
 					title : '打蜡',
-					field : 'waxed',
+					field : 't3',
 					align : 'center',
 					width : 100
 				}, {
 					title : '支付宝',
-					field : 'alipay',
+					field : 'p1',
 					align : 'center',
 					width : 100
 				}, {
 					title : '微信',
-					field : 'weChat',
+					field : 'p2',
 					align : 'center',
 					width : 100
 				}, {
 					title : '余额支付',
-					field : 'balancePay',
+					field : 'p100',
 					align : 'center',
 					width : 100
 				}, {
 					title : '总金额',
-					field : 'totalAmount',
-					align : 'center',
-					width : 100
+					field : 'amount',
+					align : 'right',
+					width : 100,
+					formatter : function(value, rowData, index){
+						return value.toFixed(2);
+					}
 				} ] ]
 			});
 		},
 		packageQuery : function(){
 			m_report_query.startTime = $("#sch_startTime").datebox("getValue");
 			m_report_query.endTime = $("#sch_endTime").datebox("getValue");
-			m_report_query.date = $("#sch_date").datebox("getValue");
 		},
 		doSearch:function(){
 			ReportManage.packageQuery();
@@ -104,7 +122,6 @@ var ReportManage = {
 		doClean:function(){
 			m_report_query.startTime = $("#sch_startTime").datebox("setValue","");
 			m_report_query.endTime = $("#sch_endTime").datebox("setValue","");
-			m_report_query.date = $("#sch_date").datebox("setValue","");
 		}
 		
 };

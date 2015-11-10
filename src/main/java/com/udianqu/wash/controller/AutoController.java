@@ -111,13 +111,12 @@ public class AutoController {
 		    	auto.setIsUsed(true);
 		    	autoService.updateByPrimaryKey(auto);
 			} else {//add
-//				Map<String,Object> map = GeneralUtil.getCurrentTime();
-//				Date time = (Date) map.get("currentTime");
+				Map<String,Object> map = GeneralUtil.getCurrentTime();
+				Date time = (Date) map.get("currentTime");
 				auto.setIsUsed(true);
-//				auto.setRegisterTime(time);
+				auto.setRegisterTime(time);
 				autoService.insert(auto);
 			}
-		    //Auto auto2 = autoService.selectByPn(pn);
 			Result<Auto> s = new Result<Auto>(auto, true, false, false, "保存成功");
 			return s.toJson();
 		} catch (Exception ex) {

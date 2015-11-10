@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.udianqu.wash.core.ListResult;
 import com.udianqu.wash.core.Result;
 import com.udianqu.wash.service.WashOrderService;
-import com.udianqu.wash.viewmodel.ReportShowVM;
+import com.udianqu.wash.viewmodel.ReportVM;
 
 @Controller 
 @RequestMapping("/report")
@@ -31,32 +31,26 @@ public class ReportController {
 			HttpServletRequest request) {
         try{
         	JSONObject joQuery = JSONObject.fromObject(reportInfo);
-        	String date = joQuery.getString("date");
         	String startTime = joQuery.getString("startTime");
         	String endTime = joQuery.getString("endTime");
         	
-//        	Map<String,Object> m = GeneralUtil.getYesterday();
-//        	Map<String,Object> m2 = GeneralUtil.getCurrentTime();
-//    		Date yesterday = (Date) m.get("yesterday"); 
-//    		Date time2 = (Date) m2.get("currentTime"); 
+//    		Date start = startTime; 
+//    		Date end = endTime; 
     		
         	Map<String, Object> map = new HashMap<String, Object>();  
         	if (!"".equals(startTime)) {
         		startTime += " 00:00:00";
-    			map.put("startTime", startTime);
+    			map.put("start_time", startTime);
     		}
     		if (!"".equals(endTime)) {
     			endTime += " 23:59:59";
-    			map.put("endTime", endTime);
+    			map.put("end_time", endTime);
     		}
-    		if (!"".equals(date)) {
-    			map.put("date", date);
-    		}
-    		ListResult<ReportShowVM> rs = orderService.loadReportlist(map);
+    		ListResult<ReportVM> rs = orderService.loadReportlist(map);
     		
     		return rs.toJson();
         }catch(Exception ex){
-        	Result<ReportShowVM> s = new Result<ReportShowVM>(null, false, false,
+        	Result<ReportVM> s = new Result<ReportVM>(null, false, false,
 					false, "加载数据失败！");
 			return s.toJson();
         }

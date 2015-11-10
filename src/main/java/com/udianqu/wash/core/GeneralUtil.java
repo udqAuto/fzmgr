@@ -45,6 +45,10 @@ public class GeneralUtil {
 		
 		return map;
 	}
+//	public static Date stringToDate(String str){
+//		DateFormat fmt=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//		Date time = fmt.parse(str);
+//	}
 	/**
 	 * 获取当前时间、当前时间7分钟前的时间、一个月前的时间。格式yyyy-MM-dd HH:mm:ss 类型Date
 	 * @return
