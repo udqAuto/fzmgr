@@ -28,10 +28,12 @@ import com.udianqu.wash.core.GeneralUtil;
 import com.udianqu.wash.core.ListResult;
 import com.udianqu.wash.core.Result;
 import com.udianqu.wash.model.Organization;
+import com.udianqu.wash.model.Region;
 import com.udianqu.wash.model.User; 
 import com.udianqu.wash.model.WashOrder;
 import com.udianqu.wash.service.LoginService;
 import com.udianqu.wash.service.OrganService;
+import com.udianqu.wash.service.RegionService;
 import com.udianqu.wash.service.UserService;
 import com.udianqu.wash.viewmodel.DirectorVM;
 import com.udianqu.wash.viewmodel.UserVM;
@@ -52,6 +54,8 @@ public class UserController {
 	LoginService loginService;
 	@Autowired
 	OrganService organService;
+	@Autowired
+	RegionService regionService;
 
 	@RequestMapping(value = "saveUserObj.do")
 	public @ResponseBody String saveUserObj(UserVM user,
@@ -199,8 +203,12 @@ public class UserController {
 			JSONObject jObj = JSONObject.fromObject(userInfo);
 			User user = (User) JSONObject.toBean(jObj,User.class);
 			int orgId = user.getOrgId();
+			int regionId = user.getRegionId();
 			String name = user.getName();
 			String mobile = user.getMobile();
+			String startTime = user.getStartTime();
+        	String endTime = user.getEndTime();
+        	Region r = regionService.selectByPrimaryKey(regionId);
 			//Organization o = organService.selectByPrimaryKey(orgId);
 			
 			Map<String, Object> map = new HashMap<String, Object>();
@@ -208,14 +216,26 @@ public class UserController {
 			map.put("pageStart", (page - 1) * rows);
 			map.put("pageSize", rows);
 			map.put("orgId", orgId);
+			if(r.getIsEstate()){
+            	map.put("regionId", regionId);
+        	}
+			map.put("regionPath", r.getPath() == null ? (regionId+"") : r.getPath());
 			//map.put("orgPath", o.getPath() == null ? (orgId+"") : o.getPath());
 			
-			if(!"".equals(name)){
+			if(name!=null&&!"".equals(name)){
 				map.put("name", name);
 			}
-			if(!"".equals(mobile)){
+			if(mobile!=null&&!"".equals(mobile)){
 				map.put("mobile", mobile);
 			}
+			if (startTime!=null&&!"".equals(startTime)) {
+        		startTime += " 00:00:00";
+    			map.put("startTime", startTime);
+    		}
+    		if (endTime != null&&!"".equals(endTime)) { 
+    			endTime += " 23:59:59";
+    			map.put("endTime", endTime);
+    		}
 			List<Integer> ids = new ArrayList<Integer>();
 			String[] str = userType.split(",");
 			for (String s : str) {

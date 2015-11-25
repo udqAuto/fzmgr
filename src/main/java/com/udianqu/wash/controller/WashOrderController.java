@@ -257,6 +257,10 @@ public class WashOrderController{
 		try {
 			JSONObject jObj = JSONObject.fromObject(orderInfo);
 			WashOrderVM order = (WashOrderVM) JSONObject.toBean(jObj,WashOrderVM.class);
+			if(order.getRegionId()==13){
+				result =new Result<WashOrderVM>(null,false,"此业务已停止！");
+				return result.toJson();
+			}
 			if(order == null){
 				result = new Result<WashOrderVM>(null, false, false, false, "传入后台数据为空");
 				return result.toJson();

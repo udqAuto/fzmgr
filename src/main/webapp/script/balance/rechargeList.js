@@ -2,6 +2,7 @@ var m_userType;
 var m_user_query={};
 $(function() {
 	m_user_query.orgId = 1;
+	m_user_query.regionId=1;
 	UserManage.loadCustomerList();
 	
 	$("#recharge").bind("click", UserManage.toRecharge);

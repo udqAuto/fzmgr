@@ -321,9 +321,23 @@
   		</if>
   </select>
   <select id="countCustomerByMap" resultType="java.lang.Integer"   parameterType="java.util.Map" >
-  		select count(*) from t_user u
-  		left join t_org  o on u.org_id = o.id
-  		where 1=1 
+  		select count(c.count) 
+  		from (
+  		   select count(*) as count
+  		   from t_user u
+  		   left join t_org  o on u.org_id = o.id
+  		   left join t_auto a on a.user_id = u.id 
+           left join t_region r on r.id = a.default_region_id 
+           where a.is_used = 1
+  		<if test="regionPath != null ">
+			and r.path like CONCAT(#{regionPath,jdbcType=VARCHAR},'%' )
+		</if>
+		<if test="regionId != null ">
+			and r.id = #{regionId,jdbcType=INTEGER}
+		</if>
+		<if test="startTime != null ">
+			and u.register_time between #{startTime,jdbcType=VARCHAR} and #{endTime,jdbcType=VARCHAR}
+		</if>
   		<if test="orgPath !=null">
   			and o.path like CONCAT(#{orgPath,jdbcType=VARCHAR},'%' )
   		</if>
@@ -339,6 +353,7 @@
 					#{item}
 			</foreach>
   		</if>
+           group by u.id) as c
   </select>
   <select id="loadCustomerlistWithPage"   parameterType="java.util.Map"  resultMap="BaseVMResultMap"  >
   		select <include refid="BaseVM_Column_List2" /> 
@@ -348,6 +363,15 @@
   		left join t_auto a on a.user_id = u.id and a.is_used = 1
         left join t_region r on r.id = a.default_region_id
   		where 1=1
+  		<if test="regionPath != null ">
+			and r.path like CONCAT(#{regionPath,jdbcType=VARCHAR},'%' )
+		</if>
+		<if test="regionId != null ">
+			and r.id = #{regionId,jdbcType=INTEGER}
+		</if>
+		<if test="startTime != null">
+			and u.register_time between #{startTime,jdbcType=VARCHAR} and #{endTime,jdbcType=VARCHAR}
+		</if>
   		<if test="orgPath !=null">
   			and o.path like CONCAT(#{orgPath,jdbcType=VARCHAR},'%' )
   		</if>

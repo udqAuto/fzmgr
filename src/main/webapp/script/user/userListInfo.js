@@ -3,6 +3,7 @@ $(function() {
 	var obj = getUrlArgs();
 	m_userType = obj.userType;
 	m_user_query.orgId = 1;
+	m_user_query.regionId = 1;
 	if(m_userType == 8||m_userType =="8"){
 		$("#userTb a[doc='systemUser']").attr("style","display:none");
 		UserManage.loadCustomerList();
@@ -12,6 +13,7 @@ $(function() {
 		UserManage.loadUserList();
 	}
 	UserManage.initOrgan();
+	UserManage.initRegion();
 	
 	$("#addUser").bind("click", UserManage.addUser);
 	$("#editUser").bind("click", UserManage.editUser);
@@ -30,6 +32,11 @@ var UserManage = {
 				url:'organ/getOrganList.do?parentid=0',
 			});
 		},
+		initRegion:function(){
+		$("#txtcmbRegion").combotree({
+			url:'region/getRegionList.do?parentid=0',
+		});
+	},
 	packageObject : function(row) {
 		m_userInfo_Object.id = row.id;
 		m_userInfo_Object.name = row.name;
@@ -228,14 +235,23 @@ var UserManage = {
 //		}else{
 //			m_user_query.orgId = $("#txtcmbOrgan").combotree("getValue");
 //		}
+		if($("#txtcmbRegion").combotree("getValue") ==""|| $("#txtcmbRegion").combotree("getValue")==undefined){
+		m_user_query.regionId = 1;
+	}else{
+		m_user_query.regionId = $("#txtcmbRegion").combotree("getValue");
+	}
 		m_user_query.name = $('#sch_name').val();
 		m_user_query.mobile = $('#sch_mobile').val();
+		m_user_query.startTime = $("#sch_startTime").datebox("getValue");
+		m_user_query.endTime = $("#sch_endTime").datebox("getValue");
 		$('#userListGrid').datagrid("reload",{'userInfo' : JSON.stringify(m_user_query)});
 	},
 	doClean:function(){
 		$('#sch_name').val("");
 		$('#sch_mobile').val("");
-		//$("#txtcmbOrgan").combotree("setValue","");
+		$("#sch_startTime").datebox("setValue","");
+		$("#sch_endTime").datebox("setValue","");
+		$("#txtcmbRegion").combotree("setValue","");
 	},
 	showUser : function(){	
 		try {
