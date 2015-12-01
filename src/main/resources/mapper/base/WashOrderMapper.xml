@@ -634,10 +634,7 @@
 			and a.pn like CONCAT('%',#{autoPN,jdbcType=VARCHAR},'%')
 		</if>
 		<if test="startTime != null ">
-			and o.start_time  &gt;=#{startTime,jdbcType=TIMESTAMP}
-		</if>
-		<if test="endTime != null">
-			and o.end_time  &lt;=#{endTime,jdbcType=TIMESTAMP}
+			and o.bill_time between #{startTime,jdbcType=VARCHAR} and #{endTime,jdbcType=VARCHAR}
 		</if>
   </select>
   <select id="loadOrderObjById"   parameterType="java.lang.Integer"   resultType="com.udianqu.wash.viewmodel.WashOrderVM"   >
@@ -838,10 +835,7 @@
 			and wt.name like CONCAT('%',#{washTypeName,jdbcType=VARCHAR},'%')
 		</if>
 		<if test="startTime != null ">
-			and o.bill_time  &gt;=#{startTime,jdbcType=TIMESTAMP}
-		</if>
-		<if test="endTime != null">
-			and o.end_time  &lt;=#{endTime,jdbcType=TIMESTAMP}
+			and o.bill_time between #{startTime,jdbcType=VARCHAR} and #{endTime,jdbcType=VARCHAR}
 		</if>
 		group by o.order_no order by o.bill_time desc
   		<if test="pageStart !=null">

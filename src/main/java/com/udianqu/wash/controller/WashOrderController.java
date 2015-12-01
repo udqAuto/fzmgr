@@ -77,13 +77,12 @@ public class WashOrderController{
 		//int orderState = joQuery.getInt("orderState");
 		//int cancelType = joQuery.getInt("cancelType");
 
-		if (endTime != null && endTime != " " && endTime.length() > 0) {
-			endTime += " 23:59:59";
-		}
-		if (!"".equals(startTime)) {
+		if (startTime!=null&&!"".equals(startTime)) {
+    		startTime += " 00:00:00";
 			map.put("startTime", startTime);
 		}
-		if (!"".equals(endTime)) {
+		if (endTime != null&&!"".equals(endTime)) { 
+			endTime += " 23:59:59";
 			map.put("endTime", endTime);
 		}
 		if (!"".equals(customerMobile)) {
