@@ -326,9 +326,9 @@
   		   select count(*) as count
   		   from t_user u
   		   left join t_org  o on u.org_id = o.id
-  		   left join t_auto a on a.user_id = u.id 
+  		   left join t_auto a on a.user_id = u.id and a.is_used = 1 
            left join t_region r on r.id = a.default_region_id 
-           where a.is_used = 1
+           where 1 = 1
   		<if test="regionPath != null ">
 			and r.path like CONCAT(#{regionPath,jdbcType=VARCHAR},'%' )
 		</if>

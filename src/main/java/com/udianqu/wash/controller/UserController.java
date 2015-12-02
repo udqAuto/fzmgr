@@ -219,7 +219,11 @@ public class UserController {
 			if(r.getIsEstate()){
             	map.put("regionId", regionId);
         	}
-			map.put("regionPath", r.getPath() == null ? (regionId+"") : r.getPath());
+			String regionPath = r.getPath() == null ? (regionId+"") : r.getPath();
+			if(!"".equals(regionPath)){
+				map.put("regionPath", regionPath);
+			}
+			//map.put("regionPath", r.getPath() == null ? (regionId+"") : r.getPath());
 			//map.put("orgPath", o.getPath() == null ? (orgId+"") : o.getPath());
 			
 			if(name!=null&&!"".equals(name)){
