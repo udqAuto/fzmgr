@@ -95,6 +95,11 @@ public class UserController {
 				}
 			
 				if (user.getId() > 0) {
+					User us2 = userService.selectById(user.getId());
+					if(us != null&&!us.getMobile().equals(us2.getMobile())){
+						Result<UserVM> result = new Result<UserVM>(null,false,"The mobile already exists!!");
+						return result.toJson();
+					}
 					userService.updateByPrimaryKeySelective(user);
 				} else {
 					if(us !=null){
