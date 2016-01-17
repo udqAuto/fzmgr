@@ -256,7 +256,7 @@ public class WashOrderController{
 		try {
 			JSONObject jObj = JSONObject.fromObject(orderInfo);
 			WashOrderVM order = (WashOrderVM) JSONObject.toBean(jObj,WashOrderVM.class);
-			if(order.getRegionId()==13||order.getRegionId()==11||order.getRegionId()==9||order.getRegionId()==14||order.getRegionId()==19){
+			if(order.getRegionId()==13||order.getRegionId()==11||order.getRegionId()==9||order.getRegionId()==14||order.getRegionId()==19||order.getRegionId()==12){
 				result =new Result<WashOrderVM>(null,false,"此业务已停止！");
 				return result.toJson();
 			}
