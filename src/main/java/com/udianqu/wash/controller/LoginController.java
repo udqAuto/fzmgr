@@ -175,7 +175,7 @@ public class LoginController {
 			if(user.getName() == null||"".equals(user.getName())){
 				user.setName("车主用户");
 			}
-			BigDecimal balance = new BigDecimal(9.9);//注册就送九块九
+			BigDecimal balance = new BigDecimal(19.8);//注册就送九块九
 			user.setBalance(balance);
 			user.setUserType(8);
 			//取注册时间
